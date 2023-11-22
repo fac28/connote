@@ -7,6 +7,7 @@ export default function Home() {
       <div>
         <Button color="danger">Example component</Button>
       </div>
+
       <div className="col-6 auth-widget">
         <AuthForm />
       </div>
