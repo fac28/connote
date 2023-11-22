@@ -36,7 +36,7 @@ export default function Nav() {
           <p className="font-bold text-inherit ">Connote</p>
         </NavbarBrand>
         <NavbarItem>
-          <Link color="foreground" href="/account">
+          <Link color="foreground" href="/profile">
             Profile
           </Link>
         </NavbarItem>
