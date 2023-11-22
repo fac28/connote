@@ -33,7 +33,7 @@ export default function Nav() {
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit">Connote</p>
+          <p className="font-bold text-inherit ">Connote</p>
         </NavbarBrand>
         <NavbarItem>
           <Link color="foreground" href="/account">
@@ -60,7 +60,7 @@ export default function Nav() {
         </NavbarItem>
       </NavbarContent>
 
-      <NavbarMenu className="mt-6">
+      <NavbarMenu className="mt-1">
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
             <Link
