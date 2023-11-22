@@ -17,6 +17,9 @@ const config: Config = {
         md: "1.5rem",
         lg: "3rem",
       },
+      colors: {
+        "custom-orange": "#F9844A",
+      },
     },
   },
   plugins: [
