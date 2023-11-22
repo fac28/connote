@@ -25,7 +25,7 @@ export default function Nav() {
         />
       </NavbarContent>
 
-      <NavbarContent className="sm:hidden " justify="center">
+      <NavbarContent className="sm:hidden" justify="center">
         <NavbarBrand>
           <p className="font-bold text-inherit">Connote</p>
         </NavbarBrand>
@@ -36,17 +36,17 @@ export default function Nav() {
           <p className="font-bold text-inherit">Connote</p>
         </NavbarBrand>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/account">
             Profile
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link href="#" aria-current="page">
+          <Link color="foreground" href="/poemOfTheDay" aria-current="page">
             Poem of the day
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="#">
+          <Link color="foreground" href="/poemLibrary">
             Poem Library
           </Link>
         </NavbarItem>
@@ -54,7 +54,7 @@ export default function Nav() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="warning" href="#" variant="flat">
+          <Button as={Link} color="warning" href="/signup" variant="flat">
             Login / Sign Up
           </Button>
         </NavbarItem>
