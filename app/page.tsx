@@ -1,4 +1,3 @@
-import AuthForm from "./components/supabase/AuthForm";
 import { Button, Link } from "@nextui-org/react";
 
 
@@ -8,7 +7,9 @@ export default function Home() {
       <div>
         <Link href="/account">
         <Button color="danger">Example component</Button>
+
         </Link>
+
       </div>
     </main>
   );
