@@ -11,6 +11,7 @@ import {
   Link,
   Button,
 } from '@nextui-org/react';
+import { Session } from '@supabase/auth-helpers-nextjs';
 
 export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
