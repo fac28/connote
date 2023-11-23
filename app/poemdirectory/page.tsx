@@ -37,7 +37,7 @@ export default function PoemDirectory () {
             console.log(typeof data[1].display_date)
 
             const filteredPoems = data.filter((poem) => new Date(poem.display_date) <= currentDate);
-            setPoems(data);
+            setPoems(data); //Change this to filtered poems for production.
         }
       };
       fetchData();

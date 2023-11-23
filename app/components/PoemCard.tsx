@@ -10,7 +10,7 @@ type children = {
 export default function PoemCard({poemDate, poemAuthor, poemName, poemImage}: children) {
   return (
     <Card className="p-3 m-3 w-64 h-64 aspect-w-1">
-      <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
+      <CardHeader className="pt-2 px-4 flex-col items-start">
         <p className="text-tiny uppercase font-bold">{poemDate}</p>
         <small className="text-default-500">{poemAuthor}</small>
         <h4 className="font-bold text-large">{poemName}</h4>
