@@ -61,9 +61,9 @@ export default function Nav({ session }: { session: Session | null }) {
       <NavbarContent justify="end">
         <NavbarItem>
           {session ? (
-            <Button className="btn" type="submit" variant="flat">
-              Logout
-            </Button>
+            <form action="/signout" method="post">
+              <button className="btn">Logout</button>
+            </form>
           ) : (
             <Button as={Link} className="btn" href="/account" variant="flat">
               Login / Signup
