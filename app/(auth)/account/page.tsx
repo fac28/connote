@@ -1,15 +1,15 @@
-"use client";
-import React from "react";
-import { useState } from "react";
-import LoginForm from "@/app/components/supabase/LoginForm";
-import AuthForm from "@/app/components/supabase/AuthForm";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useRouter } from "next/navigation";
-import { Tabs, Tab } from "@nextui-org/react";
+'use client';
+import React from 'react';
+import { useState } from 'react';
+import LoginForm from '@/app/components/supabase/LoginForm';
+import AuthForm from '@/app/components/supabase/AuthForm';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useRouter } from 'next/navigation';
+import { Tabs, Tab } from '@nextui-org/react';
 
 const LogIn = () => {
   const router = useRouter();
-  const [formError, setFormError] = useState("");
+  const [formError, setFormError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (
@@ -19,7 +19,7 @@ const LogIn = () => {
   ): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
-    setFormError("");
+    setFormError('');
     const supabase = createClientComponentClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
@@ -30,7 +30,7 @@ const LogIn = () => {
       setIsLoading(false);
     }
     if (!error) {
-      router.push("/");
+      router.push('/');
       window.location.reload();
     }
   };
@@ -56,12 +56,12 @@ const LogIn = () => {
 
     if (user) {
       const { error: insertError } = await supabase
-        .from("profiles")
+        .from('profiles')
         .update([{ id: user.id, username: username }])
-        .eq("id", user.id);
+        .eq('id', user.id);
 
       if (insertError) {
-        console.error("Error inserting profile:", insertError);
+        console.error('Error inserting profile:', insertError);
         // Optionally set the error message to the state to display in the UI
       }
     }
@@ -71,37 +71,32 @@ const LogIn = () => {
       setIsLoading(false);
     }
     if (!error) {
-      router.push("/verify");
+      router.push('/verify');
     }
   };
 
   return (
-    <div className="flex flex-col items-center pt-4">
-      <Tabs aria-label="Options">
-        <Tab key="login" title="Login">
-          <div className="text-center mt-10">
-            <h2 className="mt-5 text-3xl">Log In</h2>
-            <p className="mt-2 text-sm italic">
+    <div className='flex flex-col items-center pt-4'>
+      <Tabs aria-label='Options'>
+        <Tab key='login' title='Login'>
+          <div className='text-center mt-10'>
+            <h2 className='mt-5 text-3xl'>Log In</h2>
+            <p className='mt-2 text-sm italic'>
               Please log in to your account.
             </p>
             <LoginForm handleSubmit={handleSubmit} isLoading={isLoading} />
             {formError && <div>{formError}</div>}
           </div>
         </Tab>
-        <Tab key="signup" title="Sign Up">
-          <div className="text-center mt-10">
-            <h2 className="mt-5 text-3xl">Sign up</h2>
-            <p className="mt-2 text-sm italic">Please create an account</p>
+        <Tab key='signup' title='Sign Up'>
+          <div className='text-center mt-10'>
+            <h2 className='mt-5 text-3xl'>Sign up</h2>
+            <p className='mt-2 text-sm italic'>Please create an account</p>
             <AuthForm handleSubmit={handleSubmitSign} isLoading={isLoading} />
             {formError && <div>{formError}</div>}
           </div>
         </Tab>
       </Tabs>
-      {/* <div className="flex justify-center">
-        <Link href="/signup">
-          <Button color="danger">Create an account</Button>
-        </Link>
-      </div> */}
     </div>
   );
 };
