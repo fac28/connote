@@ -1,10 +1,10 @@
-"use client";
-import { useCallback, useEffect, useState } from "react";
+'use client';
+import { useCallback, useEffect, useState } from 'react';
 
 import {
   Session,
   createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
+} from '@supabase/auth-helpers-nextjs';
 
 export default function AccountForm({ session }: { session: Session | null }) {
   const supabase = createClientComponentClient<any>();
@@ -17,9 +17,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
       setLoading(true);
 
       const { data, error, status } = await supabase
-        .from("profiles")
+        .from('profiles')
         .select(`username`)
-        .eq("id", user?.id)
+        .eq('id', user?.id)
         .single();
 
       if (error && status !== 406) {
@@ -30,7 +30,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         setUsername(data.username);
       }
     } catch (error) {
-      alert("Error loading user data!");
+      alert('Error loading user data!');
     } finally {
       setLoading(false);
     }
@@ -44,7 +44,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
     try {
       setLoading(true);
 
-      const { error } = await supabase.from("profiles").upsert({
+      const { error } = await supabase.from('profiles').upsert({
         id: user?.id as string,
 
         username,
@@ -52,44 +52,44 @@ export default function AccountForm({ session }: { session: Session | null }) {
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
-      alert("Profile updated!");
+      alert('Profile updated!');
     } catch (error) {
-      alert("Error updating the data!");
+      alert('Error updating the data!');
     } finally {
       setLoading(false);
     }
   }
 
   return (
-    <div className="form-widget">
+    <div className='form-widget'>
       <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session?.user.email} disabled />
+        <label htmlFor='email'>Email</label>
+        <input id='email' type='text' value={session?.user.email} disabled />
       </div>
 
       <div>
-        <label htmlFor="username">Username</label>
+        <label htmlFor='username'>Username</label>
         <input
-          id="username"
-          type="text"
-          value={username || ""}
+          id='username'
+          type='text'
+          value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
         />
       </div>
 
       <div>
         <button
-          className="button primary block"
+          className='button primary block'
           onClick={() => updateProfile({ username })}
           disabled={loading}
         >
-          {loading ? "Loading ..." : "Update"}
+          {loading ? 'Loading ...' : 'Update'}
         </button>
       </div>
 
       <div>
-        <form action="/signout" method="post">
-          <button className="button block" type="submit">
+        <form action='/signout' method='post'>
+          <button className='button block' type='submit'>
             Sign out
           </button>
         </form>
