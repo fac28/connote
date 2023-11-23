@@ -37,18 +37,35 @@ const LogIn = () => {
   const handleSubmitSign = async (
     e: React.FormEvent<HTMLFormElement>,
     email: string,
+    username: string,
     password: string
   ): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
     const supabase = createClientComponentClient();
-    const { error } = await supabase.auth.signUp({
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.signUp({
       email,
       password,
       options: {
         emailRedirectTo: `${location.origin}/account`,
       },
     });
+
+    if (user) {
+      const { error: insertError } = await supabase
+        .from("profiles")
+        .update([{ id: user.id, username: username }])
+        .eq("id", user.id);
+
+      if (insertError) {
+        console.error("Error inserting profile:", insertError);
+        // Optionally set the error message to the state to display in the UI
+      }
+    }
+
     if (error) {
       setFormError(error.message);
       setIsLoading(false);
