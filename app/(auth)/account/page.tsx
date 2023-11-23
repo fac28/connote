@@ -1,8 +1,8 @@
 'use client';
 import React from 'react';
 import { useState } from 'react';
-import LoginForm from '@/app/components/supabase/LoginForm';
-import AuthForm from '@/app/components/supabase/AuthForm';
+import LoginForm from '@/components/supabase/LoginForm';
+import AuthForm from '@/components/supabase/AuthForm';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useRouter } from 'next/navigation';
 import { Tabs, Tab } from '@nextui-org/react';
