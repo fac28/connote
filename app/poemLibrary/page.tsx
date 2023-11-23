@@ -1,8 +1,8 @@
 'use client';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
-import PoemCard from '../components/PoemCard';
 import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
+import PoemCard from '../../components/PoemCard';
 
 type PoemsType =
   | Array<{

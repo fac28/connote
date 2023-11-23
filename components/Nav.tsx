@@ -1,3 +1,4 @@
+
 "use client";
 import React from "react";
 import {
@@ -11,8 +12,9 @@ import {
   Link,
   Button,
 } from "@nextui-org/react";
+import { Session } from "@supabase/auth-helpers-nextjs";
 
-export default function Nav() {
+export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
 
   const menuItems = ["Profile", "Poem of the day", "Poem Library"];
@@ -59,17 +61,17 @@ export default function Nav() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          {/* {session.user ? (
+          {session ? (
             <form action="/signout" method="post">
-              <Button className="btn" type="submit" variant="flat">
-                Logout
-              </Button>
+        
+              <button  className="btn">Logout</button>
+          
             </form>
-          ) : ( */}
-          <Button as={Link} className="btn" href="/login" variant="flat">
-            Login / Signup
-          </Button>
-          {/* )} */}
+          ) : (
+            <Button as={Link} className="btn" href="/account" variant="flat">
+              Login / Signup
+            </Button>
+          )}
         </NavbarItem>
       </NavbarContent>
 
