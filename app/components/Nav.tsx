@@ -18,7 +18,12 @@ export default function Nav() {
   const menuItems = ["Profile", "Poem of the day", "Poem Library"];
 
   return (
-    <Navbar isBordered isMenuOpen={isMenuOpen} onMenuOpenChange={setIsMenuOpen}>
+    <Navbar
+      className={"blue"}
+      isBordered
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+    >
       <NavbarContent className="sm:hidden pr-3" justify="start">
         <NavbarMenuToggle
           aria-label={isMenuOpen ? "Close menu" : "Open menu"}
@@ -27,13 +32,13 @@ export default function Nav() {
 
       <NavbarContent className="sm:hidden" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit">Connote</p>
+          <p className="logo">Connote</p>
         </NavbarBrand>
       </NavbarContent>
 
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
         <NavbarBrand>
-          <p className="font-bold text-inherit ">Connote</p>
+          <p className="logo">Connote</p>
         </NavbarBrand>
         <NavbarItem>
           <Link color="foreground" href="/account">
@@ -41,12 +46,12 @@ export default function Nav() {
           </Link>
         </NavbarItem>
         <NavbarItem isActive>
-          <Link color="foreground" href="/poemOfTheDay" aria-current="page">
+          <Link className="red-400" href="/poemOfTheDay" aria-current="page">
             Poem of the day
           </Link>
         </NavbarItem>
         <NavbarItem>
-          <Link color="foreground" href="/poemLibrary">
+          <Link className="text-connote_Orange" href="/poemLibrary">
             Poem Library
           </Link>
         </NavbarItem>
@@ -54,9 +59,17 @@ export default function Nav() {
 
       <NavbarContent justify="end">
         <NavbarItem>
-          <Button as={Link} color="warning" href="/signup" variant="flat">
-            Login / Sign Up
+          {/* {session.user ? (
+            <form action="/signout" method="post">
+              <Button className="btn" type="submit" variant="flat">
+                Logout
+              </Button>
+            </form>
+          ) : ( */}
+          <Button as={Link} className="btn" href="/login" variant="flat">
+            Login / Signup
           </Button>
+          {/* )} */}
         </NavbarItem>
       </NavbarContent>
 

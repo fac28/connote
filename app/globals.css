@@ -1,10 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.btn {
+  @apply text-connote_orange bg-background shadow-sm px-2 py-0;
+}
+.custom-text-shadow {
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+.logo {
+  @apply font-bold text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg custom-text-shadow;
+}
+
 /* 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
+  --background-start-rgb: 214, 219, 
   --background-end-rgb: 255, 255, 255;
 }
 
@@ -14,14 +25,4 @@
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-} */
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 } */

@@ -10,15 +10,22 @@ const config: Config = {
   ],
   darkMode: "class",
   theme: {
+    extend: {
+      colors: {
+        connote_orange: "#F9844A",
+        connote_green: "#43AA8B",
+        connote_pastel_blue: "#0CA1E2",
+        connote_pastel_yellow: "#ECBC0F",
+        connote_pastel_purple: "#783697",
+        connote_white: "#F9FEFE",
+      },
+    },
     container: {
       center: true,
       padding: {
         DEFAULT: "1rem",
         md: "1.5rem",
         lg: "3rem",
-      },
-      colors: {
-        "custom-orange": "#F9844A",
       },
     },
   },
@@ -28,11 +35,13 @@ const config: Config = {
         light: {
           colors: {
             background: "#FFF7F3",
+            primary: "#242230",
           },
         },
         dark: {
           colors: {
-            background: "#FFF7F3",
+            background: "#210230",
+            primary: "#F9FEFE",
           },
         },
       },
