@@ -62,8 +62,9 @@ export default function PoemDirectory() {
       <h1>Poems list:</h1>
       <div className='flex flex-wrap'>
         {poems.map((poem) => (
-          <span onClick={() => handleSubmit(poem.id)} key={poem.id}>
+          <span key={poem.id}>
             <PoemCard
+              onClick={() => handleSubmit(poem.id)}
               poemDate={poem.display_date}
               poemAuthor={poem.author}
               poemName={poem.name}
