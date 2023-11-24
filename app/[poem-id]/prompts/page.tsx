@@ -30,6 +30,20 @@ type PromptsType =
     }>
   | [];
 
+function oneWordHighlightingFunction(
+  event: React.MouseEvent<HTMLSpanElement>,
+  word: string
+) {
+  // Check if event and event.target are defined
+  if (event && event.target) {
+    console.log(`Clicked word: ${word}`);
+
+    const clickedSpan = event.target as HTMLSpanElement;
+    clickedSpan.classList.toggle('bg-black');
+    clickedSpan.classList.toggle('text-white');
+  }
+}
+
 export default function PromptPage() {
   const [poem, setPoem] = useState<PoemsType>([]);
   const [prompts, setPrompts] = useState<PromptsType>([]);
@@ -88,13 +102,24 @@ export default function PromptPage() {
             <p>id: {poem.id}</p>
             <p>author: {poem.author}</p>
             <p>name: {poem.name}</p>
-            <br></br>
+            <br />
             <p>
               {poem.content.split('\n\n').map((stanza, index) => (
                 <React.Fragment key={index}>
                   {stanza.split('\n').map((line, lineIndex) => (
                     <React.Fragment key={lineIndex}>
-                      {line}
+                      {/* Split each line into words and add click event listener */}
+                      {line.split(' ').map((word, wordIndex) => (
+                        <React.Fragment key={wordIndex}>
+                          <span
+                            onClick={(event) =>
+                              oneWordHighlightingFunction(event, word)
+                            }
+                          >
+                            {word}
+                          </span>{' '}
+                        </React.Fragment>
+                      ))}
                       <br />
                     </React.Fragment>
                   ))}
@@ -102,7 +127,7 @@ export default function PromptPage() {
                 </React.Fragment>
               ))}
             </p>
-            <br></br>
+            <br />
           </span>
         ))}
       </div>

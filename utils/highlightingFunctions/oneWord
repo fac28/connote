@@ -1,0 +1,9 @@
+export const oneWordHighlightingFunction = async () => {
+    // Get the clicked word
+    const clickedWord = event.target.innerText;
+
+    // Add the 'highlight' class to the clicked word
+    event.target.innerHTML = event.target.innerHTML.replace(
+        new RegExp(`\\b${clickedWord}\\b`, 'g'),
+        `<span class="highlight">${clickedWord}</span>`
+} 
