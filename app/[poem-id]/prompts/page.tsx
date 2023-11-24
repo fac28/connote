@@ -4,6 +4,9 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/router';
+import { Button, ButtonGroup } from '@nextui-org/react';
 
 type PoemsType =
   | Array<{
@@ -34,6 +37,13 @@ export default function PromptPage() {
   const params = useParams();
   const poemid = +params['poem-id'];
 
+  const searchParams = useSearchParams();
+  const promptNumber = searchParams.get('prompt');
+
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
+    promptNumber || '1'
+  );
+
   useEffect(() => {
     if (!poemid) return;
     const fetchData = async () => {
@@ -59,6 +69,14 @@ export default function PromptPage() {
     fetchData();
   }, [setPoem, setPrompts, poemid]);
 
+  const setPromptNumber = (number: string) => {
+    setSelectedPromptNumber(number);
+
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('prompt', number);
+    window.history.pushState({}, '', newUrl);
+  };
+
   return (
     <>
       <h1>This is the prompts page!</h1>
@@ -77,15 +95,24 @@ export default function PromptPage() {
       </div>
 
       <div className='flex flex-wrap'>
-        {prompts.map((prompt) => (
-          <span key={prompt.id}>
-            <p>initialprompt: {prompt.initial_prompt}</p>
-            <p>followupprompt: {prompt.follow_up_prompt}</p>
-            <p>highlightingformat: {prompt.highlighting_format}</p>
-            <br></br>
-          </span>
-        ))}
+        {prompts.map(
+          (prompt) =>
+            prompt.id === Number(selectedPromptNumber) && (
+              <span key={prompt.id}>
+                <p>Prompt id: {prompt.id}</p>
+                <p>initialprompt: {prompt.initial_prompt}</p>
+                <p>followupprompt: {prompt.follow_up_prompt}</p>
+                <p>highlightingformat: {prompt.highlighting_format}</p>
+                <br></br>
+              </span>
+            )
+        )}
       </div>
+      <ButtonGroup>
+        <Button onClick={() => setPromptNumber('1')}>One</Button>
+        <Button onClick={() => setPromptNumber('2')}>Two</Button>
+        <Button onClick={() => setPromptNumber('3')}>Three</Button>
+      </ButtonGroup>
     </>
   );
 }
