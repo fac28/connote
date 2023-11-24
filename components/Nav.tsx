@@ -11,23 +11,30 @@ import {
   Link,
   Button,
 } from '@nextui-org/react';
+import { useState, useEffect } from 'react';
 import { Session } from '@supabase/auth-helpers-nextjs';
 import { useTheme as useNextTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
+import { usePathname } from 'next/navigation';
 
 const menuLinks = {
   Profile: '/profile',
-
   'Poem Library': '/poemLibrary',
 } as { [key: string]: string };
 
 export default function Nav({ session }: { session: Session | null }) {
-  const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { setTheme } = useNextTheme();
+  const [currentPathname, setCurrentPathname] = useState('');
+  const pathname = usePathname();
+
+  useEffect(() => {
+    setCurrentPathname(pathname);
+  }, [pathname]);
 
   const menuItems = ['SwitchTheme', 'Profile', 'Poem Library'];
-  const currentPathname =
-    typeof window !== 'undefined' ? window.location.pathname : '';
+  // const currentPathname =
+  //   typeof window !== 'undefined' ? window.location.pathname : '';
 
   return (
     <Navbar
@@ -57,17 +64,31 @@ export default function Nav({ session }: { session: Session | null }) {
             <p className='logo'>Connote</p>
           </Link>
         </NavbarBrand>
-        <NavbarItem>
+        {/* <NavbarItem>
           <Link color='foreground' href='/profile'>
             Profile
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
 
-        <NavbarItem isActive>
+        {/* <NavbarItem isActive>
           <Link className='text-connote_Orange' href='/poemLibrary'>
             Poem Library
           </Link>
-        </NavbarItem>
+        </NavbarItem> */}
+        {Object.keys(menuLinks).map((item, index) => (
+          <NavbarItem key={`${item}-${index}`}>
+            <div
+              className={`w-full ${
+                currentPathname === menuLinks[item] ? `font-bold` : ``
+              }`}
+            >
+              <Link color='foreground' href={menuLinks[item]} size='lg'>
+                {item}
+              </Link>
+            </div>
+          </NavbarItem>
+        ))}
+
         <NavbarItem>
           <Switch
             defaultSelected
