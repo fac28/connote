@@ -2,16 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Ovo&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Potta+One&display=swap');
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
 .btn {
   @apply text-connote_orange bg-background shadow-sm px-2 py-0.5 rounded-xl;
 }
 .custom-text-shadow {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
+
 .logo {
-  @apply font-bold text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg custom-text-shadow;
-}
-body {
-  margin: 0;
-  overflow-x: hidden;
+  font-family: 'Potta One';
+
+  @apply text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
 }

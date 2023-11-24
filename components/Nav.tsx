@@ -102,35 +102,6 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
-      {/* <NavbarMenu className='mt-1'>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            {item === 'SwitchTheme' ? (
-              <Switch
-                defaultSelected
-                size='sm'
-                onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-              />
-            ) : (
-              <Link
-                className='w-full'
-                color={
-                  index === 2
-                    ? 'warning'
-                    : index === menuItems.length - 1
-                      ? 'danger'
-                      : 'foreground'
-                }
-                href='#'
-                size='lg'
-              >
-                {item}
-              </Link>
-            )}
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu> */}
-
       <NavbarMenu className='mt-1'>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
