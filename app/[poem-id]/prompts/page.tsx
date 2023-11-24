@@ -4,6 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
+import Carousel from '@/components/Carousel';
 
 type PoemsType =
   | Array<{
@@ -85,6 +86,7 @@ export default function PromptPage() {
             <br></br>
           </span>
         ))}
+        {/* <Carousel prompts={prompts}/> */}
       </div>
     </>
   );
