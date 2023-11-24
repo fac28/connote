@@ -1,7 +1,7 @@
 'use client';
+import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
@@ -10,21 +10,17 @@ import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData'
 export default function PromptPage() {
   const params = useParams();
   const poemid = +params['poem-id'];
-
   const searchParams = useSearchParams();
   const promptNumber = Number(searchParams.get('prompt'));
-
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-    promptNumber || 1
+    promptNumber || 0
   );
-
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
 
   const { poem, prompts } = useFetchPromptPageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);

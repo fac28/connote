@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -8,18 +9,16 @@ import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageD
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
-
   const searchParams = useSearchParams();
   const promptNumber = Number(searchParams.get('prompt'));
-
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-    promptNumber || 1
+    promptNumber || 0
   );
+
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-
     const newUrl = new URL(window.location.href);
     newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);
@@ -54,7 +53,19 @@ export default function ResponsePage() {
             <p>id: {poem.id}</p>
             <p>author: {poem.author}</p>
             <p>name: {poem.name}</p>
-            <p>content: {poem.content}</p>
+            <p>
+              {poem.content.split('\n\n').map((stanza, index) => (
+                <React.Fragment key={index}>
+                  {stanza.split('\n').map((line, lineIndex) => (
+                    <React.Fragment key={lineIndex}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>{' '}
             <br></br>
           </span>
         ))}
