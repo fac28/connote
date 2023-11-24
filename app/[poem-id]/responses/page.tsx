@@ -1,19 +1,11 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
-import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
-import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
-import { PoemsType, PromptsType, ResponsesType } from '@/types';
+import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 
-export default function PromptPage() {
-  const [poem, setPoem] = useState<PoemsType>([]);
-  const [prompts, setPrompts] = useState<PromptsType>([]);
-  const [responses, setResponses] = useState<ResponsesType>([]);
-
+export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
 
@@ -23,40 +15,7 @@ export default function PromptPage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber || 1
   );
-
-  useEffect(() => {
-    if (!poemid) return;
-    const fetchData = async () => {
-      const supabase = createClientComponentClient();
-
-      const poemData = await fetchPoemById(poemid, supabase);
-      if (poemData) {
-        setPoem(poemData);
-        const promptIds = [
-          poemData[0].first_prompt_id,
-          poemData[0].second_prompt_id,
-          poemData[0].third_prompt_id,
-        ];
-        const promptData = await fetchPromptsByIds(promptIds, supabase);
-        if (promptData) {
-          setPrompts(promptData);
-        }
-      } else {
-        console.error('Error fetching poem or prompt data');
-      }
-
-      const { data: sessionData } = await supabase.auth.getSession();
-      if (sessionData?.session?.user?.id) {
-        const userid = sessionData.session.user.id;
-        const responses = (await hasUserResponded({ userid, poemid })) || [];
-        if (responses) {
-          setResponses(responses);
-        }
-      }
-    };
-
-    fetchData();
-  }, [setPoem, setPrompts, poemid]);
+  const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -82,7 +41,6 @@ export default function PromptPage() {
 
   const handleDone = () => {
     console.log('handle redirecting after you`ve looked through comments');
-    // Implement submission logic here
   };
 
   return (
@@ -129,6 +87,7 @@ export default function PromptPage() {
           );
         })}
       </div>
+
       <ButtonGroup>
         <Button
           disabled={selectedPromptNumber === 0}
