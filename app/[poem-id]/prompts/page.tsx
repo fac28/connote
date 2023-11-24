@@ -1,6 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
+import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 
 type PoemsType =
   | Array<{
@@ -32,51 +34,51 @@ export default function PromptPage() {
   useEffect(() => {
     const fetchData = async () => {
       const supabase = createClientComponentClient();
-      const { data: poemdata, error: poemerror } = await supabase
-        .from('poems')
-        .select(
-          'id, author, name, content, first_prompt_id, second_prompt_id, third_prompt_id, display_date'
-        )
-        .eq('id', poemid);
-      if (poemerror) {
-        console.error('Error fetching data:', poemerror.message);
-      } else {
-        setPoem(poemdata);
-        const { data: promptdata, error: prompterror } = await supabase
-          .from('prompts')
-          .select('id, initial_prompt, follow_up_prompt, highlighting_format')
-          .in('id', [
-            poemdata[0].first_prompt_id,
-            poemdata[0].second_prompt_id,
-            poemdata[0].third_prompt_id,
-          ]);
-        if (prompterror) {
-          console.error('Error fetching data:', prompterror.message);
-        } else {
-          console.log(promptdata, 'promptdata');
-          setPrompts(promptdata);
+
+      const poemData = await fetchPoemById(poemid, supabase);
+      if (poemData) {
+        setPoem(poemData);
+        const promptIds = [
+          poemData[0].first_prompt_id,
+          poemData[0].second_prompt_id,
+          poemData[0].third_prompt_id,
+        ];
+        const promptData = await fetchPromptsByIds(promptIds, supabase);
+        if (promptData) {
+          setPrompts(promptData);
         }
+      } else {
+        console.error('Error fetching poem or prompt data');
       }
     };
+
     fetchData();
-  }, [setPoem, setPrompts]);
+  }, [setPoem, setPrompts, poemid]);
 
   return (
     <>
       <h1>This is the prompts page!</h1>
+      <br></br>
+
       <div className='flex flex-wrap'>
         {poem.map((poem) => (
           <span key={poem.id}>
-            <p>{poem.first_prompt_id}</p>
+            <p>id: {poem.id}</p>
+            <p>author: {poem.author}</p>
+            <p>name: {poem.name}</p>
+            <p>content: {poem.content}</p>
+            <br></br>
           </span>
         ))}
       </div>
+
       <div className='flex flex-wrap'>
         {prompts.map((prompt) => (
           <span key={prompt.id}>
-            <p>{prompt.initial_prompt}</p>
-            <p>{prompt.follow_up_prompt}</p>
-            <p>{prompt.highlighting_format}</p>
+            <p>init: {prompt.initial_prompt}</p>
+            <p>follow up: {prompt.follow_up_prompt}</p>
+            <p>highlighting format: {prompt.highlighting_format}</p>
+            <br></br>
           </span>
         ))}
       </div>
