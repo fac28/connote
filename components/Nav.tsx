@@ -64,17 +64,7 @@ export default function Nav({ session }: { session: Session | null }) {
             <p className='logo'>Connote</p>
           </Link>
         </NavbarBrand>
-        {/* <NavbarItem>
-          <Link color='foreground' href='/profile'>
-            Profile
-          </Link>
-        </NavbarItem> */}
 
-        {/* <NavbarItem isActive>
-          <Link className='text-connote_Orange' href='/poemLibrary'>
-            Poem Library
-          </Link>
-        </NavbarItem> */}
         {Object.keys(menuLinks).map((item, index) => (
           <NavbarItem key={`${item}-${index}`}>
             <div
@@ -112,6 +102,35 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
+      {/* <NavbarMenu className='mt-1'>
+        {menuItems.map((item, index) => (
+          <NavbarMenuItem key={`${item}-${index}`}>
+            {item === 'SwitchTheme' ? (
+              <Switch
+                defaultSelected
+                size='sm'
+                onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+              />
+            ) : (
+              <Link
+                className='w-full'
+                color={
+                  index === 2
+                    ? 'warning'
+                    : index === menuItems.length - 1
+                      ? 'danger'
+                      : 'foreground'
+                }
+                href='#'
+                size='lg'
+              >
+                {item}
+              </Link>
+            )}
+          </NavbarMenuItem>
+        ))}
+      </NavbarMenu> */}
+
       <NavbarMenu className='mt-1'>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
@@ -123,12 +142,10 @@ export default function Nav({ session }: { session: Session | null }) {
               />
             ) : (
               <Link
-                className={`w-full ${
-                  currentPathname === menuLinks[item]
-                    ? 'text-connote_Orange'
-                    : ''
-                }`}
-                color='foreground'
+                className='w-full'
+                color={
+                  menuLinks[item] === currentPathname ? 'warning' : 'foreground'
+                }
                 href={menuLinks[item]}
                 size='lg'
               >
