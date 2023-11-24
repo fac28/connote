@@ -5,6 +5,8 @@ import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
 import React from 'react';
+import { useSearchParams } from 'next/navigation';
+import { Button, ButtonGroup } from '@nextui-org/react';
 
 type PoemsType =
   | Array<{
