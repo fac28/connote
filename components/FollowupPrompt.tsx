@@ -3,7 +3,7 @@ import { PromptsType } from '@/types';
 
 type FollowupPromptProps = {
   prompts: PromptsType;
-  selectedPromptNumber: string;
+  selectedPromptNumber: number;
   onInputChange: (value: string) => void;
   inputValue: string;
 };
@@ -15,10 +15,10 @@ export default function FollowupPrompt({
   inputValue,
 }: FollowupPromptProps) {
   return (
-    <div className='flex flex-wrap'>
+    <div className='flex flex-wrap max-w-xs'>
       {prompts.map(
         (prompt, index) =>
-          index === Number(selectedPromptNumber) && (
+          index === selectedPromptNumber && (
             <span key={prompt.id}>
               <p>{prompt.follow_up_prompt}</p>
               <Input

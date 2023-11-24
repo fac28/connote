@@ -18,10 +18,10 @@ export default function PromptPage() {
   const poemid = +params['poem-id'];
 
   const searchParams = useSearchParams();
-  const promptNumber = searchParams.get('prompt');
+  const promptNumber = Number(searchParams.get('prompt'));
 
-  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
-    promptNumber || '1'
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
+    promptNumber || 1
   );
 
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
@@ -51,11 +51,11 @@ export default function PromptPage() {
     fetchData();
   }, [setPoem, setPrompts, poemid]);
 
-  const setPromptNumber = (number: string) => {
+  const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
 
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', number);
+    newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);
   };
 
@@ -64,10 +64,10 @@ export default function PromptPage() {
       <h1>This is the prompts page!</h1>
       <br></br>
 
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap max-w-xs'>
         {prompts.map(
           (prompt, index) =>
-            index === Number(selectedPromptNumber) && (
+            index === selectedPromptNumber && (
               <span key={prompt.id}>
                 <p>initialprompt: {prompt.initial_prompt}</p>
                 <p>highlightingformat: {prompt.highlighting_format}</p>
@@ -112,9 +112,9 @@ export default function PromptPage() {
       />
 
       <ButtonGroup>
-        <Button onClick={() => setPromptNumber('0')}>One</Button>
-        <Button onClick={() => setPromptNumber('1')}>Two</Button>
-        <Button onClick={() => setPromptNumber('2')}>Three</Button>
+        <Button onClick={() => setPromptNumber(0)}>One</Button>
+        <Button onClick={() => setPromptNumber(1)}>Two</Button>
+        <Button onClick={() => setPromptNumber(2)}>Three</Button>
       </ButtonGroup>
     </div>
   );
