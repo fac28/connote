@@ -1,19 +1,13 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
-import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
+import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
-import { PoemsType, PromptsType } from '@/types';
+import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 
 export default function PromptPage() {
-  const [poem, setPoem] = useState<PoemsType>([]);
-  const [prompts, setPrompts] = useState<PromptsType>([]);
-
   const params = useParams();
   const poemid = +params['poem-id'];
 
@@ -26,30 +20,7 @@ export default function PromptPage() {
 
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    if (!poemid) return;
-    const fetchData = async () => {
-      const supabase = createClientComponentClient();
-
-      const poemData = await fetchPoemById(poemid, supabase);
-      if (poemData) {
-        setPoem(poemData);
-        const promptIds = [
-          poemData[0].first_prompt_id,
-          poemData[0].second_prompt_id,
-          poemData[0].third_prompt_id,
-        ];
-        const promptData = await fetchPromptsByIds(promptIds, supabase);
-        if (promptData) {
-          setPrompts(promptData);
-        }
-      } else {
-        console.error('Error fetching poem or prompt data');
-      }
-    };
-
-    fetchData();
-  }, [setPoem, setPrompts, poemid]);
+  const { poem, prompts } = useFetchPromptPageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
