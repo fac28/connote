@@ -4,7 +4,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
-import Carousel from '@/components/Carousel';
 
 type PoemsType =
   | Array<{
@@ -86,20 +85,7 @@ export default function PromptPage() {
             <br></br>
           </span>
         ))}
-        {/* <Carousel prompts={prompts}/> */}
       </div>
     </>
   );
 }
-
-// const responses = JSON.parse(localStorage.getItem('responses'));
-//get poem. get url. get the poem name, author, date, id1, id2, id3 of that poem
-//get prompts of id1, id2, id3
-//render a prompt compononent to show the poem. containing:
-// // cross on the left
-// // progress bar
-// initialprompt
-// poem
-// followupprompt
-// input box
-// arrow and skip
