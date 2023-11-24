@@ -59,6 +59,25 @@ export default function PromptPage() {
     window.history.pushState({}, '', newUrl);
   };
 
+  const handlePrevClick = () => {
+    if (selectedPromptNumber > 0) {
+      setPromptNumber(selectedPromptNumber - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (selectedPromptNumber < 2) {
+      setPromptNumber(selectedPromptNumber + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log('Submitting answer for prompt', selectedPromptNumber);
+    // Implement submission logic here
+  };
+
   return (
     <div className='p-2'>
       <h1>This is the prompts page!</h1>
@@ -112,9 +131,20 @@ export default function PromptPage() {
       />
 
       <ButtonGroup>
-        <Button onClick={() => setPromptNumber(0)}>One</Button>
-        <Button onClick={() => setPromptNumber(1)}>Two</Button>
-        <Button onClick={() => setPromptNumber(2)}>Three</Button>
+        <Button
+          disabled={selectedPromptNumber === 0}
+          onClick={handlePrevClick}
+          className={`${
+            selectedPromptNumber === 0
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+        >
+          Prev
+        </Button>
+        <Button onClick={handleNextClick}>
+          {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
+        </Button>
       </ButtonGroup>
     </div>
   );
