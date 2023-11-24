@@ -5,7 +5,6 @@ import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
 import React from 'react';
-import Carousel from '@/components/Carousel';
 
 type PoemsType =
   | Array<{
@@ -36,6 +35,13 @@ export default function PromptPage() {
   const params = useParams();
   const poemid = +params['poem-id'];
 
+  const searchParams = useSearchParams();
+  const promptNumber = searchParams.get('prompt');
+
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
+    promptNumber || '1'
+  );
+
   useEffect(() => {
     if (!poemid) return;
     const fetchData = async () => {
@@ -60,6 +66,14 @@ export default function PromptPage() {
 
     fetchData();
   }, [setPoem, setPrompts, poemid]);
+
+  const setPromptNumber = (number: string) => {
+    setSelectedPromptNumber(number);
+
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('prompt', number);
+    window.history.pushState({}, '', newUrl);
+  };
 
   return (
     <>
@@ -92,28 +106,24 @@ export default function PromptPage() {
       </div>
 
       <div className='flex flex-wrap'>
-        {prompts.map((prompt) => (
-          <span key={prompt.id}>
-            <p>initialprompt: {prompt.initial_prompt}</p>
-            <p>followupprompt: {prompt.follow_up_prompt}</p>
-            <p>highlightingformat: {prompt.highlighting_format}</p>
-            <br></br>
-          </span>
-        ))}
-        {/* <Carousel prompts={prompts}/> */}
+        {prompts.map(
+          (prompt, index) =>
+            index === Number(selectedPromptNumber) && (
+              <span key={prompt.id}>
+                <p>Prompt id: {prompt.id}</p>
+                <p>initialprompt: {prompt.initial_prompt}</p>
+                <p>followupprompt: {prompt.follow_up_prompt}</p>
+                <p>highlightingformat: {prompt.highlighting_format}</p>
+                <br></br>
+              </span>
+            )
+        )}
       </div>
+      <ButtonGroup>
+        <Button onClick={() => setPromptNumber('0')}>One</Button>
+        <Button onClick={() => setPromptNumber('1')}>Two</Button>
+        <Button onClick={() => setPromptNumber('2')}>Three</Button>
+      </ButtonGroup>
     </>
   );
 }
-
-// const responses = JSON.parse(localStorage.getItem('responses'));
-//get poem. get url. get the poem name, author, date, id1, id2, id3 of that poem
-//get prompts of id1, id2, id3
-//render a prompt compononent to show the poem. containing:
-// // cross on the left
-// // progress bar
-// initialprompt
-// poem
-// followupprompt
-// input box
-// arrow and skip
