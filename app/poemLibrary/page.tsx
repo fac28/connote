@@ -50,7 +50,6 @@ export default function PoemDirectory() {
       const userid = sessionData.session.user.id;
       const responses = (await hasUserResponded({ userid, poemid })) || [];
       if (responses.length) {
-        // localStorage.setItem('responses', JSON.stringify(responses));
         window.location.href = `${poemid}/responses`;
       } else {
         window.location.href = `${poemid}/prompts`;
