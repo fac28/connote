@@ -6,7 +6,9 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { Metadata } from 'next';
+import Head from 'next/head';
 import styles from '../styles/background.module.css';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -27,12 +29,15 @@ export default async function RootLayout({
   [supabase];
 
   return (
-    <html lang='en' className={styles.backgroundContainer}>
-      <head>
-        <link rel='icon' href='/favicon.png' />
-      </head>
 
-      <body className={inter.className}>
+      <html lang='en'>
+      <Head>
+        <meta name='viewport' content='width=device-width, initial-scale=1' />
+         <link rel='icon' href='/favicon.png' />
+      </Head>
+
+ 
+        <body className={inter.className}>
         <Providers>
           <div className='min-h-screen'>
             <Nav session={session} />

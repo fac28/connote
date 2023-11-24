@@ -36,12 +36,14 @@ const config: Config = {
           colors: {
             background: '#FFF7F3',
             primary: '#242230',
+            secondary: '#F9FEFE',
           },
         },
         dark: {
           colors: {
             background: '#210230',
             primary: '#F9FEFE',
+            secondary: '#451952',
           },
         },
       },
