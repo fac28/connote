@@ -59,6 +59,7 @@ export default function PoemDirectory() {
 
   return (
     <>
+
       <div className='flex flex-col items-center'>
         <h1>Poems list:</h1>
         <div className='flex flex-wrap justify-center'>
@@ -73,6 +74,7 @@ export default function PoemDirectory() {
             </span>
           ))}
         </div>
+
       </div>
     </>
   );
