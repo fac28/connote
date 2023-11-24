@@ -17,7 +17,7 @@ import { Switch } from '@nextui-org/react';
 
 const menuLinks = {
   Profile: '/profile',
-  'Poem of the day': '/poemOfTheDay',
+
   'Poem Library': '/poemLibrary',
 } as { [key: string]: string };
 
@@ -25,7 +25,9 @@ export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
   const { setTheme } = useNextTheme();
 
-  const menuItems = ['Profile', 'Poem of the day', 'Poem Library'];
+  const menuItems = ['SwitchTheme', 'Profile', 'Poem Library'];
+  const currentPathname =
+    typeof window !== 'undefined' ? window.location.pathname : '';
 
   return (
     <Navbar
@@ -60,12 +62,8 @@ export default function Nav({ session }: { session: Session | null }) {
             Profile
           </Link>
         </NavbarItem>
+
         <NavbarItem isActive>
-          <Link className='red-400' href='/poemOfTheDay' aria-current='page'>
-            Poem of the day
-          </Link>
-        </NavbarItem>
-        <NavbarItem>
           <Link className='text-connote_Orange' href='/poemLibrary'>
             Poem Library
           </Link>
@@ -96,20 +94,26 @@ export default function Nav({ session }: { session: Session | null }) {
       <NavbarMenu className='mt-1'>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className='w-full'
-              color={
-                index === 2
-                  ? 'warning'
-                  : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-              }
-              href={menuLinks[item]}
-              size='lg'
-            >
-              {item}
-            </Link>
+            {item === 'SwitchTheme' ? (
+              <Switch
+                defaultSelected
+                size='sm'
+                onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+              />
+            ) : (
+              <Link
+                className={`w-full ${
+                  currentPathname === menuLinks[item]
+                    ? 'text-connote_Orange'
+                    : ''
+                }`}
+                color='foreground'
+                href={menuLinks[item]}
+                size='lg'
+              >
+                {item}
+              </Link>
+            )}
           </NavbarMenuItem>
         ))}
       </NavbarMenu>
