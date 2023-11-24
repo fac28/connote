@@ -96,8 +96,8 @@ export default function PromptPage() {
 
       <div className='flex flex-wrap'>
         {prompts.map(
-          (prompt) =>
-            prompt.id === Number(selectedPromptNumber) && (
+          (prompt, index) =>
+            index === Number(selectedPromptNumber) && (
               <span key={prompt.id}>
                 <p>Prompt id: {prompt.id}</p>
                 <p>initialprompt: {prompt.initial_prompt}</p>
@@ -109,9 +109,9 @@ export default function PromptPage() {
         )}
       </div>
       <ButtonGroup>
-        <Button onClick={() => setPromptNumber('1')}>One</Button>
-        <Button onClick={() => setPromptNumber('2')}>Two</Button>
-        <Button onClick={() => setPromptNumber('3')}>Three</Button>
+        <Button onClick={() => setPromptNumber('0')}>One</Button>
+        <Button onClick={() => setPromptNumber('1')}>Two</Button>
+        <Button onClick={() => setPromptNumber('2')}>Three</Button>
       </ButtonGroup>
     </>
   );
