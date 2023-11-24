@@ -8,28 +8,7 @@ import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
-
-type PoemsType =
-  | Array<{
-      id: number;
-      author: string;
-      name: string;
-      content: string;
-      first_prompt_id: number;
-      second_prompt_id: number;
-      third_prompt_id: number;
-      display_date: string;
-    }>
-  | [];
-
-type PromptsType =
-  | Array<{
-      id: number;
-      initial_prompt: string;
-      follow_up_prompt: string;
-      highlighting_format: string;
-    }>
-  | [];
+import { PoemsType, PromptsType } from '@/types';
 
 export default function PromptPage() {
   const [poem, setPoem] = useState<PoemsType>([]);

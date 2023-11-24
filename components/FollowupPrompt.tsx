@@ -1,4 +1,5 @@
 import { Input } from '@nextui-org/react';
+import { PromptsType } from '@/types';
 
 type FollowupPromptProps = {
   prompts: PromptsType;
@@ -6,15 +7,6 @@ type FollowupPromptProps = {
   onInputChange: (value: string) => void;
   inputValue: string;
 };
-
-type PromptsType =
-  | Array<{
-      id: number;
-      initial_prompt: string;
-      follow_up_prompt: string;
-      highlighting_format: string;
-    }>
-  | [];
 
 export default function FollowupPrompt({
   prompts,
