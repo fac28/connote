@@ -12,6 +12,9 @@ import {
   Button,
 } from '@nextui-org/react';
 import { Session } from '@supabase/auth-helpers-nextjs';
+import { useTheme as useNextTheme } from 'next-themes';
+import { Switch } from '@nextui-org/react';
+
 const menuLinks = {
   Profile: '/profile',
   'Poem of the day': '/poemOfTheDay',
@@ -20,6 +23,7 @@ const menuLinks = {
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+  const { setTheme } = useNextTheme();
 
   const menuItems = ['Profile', 'Poem of the day', 'Poem Library'];
 
@@ -29,6 +33,7 @@ export default function Nav({ session }: { session: Session | null }) {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
+      style={{ maxWidth: '100vw' }}
     >
       <NavbarContent className='sm:hidden pr-3' justify='start'>
         <NavbarMenuToggle
@@ -65,6 +70,13 @@ export default function Nav({ session }: { session: Session | null }) {
             Poem Library
           </Link>
         </NavbarItem>
+        <NavbarItem>
+          <Switch
+            defaultSelected
+            size='sm'
+            onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+          />
+        </NavbarItem>
       </NavbarContent>
 
       <NavbarContent justify='end'>
@@ -75,32 +87,12 @@ export default function Nav({ session }: { session: Session | null }) {
             </form>
           ) : (
             <Button as={Link} className='btn' href='/account' variant='flat'>
-              Login / Signup
+              Account
             </Button>
           )}
         </NavbarItem>
       </NavbarContent>
 
-      {/* <NavbarMenu className='mt-1'>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            <Link
-              className='w-full'
-              color={
-                index === 2
-                  ? 'warning'
-                  : index === menuItems.length - 1
-                    ? 'danger'
-                    : 'foreground'
-              }
-              href='#'
-              size='lg'
-            >
-              {item}
-            </Link>
-          </NavbarMenuItem>
-        ))}
-      </NavbarMenu> */}
       <NavbarMenu className='mt-1'>
         {menuItems.map((item, index) => (
           <NavbarMenuItem key={`${item}-${index}`}>
