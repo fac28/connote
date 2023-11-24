@@ -44,19 +44,16 @@ export default function PromptPage() {
     console.log('Submitting answer for prompt', promptInputs);
     // Implement submission logic here
   };
+  // flex flex-wrap justify-center items-stretch
 
   return (
     <div className='p-2'>
-      <h1>This is the prompts page!</h1>
-      <br></br>
-
       <div className='flex flex-wrap max-w-xs'>
         {prompts.map(
           (prompt, index) =>
             index === selectedPromptNumber && (
               <span key={prompt.id}>
-                <p>initialprompt: {prompt.initial_prompt}</p>
-                <p>highlightingformat: {prompt.highlighting_format}</p>
+                <p>{prompt.initial_prompt}</p>
                 <br></br>
               </span>
             )
@@ -66,9 +63,8 @@ export default function PromptPage() {
       <div className='flex flex-wrap'>
         {poem.map((poem) => (
           <span key={poem.id}>
-            <p>id: {poem.id}</p>
-            <p>author: {poem.author}</p>
-            <p>name: {poem.name}</p>
+            <small className='text-default-500'>{poem.author}</small>
+            <h4 className='font-bold text-large'>{poem.name}</h4>
             <br></br>
             <p>
               {poem.content.split('\n\n').map((stanza, index) => (
