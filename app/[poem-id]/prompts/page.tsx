@@ -7,6 +7,7 @@ import { useParams } from 'next/navigation';
 import React from 'react';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
+import FollowupPrompt from '@/components/FollowupPrompt';
 
 type PoemsType =
   | Array<{
@@ -83,6 +84,19 @@ export default function PromptPage() {
       <br></br>
 
       <div className='flex flex-wrap'>
+        {prompts.map(
+          (prompt, index) =>
+            index === Number(selectedPromptNumber) && (
+              <span key={prompt.id}>
+                <p>initialprompt: {prompt.initial_prompt}</p>
+                <p>highlightingformat: {prompt.highlighting_format}</p>
+                <br></br>
+              </span>
+            )
+        )}
+      </div>
+
+      <div className='flex flex-wrap'>
         {poem.map((poem) => (
           <span key={poem.id}>
             <p>id: {poem.id}</p>
@@ -107,20 +121,11 @@ export default function PromptPage() {
         ))}
       </div>
 
-      <div className='flex flex-wrap'>
-        {prompts.map(
-          (prompt, index) =>
-            index === Number(selectedPromptNumber) && (
-              <span key={prompt.id}>
-                <p>Prompt id: {prompt.id}</p>
-                <p>initialprompt: {prompt.initial_prompt}</p>
-                <p>followupprompt: {prompt.follow_up_prompt}</p>
-                <p>highlightingformat: {prompt.highlighting_format}</p>
-                <br></br>
-              </span>
-            )
-        )}
-      </div>
+      <FollowupPrompt
+        prompts={prompts}
+        selectedPromptNumber={selectedPromptNumber}
+      />
+
       <ButtonGroup>
         <Button onClick={() => setPromptNumber('0')}>One</Button>
         <Button onClick={() => setPromptNumber('1')}>Two</Button>
