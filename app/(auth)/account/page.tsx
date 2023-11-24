@@ -77,7 +77,7 @@ const LogIn = () => {
 
   return (
     <div className='flex flex-col items-center pt-4'>
-      <Tabs aria-label='Options'>
+      <Tabs aria-label='Options' color='warning' variant='solid'>
         <Tab key='login' title='Login'>
           <div className='text-center mt-10'>
             <h2 className='mt-5 text-3xl'>Log In</h2>

@@ -7,6 +7,8 @@ import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import { Metadata } from 'next';
 import Head from 'next/head';
+import styles from '../styles/background.module.css';
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -27,14 +29,20 @@ export default async function RootLayout({
   [supabase];
 
   return (
-    <html lang='en'>
+
+      <html lang='en'>
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
+         <link rel='icon' href='/favicon.png' />
       </Head>
-      <body className={inter.className}>
+
+ 
+        <body className={inter.className}>
         <Providers>
-          <Nav session={session} />
-          {children}
+          <div className='min-h-screen'>
+            <Nav session={session} />
+            {children}
+          </div>
         </Providers>
       </body>
     </html>
