@@ -45,6 +45,8 @@ export default function PromptPage() {
     promptNumber || '1'
   );
 
+  const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
+
   useEffect(() => {
     if (!poemid) return;
     const fetchData = async () => {
@@ -79,7 +81,7 @@ export default function PromptPage() {
   };
 
   return (
-    <>
+    <div className='p-2'>
       <h1>This is the prompts page!</h1>
       <br></br>
 
@@ -124,6 +126,10 @@ export default function PromptPage() {
       <FollowupPrompt
         prompts={prompts}
         selectedPromptNumber={selectedPromptNumber}
+        onInputChange={(value: string) => {
+          setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
+        }}
+        inputValue={promptInputs[selectedPromptNumber] || ''}
       />
 
       <ButtonGroup>
@@ -131,6 +137,6 @@ export default function PromptPage() {
         <Button onClick={() => setPromptNumber('1')}>Two</Button>
         <Button onClick={() => setPromptNumber('2')}>Three</Button>
       </ButtonGroup>
-    </>
+    </div>
   );
 }
