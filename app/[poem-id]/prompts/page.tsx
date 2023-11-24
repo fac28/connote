@@ -5,7 +5,6 @@ import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
 import { Button, ButtonGroup } from '@nextui-org/react';
 
 type PoemsType =

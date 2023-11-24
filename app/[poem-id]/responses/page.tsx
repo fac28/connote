@@ -5,6 +5,8 @@ import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
 import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
+import { useSearchParams } from 'next/navigation';
+import { Button, ButtonGroup } from '@nextui-org/react';
 
 type PoemsType =
   | Array<{
@@ -47,6 +49,13 @@ export default function PromptPage() {
   const params = useParams();
   const poemid = +params['poem-id'];
 
+  const searchParams = useSearchParams();
+  const promptNumber = searchParams.get('prompt');
+
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
+    promptNumber || '1'
+  );
+
   useEffect(() => {
     if (!poemid) return;
     const fetchData = async () => {
@@ -81,6 +90,14 @@ export default function PromptPage() {
     fetchData();
   }, [setPoem, setPrompts, poemid]);
 
+  const setPromptNumber = (number: string) => {
+    setSelectedPromptNumber(number);
+
+    const newUrl = new URL(window.location.href);
+    newUrl.searchParams.set('prompt', number);
+    window.history.pushState({}, '', newUrl);
+  };
+
   return (
     <>
       <h1>This is the responses page!</h1>
@@ -99,30 +116,37 @@ export default function PromptPage() {
       </div>
 
       <div className='flex flex-wrap'>
-        {prompts.map((prompt) => {
+        {prompts.map((prompt, index) => {
           const matchingResponse = responses.find(
             (response) => response.prompt_id === prompt.id
           );
 
           return (
-            <span key={prompt.id}>
-              <p>promptid: {prompt.id}</p>
-              <p>initialprompt: {prompt.initial_prompt}</p>
-              <p>followupprompt: {prompt.follow_up_prompt}</p>
-              <p>highlightingformat: {prompt.highlighting_format}</p>
-              <p>
-                response_selected:{' '}
-                {matchingResponse ? matchingResponse.response_selected : ''}
-              </p>
-              <p>
-                response_written:{' '}
-                {matchingResponse ? matchingResponse.response_written : ''}
-              </p>
-              <br></br>
-            </span>
+            index === Number(selectedPromptNumber) && (
+              <span key={prompt.id}>
+                <p>promptid: {prompt.id}</p>
+                <p>initialprompt: {prompt.initial_prompt}</p>
+                <p>followupprompt: {prompt.follow_up_prompt}</p>
+                <p>highlightingformat: {prompt.highlighting_format}</p>
+                <p>
+                  response_selected:{' '}
+                  {matchingResponse ? matchingResponse.response_selected : ''}
+                </p>
+                <p>
+                  response_written:{' '}
+                  {matchingResponse ? matchingResponse.response_written : ''}
+                </p>
+                <br></br>
+              </span>
+            )
           );
         })}
       </div>
+      <ButtonGroup>
+        <Button onClick={() => setPromptNumber('0')}>One</Button>
+        <Button onClick={() => setPromptNumber('1')}>Two</Button>
+        <Button onClick={() => setPromptNumber('2')}>Three</Button>
+      </ButtonGroup>
     </>
   );
 }
