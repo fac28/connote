@@ -4,8 +4,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 import { useParams } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
-import { Button, ButtonGroup } from '@nextui-org/react';
+import React from 'react';
 
 type PoemsType =
   | Array<{
@@ -87,7 +86,20 @@ export default function PromptPage() {
             <p>id: {poem.id}</p>
             <p>author: {poem.author}</p>
             <p>name: {poem.name}</p>
-            <p>content: {poem.content}</p>
+            <br></br>
+            <p>
+              {poem.content.split('\n\n').map((stanza, index) => (
+                <React.Fragment key={index}>
+                  {stanza.split('\n').map((line, lineIndex) => (
+                    <React.Fragment key={lineIndex}>
+                      {line}
+                      <br />
+                    </React.Fragment>
+                  ))}
+                  <br />
+                </React.Fragment>
+              ))}
+            </p>
             <br></br>
           </span>
         ))}
