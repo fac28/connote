@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
 import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
+import { useParams } from 'next/navigation';
 
 type PoemsType =
   | Array<{
@@ -27,11 +28,14 @@ type PromptsType =
   | [];
 
 export default function PromptPage() {
-  const poemid = 1;
   const [poem, setPoem] = useState<PoemsType>([]);
   const [prompts, setPrompts] = useState<PromptsType>([]);
 
+  const params = useParams();
+  const poemid = +params['poem-id'];
+
   useEffect(() => {
+    if (!poemid) return;
     const fetchData = async () => {
       const supabase = createClientComponentClient();
 
@@ -75,9 +79,9 @@ export default function PromptPage() {
       <div className='flex flex-wrap'>
         {prompts.map((prompt) => (
           <span key={prompt.id}>
-            <p>init: {prompt.initial_prompt}</p>
-            <p>follow up: {prompt.follow_up_prompt}</p>
-            <p>highlighting format: {prompt.highlighting_format}</p>
+            <p>initialprompt: {prompt.initial_prompt}</p>
+            <p>followupprompt: {prompt.follow_up_prompt}</p>
+            <p>highlightingformat: {prompt.highlighting_format}</p>
             <br></br>
           </span>
         ))}
