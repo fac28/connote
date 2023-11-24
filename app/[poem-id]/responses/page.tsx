@@ -7,39 +7,7 @@ import { useParams } from 'next/navigation';
 import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
-
-type PoemsType =
-  | Array<{
-      id: number;
-      author: string;
-      name: string;
-      content: string;
-      first_prompt_id: number;
-      second_prompt_id: number;
-      third_prompt_id: number;
-      display_date: string;
-    }>
-  | [];
-
-type PromptsType =
-  | Array<{
-      id: number;
-      initial_prompt: string;
-      follow_up_prompt: string;
-      highlighting_format: string;
-    }>
-  | [];
-
-type ResponsesType =
-  | Array<{
-      id: number;
-      poem_id: number;
-      prompt_id: number;
-      response_selected: string;
-      response_written: string;
-      user_id: string;
-    }>
-  | [];
+import { PoemsType, PromptsType, ResponsesType } from '@/types';
 
 export default function PromptPage() {
   const [poem, setPoem] = useState<PoemsType>([]);
@@ -50,10 +18,10 @@ export default function PromptPage() {
   const poemid = +params['poem-id'];
 
   const searchParams = useSearchParams();
-  const promptNumber = searchParams.get('prompt');
+  const promptNumber = Number(searchParams.get('prompt'));
 
-  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
-    promptNumber || '1'
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
+    promptNumber || 1
   );
 
   useEffect(() => {
@@ -90,12 +58,31 @@ export default function PromptPage() {
     fetchData();
   }, [setPoem, setPrompts, poemid]);
 
-  const setPromptNumber = (number: string) => {
+  const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
 
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', number);
+    newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);
+  };
+
+  const handlePrevClick = () => {
+    if (selectedPromptNumber > 0) {
+      setPromptNumber(selectedPromptNumber - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (selectedPromptNumber < 2) {
+      setPromptNumber(selectedPromptNumber + 1);
+    } else {
+      handleDone();
+    }
+  };
+
+  const handleDone = () => {
+    console.log('handle redirecting after you`ve looked through comments');
+    // Implement submission logic here
   };
 
   return (
@@ -143,9 +130,20 @@ export default function PromptPage() {
         })}
       </div>
       <ButtonGroup>
-        <Button onClick={() => setPromptNumber('0')}>One</Button>
-        <Button onClick={() => setPromptNumber('1')}>Two</Button>
-        <Button onClick={() => setPromptNumber('2')}>Three</Button>
+        <Button
+          disabled={selectedPromptNumber === 0}
+          onClick={handlePrevClick}
+          className={`${
+            selectedPromptNumber === 0
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+        >
+          Prev
+        </Button>
+        <Button onClick={handleNextClick}>
+          {selectedPromptNumber === 2 ? 'Done' : 'Next'}
+        </Button>
       </ButtonGroup>
     </>
   );

@@ -19,3 +19,14 @@ export type PoemsType =
       display_date: string;
     }>
   | [];
+
+export type ResponsesType =
+  | Array<{
+      id: number;
+      poem_id: number;
+      prompt_id: number;
+      response_selected: string;
+      response_written: string;
+      user_id: string;
+    }>
+  | [];

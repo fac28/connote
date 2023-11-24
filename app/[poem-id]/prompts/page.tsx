@@ -74,7 +74,7 @@ export default function PromptPage() {
   };
 
   const handleSubmit = () => {
-    console.log('Submitting answer for prompt', selectedPromptNumber);
+    console.log('Submitting answer for prompt', promptInputs);
     // Implement submission logic here
   };
 
