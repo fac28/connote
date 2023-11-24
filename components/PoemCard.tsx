@@ -1,7 +1,6 @@
 import { Card, CardHeader, CardBody, Image } from '@nextui-org/react';
 
 type children = {
-  onClick: () => void;
   poemDate: string;
   poemAuthor: string;
   poemName: string;
