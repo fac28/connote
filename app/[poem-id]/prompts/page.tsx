@@ -30,23 +30,10 @@ type PromptsType =
     }>
   | [];
 
-function oneWordHighlightingFunction(
-  event: React.MouseEvent<HTMLSpanElement>,
-  word: string
-) {
-  // Check if event and event.target are defined
-  if (event && event.target) {
-    console.log(`Clicked word: ${word}`);
-
-    const clickedSpan = event.target as HTMLSpanElement;
-    clickedSpan.classList.toggle('bg-black');
-    clickedSpan.classList.toggle('text-white');
-  }
-}
-
 export default function PromptPage() {
   const [poem, setPoem] = useState<PoemsType>([]);
   const [prompts, setPrompts] = useState<PromptsType>([]);
+  const [highlightedWordIds, setHighlightedWordIds] = useState<number[]>([]);
 
   const params = useParams();
   const poemid = +params['poem-id'];
@@ -57,6 +44,36 @@ export default function PromptPage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
     promptNumber || '1'
   );
+
+  useEffect(() => {
+    console.log('Highlighted Word IDs:', highlightedWordIds);
+  }, [highlightedWordIds]);
+
+  function oneWordHighlightingFunction(
+    event: React.MouseEvent<HTMLSpanElement>,
+    word: string
+  ) {
+    // Check if event and event.target are defined
+    if (event && event.target) {
+      const clickedSpan = event.target as HTMLSpanElement;
+      const spanId = parseInt(clickedSpan.id);
+
+      const isHighlighted = highlightedWordIds.includes(spanId);
+
+      if (isHighlighted) {
+        setHighlightedWordIds((prevIds) =>
+          prevIds.filter((id) => id !== spanId)
+        );
+      } else {
+        setHighlightedWordIds((prevIds) => [...prevIds, spanId]);
+      }
+
+      console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
+
+      clickedSpan.classList.toggle('bg-black');
+      clickedSpan.classList.toggle('text-white');
+    }
+  }
 
   useEffect(() => {
     if (!poemid) return;
@@ -91,6 +108,8 @@ export default function PromptPage() {
     window.history.pushState({}, '', newUrl);
   };
 
+  let wordCounter = 0;
+
   return (
     <>
       <h1>This is the prompts page!</h1>
@@ -110,8 +129,9 @@ export default function PromptPage() {
                     <React.Fragment key={lineIndex}>
                       {/* Split each line into words and add click event listener */}
                       {line.split(' ').map((word, wordIndex) => (
-                        <React.Fragment key={wordIndex}>
+                        <React.Fragment key={wordCounter++}>
                           <span
+                            id={String(wordCounter)}
                             onClick={(event) =>
                               oneWordHighlightingFunction(event, word)
                             }
