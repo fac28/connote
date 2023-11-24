@@ -1,5 +1,6 @@
 'use client';
 import { useState, FormEvent } from 'react';
+import { Input } from '@nextui-org/react';
 
 interface AuthFormProps {
   handleSubmit: (
@@ -15,42 +16,77 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleSubmit, isLoading }) => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // Add error message state
+
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    // Check if password and confirm password match
+    if (password !== confirmPassword) {
+      setErrorMessage('Passwords do not match'); // Update error message
+      return;
+    }
+
+    // Continue with form submission
+    await handleSubmit(e, email, username, password);
+  };
+
   return (
     <form
       className='flex flex-col items-center mt-10 gap-10'
-      onSubmit={(e) => handleSubmit(e, email, username, password)}
+      onSubmit={handleFormSubmit}
     >
       <div className='flex flex-col items-center gap-1'>
-        <label>Email</label>
-        <input
+        <Input
+          size='md'
+          label='Email'
           type='email'
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          required
-          className='border-b border-black'
+          isRequired
+          labelPlacement='inside'
         />
       </div>
       <div className='flex flex-col items-center gap-1'>
-        <label>Username</label>
-        <input
+        <Input
+          size='md'
           type='text'
           onChange={(e) => setUsername(e.target.value)}
           value={username}
-          required
-          className='border-b border-black'
+          isRequired
+          label='Username'
+          labelPlacement='inside'
         />
       </div>
       <div className='flex flex-col items-center gap-1'>
-        <label>Password</label>
-        <input
+        <Input
+          size='md'
           type='password'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          required
-          className='border-b border-black'
+          label='Password'
+          labelPlacement='inside'
+          isRequired
         />
       </div>
-      <button disabled={isLoading} className='bg-custom-orange rounded-xl p-2'>
+      <div className='flex flex-col items-center gap-1'>
+        <Input
+          size='md'
+          type='password'
+          onChange={(e) => setConfirmPassword(e.target.value)}
+          value={confirmPassword}
+          label='Confirm Password'
+          labelPlacement='inside'
+          isRequired
+        />
+      </div>
+      {errorMessage && <p className='text-red-500'>{errorMessage}</p>}{' '}
+      {/* Display error message */}
+      <button
+        disabled={isLoading}
+        className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
+      >
         Create account
       </button>
     </form>
@@ -58,19 +94,3 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleSubmit, isLoading }) => {
 };
 
 export default AuthForm;
-
-// export default function AuthForm() {
-//   const supabase = createClientComponentClient<Database>();
-
-//   return (
-//     <Auth
-//       supabaseClient={supabase}
-//       view="magic_link"
-//       appearance={{ theme: ThemeSupa }}
-//       theme="dark"
-//       showLinks={false}
-//       providers={[]}
-//       redirectTo="http://localhost:3000/auth/callback"
-//     />
-//   );
-// }
