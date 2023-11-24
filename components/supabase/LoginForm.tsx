@@ -1,5 +1,6 @@
 'use client';
 import { useState, FormEvent } from 'react';
+import { Input, Button } from '@nextui-org/react';
 
 interface LoginFormProps {
   handleSubmit: (
@@ -20,27 +21,32 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, isLoading }) => {
       onSubmit={(e) => handleSubmit(e, email, password)}
     >
       <div className='flex flex-col items-center gap-1'>
-        <label>Email</label>
-        <input
+        <Input
+          size='md'
+          label='email'
           type='email'
           onChange={(e) => setEmail(e.target.value)}
           value={email}
-          required
-          className='border-b border-black'
+          isRequired
+          labelPlacement='inside'
         />
       </div>
 
       <div className='flex flex-col items-center gap-1'>
-        <label>Password</label>
-        <input
+        <Input
+          size='md'
           type='password'
           onChange={(e) => setPassword(e.target.value)}
           value={password}
-          required
-          className='border-b border-black'
+          label='Password'
+          labelPlacement='inside'
+          isRequired
         />
       </div>
-      <button disabled={isLoading} className='bg-custom-orange rounded-xl p-2'>
+      <button
+        disabled={isLoading}
+        className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
+      >
         Login
       </button>
     </form>

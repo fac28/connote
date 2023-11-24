@@ -7,8 +7,10 @@ const VerifyPage = () => {
       <p className='my-5 text-sm'>
         Before you log in, you need to verify you email address.
       </p>
-      <Link href='/login' className='italic'>
-        <Button color='secondary'>Login</Button>
+      <Link href='/account' className='italic'>
+        <Button className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'>
+          Login
+        </Button>
       </Link>
     </div>
   );
