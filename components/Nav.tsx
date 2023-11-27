@@ -18,6 +18,7 @@ import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import { MoonIcon } from './MoonIcon';
 import { SunIcon } from './SunIcon';
+import styles from '../styles/background.module.css';
 
 const menuLinks = {
   Profile: '/profile',
@@ -26,9 +27,25 @@ const menuLinks = {
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme } = useNextTheme();
+  const { theme, setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
+
+  const toggleTheme = (isDarkTheme: any) => {
+    setTheme(isDarkTheme ? 'dark' : 'light');
+    if (isDarkTheme) {
+      document.documentElement.classList.add(styles.backgroundContainerDark);
+      document.documentElement.classList.remove(styles.backgroundContainer);
+    } else {
+      document.documentElement.classList.add(styles.backgroundContainer);
+      document.documentElement.classList.remove(styles.backgroundContainerDark);
+    }
+  };
+
+  useEffect(() => {
+    // Set initial class on load
+    toggleTheme(theme === 'dark');
+  });
 
   useEffect(() => {
     setCurrentPathname(pathname);
