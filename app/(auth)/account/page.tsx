@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import LoginForm from '@/components/supabase/LoginForm';
 import AuthForm from '@/components/supabase/AuthForm';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -11,6 +11,18 @@ const LogIn = () => {
   const router = useRouter();
   const [formError, setFormError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const supabase = useMemo(() => createClientComponentClient(), []);
+
+  const checkSession = async () => {
+    const { data: sessionData } = await supabase.auth.getSession();
+    if (sessionData?.session?.user?.id) {
+      router.push('/poemLibrary');
+    }
+  };
+
+  useEffect(() => {
+    checkSession();
+  }, []);
 
   const handleSubmit = async (
     e: React.FormEvent<HTMLFormElement>,
@@ -20,7 +32,6 @@ const LogIn = () => {
     e.preventDefault();
     setIsLoading(true);
     setFormError('');
-    const supabase = createClientComponentClient();
     const { error } = await supabase.auth.signInWithPassword({
       email,
       password,
@@ -28,12 +39,11 @@ const LogIn = () => {
     if (error) {
       setFormError(error.message);
       setIsLoading(false);
-    }
-    if (!error) {
-      router.push('/');
+    } else {
       window.location.reload();
     }
   };
+
   const handleSubmitSign = async (
     e: React.FormEvent<HTMLFormElement>,
     email: string,
@@ -42,7 +52,6 @@ const LogIn = () => {
   ): Promise<void> => {
     e.preventDefault();
     setIsLoading(true);
-    const supabase = createClientComponentClient();
     const {
       data: { user },
       error,
