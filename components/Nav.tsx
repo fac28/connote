@@ -16,12 +16,23 @@ import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
+import { useSearchParams } from 'next/navigation';
+import { Progress } from '@nextui-org/react';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
+  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
+
+  if (isPromptOrResponsePage) {
+    const searchParams = useSearchParams();
+    const promptNumber = Number(searchParams.get('prompt'));
+    const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
+      promptNumber || 0
+    );
+  }
 
   useEffect(() => {
     setCurrentPathname(pathname);
@@ -79,6 +90,7 @@ export default function Nav({ session }: { session: Session | null }) {
         />
         <RenderNavLinks currentPathname={currentPathname} />
       </NavbarMenu>
+      <Progress size='sm' aria-label='Loading...' value={33} />
     </Navbar>
   );
 }
