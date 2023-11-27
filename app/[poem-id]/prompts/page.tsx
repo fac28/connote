@@ -1,93 +1,70 @@
 'use client';
-import { useState, useEffect } from 'react';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
-import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
-import { useParams } from 'next/navigation';
 import React from 'react';
+import { useState } from 'react';
+import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
-
-type PoemsType =
-  | Array<{
-      id: number;
-      author: string;
-      name: string;
-      content: string;
-      first_prompt_id: number;
-      second_prompt_id: number;
-      third_prompt_id: number;
-      display_date: string;
-    }>
-  | [];
-
-type PromptsType =
-  | Array<{
-      id: number;
-      initial_prompt: string;
-      follow_up_prompt: string;
-      highlighting_format: string;
-    }>
-  | [];
+import FollowupPrompt from '@/components/FollowupPrompt';
+import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 
 export default function PromptPage() {
-  const [poem, setPoem] = useState<PoemsType>([]);
-  const [prompts, setPrompts] = useState<PromptsType>([]);
-
   const params = useParams();
   const poemid = +params['poem-id'];
-
   const searchParams = useSearchParams();
-  const promptNumber = searchParams.get('prompt');
-
-  const [selectedPromptNumber, setSelectedPromptNumber] = useState<string>(
-    promptNumber || '1'
+  const promptNumber = Number(searchParams.get('prompt'));
+  const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
+    promptNumber || 0
   );
+  const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    if (!poemid) return;
-    const fetchData = async () => {
-      const supabase = createClientComponentClient();
+  const { poem, prompts } = useFetchPromptPageData(poemid);
 
-      const poemData = await fetchPoemById(poemid, supabase);
-      if (poemData) {
-        setPoem(poemData);
-        const promptIds = [
-          poemData[0].first_prompt_id,
-          poemData[0].second_prompt_id,
-          poemData[0].third_prompt_id,
-        ];
-        const promptData = await fetchPromptsByIds(promptIds, supabase);
-        if (promptData) {
-          setPrompts(promptData);
-        }
-      } else {
-        console.error('Error fetching poem or prompt data');
-      }
-    };
-
-    fetchData();
-  }, [setPoem, setPrompts, poemid]);
-
-  const setPromptNumber = (number: string) => {
+  const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-
     const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', number);
+    newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);
   };
 
+  const handlePrevClick = () => {
+    if (selectedPromptNumber > 0) {
+      setPromptNumber(selectedPromptNumber - 1);
+    }
+  };
+
+  const handleNextClick = () => {
+    if (selectedPromptNumber < 2) {
+      setPromptNumber(selectedPromptNumber + 1);
+    } else {
+      handleSubmit();
+    }
+  };
+
+  const handleSubmit = () => {
+    console.log('Submitting answer for prompt', promptInputs);
+    // Implement submission logic here
+  };
+  // flex flex-wrap justify-center items-stretch
+
   return (
-    <>
-      <h1>This is the prompts page!</h1>
-      <br></br>
+    <div className='p-2'>
+      <div className='flex flex-wrap max-w-xs'>
+        {prompts.map(
+          (prompt, index) =>
+            index === selectedPromptNumber && (
+              <span key={prompt.id}>
+                <p>{prompt.initial_prompt}</p>
+                <br></br>
+              </span>
+            )
+        )}
+      </div>
 
       <div className='flex flex-wrap'>
         {poem.map((poem) => (
           <span key={poem.id}>
-            <p>id: {poem.id}</p>
-            <p>author: {poem.author}</p>
-            <p>name: {poem.name}</p>
+            <small className='text-default-500'>{poem.author}</small>
+            <h4 className='font-bold text-large'>{poem.name}</h4>
             <br></br>
             <p>
               {poem.content.split('\n\n').map((stanza, index) => (
@@ -107,25 +84,31 @@ export default function PromptPage() {
         ))}
       </div>
 
-      <div className='flex flex-wrap'>
-        {prompts.map(
-          (prompt, index) =>
-            index === Number(selectedPromptNumber) && (
-              <span key={prompt.id}>
-                <p>Prompt id: {prompt.id}</p>
-                <p>initialprompt: {prompt.initial_prompt}</p>
-                <p>followupprompt: {prompt.follow_up_prompt}</p>
-                <p>highlightingformat: {prompt.highlighting_format}</p>
-                <br></br>
-              </span>
-            )
-        )}
-      </div>
+      <FollowupPrompt
+        prompts={prompts}
+        selectedPromptNumber={selectedPromptNumber}
+        onInputChange={(value: string) => {
+          setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
+        }}
+        inputValue={promptInputs[selectedPromptNumber] || ''}
+      />
+
       <ButtonGroup>
-        <Button onClick={() => setPromptNumber('0')}>One</Button>
-        <Button onClick={() => setPromptNumber('1')}>Two</Button>
-        <Button onClick={() => setPromptNumber('2')}>Three</Button>
+        <Button
+          disabled={selectedPromptNumber === 0}
+          onClick={handlePrevClick}
+          className={`${
+            selectedPromptNumber === 0
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+        >
+          Prev
+        </Button>
+        <Button onClick={handleNextClick}>
+          {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
+        </Button>
       </ButtonGroup>
-    </>
+    </div>
   );
 }
