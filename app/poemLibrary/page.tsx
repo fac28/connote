@@ -19,8 +19,17 @@ type PoemsType =
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
+  const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchUserId = async () => {
+      const supabase = createClientComponentClient();
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData?.session?.user?.id) {
+        setUserId(sessionData.session.user.id);
+      }
+    };
+    fetchUserId();
     const currentDate = new Date();
     const fetchData = async () => {
       const supabase = createClientComponentClient();
@@ -59,22 +68,23 @@ export default function PoemDirectory() {
 
   return (
     <>
-
       <div className='flex flex-col items-center'>
         <h1>Poems list:</h1>
         <div className='flex flex-wrap justify-center'>
-          {poems.map((poem) => (
+          {poems.map((poem, userid) => (
             <span onClick={() => handleSubmit(poem.id)} key={poem.id}>
               <PoemCard
                 poemDate={poem.display_date}
                 poemAuthor={poem.author}
                 poemName={poem.name}
                 poemImage='https://images.unsplash.com/photo-1575707751065-42256084fbb7?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
+                poemId={poem.id}
+                userId={userId}
+                supabase={createClientComponentClient()}
               />
             </span>
           ))}
         </div>
-
       </div>
     </>
   );
