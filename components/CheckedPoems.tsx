@@ -2,20 +2,10 @@
 import { useState, useEffect } from 'react';
 import PoemCard from './PoemCard';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-
-interface Poem {
-  id: number;
-  author: string;
-  name: string;
-  content: string;
-  first_prompt_id: number;
-  second_prompt_id: number;
-  third_prompt_id: number;
-  display_date: string;
-}
+import { PoemsType } from '@/types';
 
 export default function CheckedPoems() {
-  const [checkedPoems, setCheckedPoems] = useState<Poem[]>([]);
+  const [checkedPoems, setCheckedPoems] = useState<PoemsType>([]);
   const [userId, setUserId] = useState<string | null>(null);
 
   useEffect(() => {

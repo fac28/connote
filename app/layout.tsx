@@ -29,15 +29,13 @@ export default async function RootLayout({
   [supabase];
 
   return (
-
-      <html lang='en'>
+    <html lang='en'>
+      <link rel='icon' href='/favicon.png' />
       <Head>
         <meta name='viewport' content='width=device-width, initial-scale=1' />
-         <link rel='icon' href='/favicon.png' />
       </Head>
 
- 
-        <body className={inter.className}>
+      <body className={inter.className}>
         <Providers>
           <div className='min-h-screen'>
             <Nav session={session} />
