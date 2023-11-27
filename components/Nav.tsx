@@ -24,21 +24,23 @@ export default function Nav({ session }: { session: Session | null }) {
   const { setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
-  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
+  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(true);
 
-  if (isPromptOrResponsePage) {
-    const searchParams = useSearchParams();
-    const promptNumber = Number(searchParams.get('prompt'));
-    const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-      promptNumber || 0
-    );
-  }
+  // if (isPromptOrResponsePage) {
+  //   const searchParams = useSearchParams();
+  //   const promptNumber = Number(searchParams.get('prompt'));
+  //   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
+  //     promptNumber || 0
+  //   );
+  // }
 
   useEffect(() => {
     setCurrentPathname(pathname);
   }, [pathname]);
 
-  return (
+  return isPromptOrResponsePage ? (
+    <Progress size='sm' aria-label='Loading...' value={33} />
+  ) : (
     <Navbar
       className={'blue'}
       isBordered
@@ -90,7 +92,6 @@ export default function Nav({ session }: { session: Session | null }) {
         />
         <RenderNavLinks currentPathname={currentPathname} />
       </NavbarMenu>
-      <Progress size='sm' aria-label='Loading...' value={33} />
     </Navbar>
   );
 }
