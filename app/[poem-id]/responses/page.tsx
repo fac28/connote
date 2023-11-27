@@ -141,7 +141,7 @@ export default function ResponsePage() {
 
   return (
     <main className='flex flex-col items-center justify-between p-4'>
-      <ResponsePoem poem={poem} />
+      <ResponsePoem poem={poem} responses={responses} />
 
       <div className='flex flex-wrap md:max-w-xs'>
         {prompts.map(
