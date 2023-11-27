@@ -71,11 +71,11 @@ const LogIn = () => {
 
       if (insertError) {
         console.error('Error inserting profile:', insertError);
-        // Optionally set the error message to the state to display in the UI
       }
     }
 
     if (error) {
+      console.error('Sign-up error:', error);
       setFormError(error.message);
       setIsLoading(false);
     }

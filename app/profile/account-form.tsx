@@ -1,6 +1,6 @@
 'use client';
 import { useCallback, useEffect, useState } from 'react';
-
+import { Input } from '@nextui-org/react';
 import {
   Session,
   createClientComponentClient,
@@ -61,25 +61,33 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className='form-widget'>
-      <div>
-        <label htmlFor='email'>Email</label>
-        <input id='email' type='text' value={session?.user.email} disabled />
+    <div className='flex flex-col items-center gap-4 mt-4 pl-12'>
+      <div className='bg-white rounded-xl'>
+        <Input
+          color='primary'
+          size='sm'
+          label='Email'
+          id='email'
+          type='text'
+          value={session?.user.email}
+          isReadOnly
+          labelPlacement='inside'
+        />
       </div>
-
       <div>
-        <label htmlFor='username'>Username</label>
-        <input
+        <Input
+          size='sm'
+          label='Username'
           id='username'
           type='text'
           value={username || ''}
           onChange={(e) => setUsername(e.target.value)}
+          labelPlacement='inside'
         />
       </div>
-
       <div>
         <button
-          className='button primary block'
+          className=' text-xs bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-1 duration-150'
           onClick={() => updateProfile({ username })}
           disabled={loading}
         >
@@ -89,7 +97,10 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
       <div>
         <form action='/signout' method='post'>
-          <button className='btn' type='submit'>
+          <button
+            className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
+            type='submit'
+          >
             Logout
           </button>
         </form>
