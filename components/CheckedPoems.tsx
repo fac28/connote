@@ -1,3 +1,4 @@
+'use client';
 import { useState, useEffect } from 'react';
 import PoemCard from './PoemCard';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -72,7 +73,7 @@ export default function CheckedPoems() {
 
   return (
     <div className='flex flex-col items-center'>
-      <h1>Checked Poems:</h1>
+      <h1>My Bookmarked Poems</h1>
       <div className='flex flex-wrap justify-center'>
         {checkedPoems.map((poem) => (
           <PoemCard
