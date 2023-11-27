@@ -21,3 +21,11 @@ body {
 
   @apply text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
 }
+
+.ovo {
+  font-family: 'Ovo';
+}
+
+.potta {
+  font-family: 'Potta One';
+}

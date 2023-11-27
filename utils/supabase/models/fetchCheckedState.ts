@@ -14,7 +14,7 @@ export const fetchCheckedState = async (
 
     return data && data.length > 0 ? data[0].checked : false;
   } catch (error) {
-    console.error('Error fetching checked state:', error);
+    // console.error('Error fetching checked state:', error);
     throw error;
   }
 };
