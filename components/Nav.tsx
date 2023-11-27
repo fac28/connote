@@ -2,9 +2,7 @@
 import React from 'react';
 import {
   Navbar,
-  NavbarBrand,
   NavbarMenuToggle,
-  NavbarMenuItem,
   NavbarMenu,
   NavbarContent,
   NavbarItem,
@@ -17,11 +15,7 @@ import { useTheme as useNextTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import Logo from './NavComponents/Logo';
-
-const menuLinks = {
-  Profile: '/profile',
-  'Poem Library': '/poemLibrary',
-} as { [key: string]: string };
+import RenderNavLinks from './NavComponents/renderNavLinks';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -32,21 +26,6 @@ export default function Nav({ session }: { session: Session | null }) {
   useEffect(() => {
     setCurrentPathname(pathname);
   }, [pathname]);
-
-  const renderNavLinks = () =>
-    Object.keys(menuLinks).map((item, index) => (
-      <NavbarItem key={`${item}-${index}`}>
-        <div
-          className={`w-full ${
-            currentPathname === menuLinks[item] ? 'font-bold' : ''
-          }`}
-        >
-          <Link color='foreground' href={menuLinks[item]} size='lg'>
-            {item}
-          </Link>
-        </div>
-      </NavbarItem>
-    ));
 
   return (
     <Navbar
@@ -69,7 +48,7 @@ export default function Nav({ session }: { session: Session | null }) {
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <Logo />
 
-        {renderNavLinks()}
+        <RenderNavLinks currentPathname={currentPathname} />
 
         <NavbarItem>
           <Switch
@@ -98,7 +77,7 @@ export default function Nav({ session }: { session: Session | null }) {
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
         />
-        {renderNavLinks()}
+        <RenderNavLinks currentPathname={currentPathname} />
       </NavbarMenu>
     </Navbar>
   );
