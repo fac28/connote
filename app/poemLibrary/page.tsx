@@ -63,6 +63,8 @@ export default function PoemDirectory() {
       } else {
         window.location.href = `${poemid}/prompts`;
       }
+    } else {
+      window.location.href = `/account`;
     }
   }
 

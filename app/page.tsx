@@ -48,9 +48,11 @@ export default function Home() {
       <div>
         {poemOfTheDay && (
           <>
-            <p>{poemOfTheDay.display_date}</p>
-            <p>author: {poemOfTheDay.author}</p>
-            <p>name: {poemOfTheDay.name}</p>
+            <p className='text-tiny uppercase font-bold'>
+              {poemOfTheDay.display_date}
+            </p>
+            <small className='text-default-500'>{poemOfTheDay.author}</small>
+            <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
             <br></br>
             <p>
               {poemOfTheDay.content
@@ -72,7 +74,7 @@ export default function Home() {
         <br></br>
 
         <Link href='/account'>
-          <Button color='danger'>Login/Sign Up</Button>
+          <Button color='danger'>Login</Button>
         </Link>
       </div>
     </main>

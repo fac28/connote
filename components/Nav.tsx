@@ -96,7 +96,7 @@ export default function Nav({ session }: { session: Session | null }) {
             </form>
           ) : (
             <Button as={Link} className='btn' href='/account' variant='flat'>
-              Account
+              Login
             </Button>
           )}
         </NavbarItem>
