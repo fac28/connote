@@ -37,7 +37,7 @@ export default function PoemCard({
 
   const handleCheckboxChange = async () => {
     const newCheckedState = !isChecked;
-    setIsChecked(newCheckedState); // Optimistically update the state
+    setIsChecked(newCheckedState);
 
     try {
       await checkPoem(userId, poemId, newCheckedState, supabase);
