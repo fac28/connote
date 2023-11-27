@@ -2,6 +2,7 @@ import { createServerComponentClient } from '@supabase/auth-helpers-nextjs';
 import { cookies } from 'next/headers';
 import { Database } from '@/types/supabase';
 import AccountForm from './account-form';
+import CheckedPoems from '@/components/CheckedPoems';
 
 export default async function Account() {
   const supabase = createServerComponentClient<Database>({ cookies });
@@ -10,5 +11,10 @@ export default async function Account() {
     data: { session },
   } = await supabase.auth.getSession();
 
-  return <AccountForm session={session} />;
+  return (
+    <>
+      <AccountForm session={session} />;
+      <CheckedPoems />
+    </>
+  );
 }
