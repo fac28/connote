@@ -1,6 +1,5 @@
 'use client';
 
-import { Button, Link } from '@nextui-org/react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -72,10 +71,6 @@ export default function Home() {
           </>
         )}
         <br></br>
-
-        <Link href='/account'>
-          <Button color='danger'>Login</Button>
-        </Link>
       </div>
     </main>
   );
