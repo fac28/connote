@@ -15,7 +15,7 @@ export default function FollowupPrompt({
   inputValue,
 }: FollowupPromptProps) {
   return (
-    <div className='flex flex-wrap max-w-xs'>
+    <div className='flex flex-wrap md:max-w-xs'>
       {prompts.map(
         (prompt, index) =>
           index === selectedPromptNumber && (

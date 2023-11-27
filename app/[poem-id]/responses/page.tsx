@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
+import ResponsePoem from '@/components/ResponsePoem';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -43,35 +44,10 @@ export default function ResponsePage() {
   };
 
   return (
-    <>
-      <h1>This is the responses page!</h1>
-      <br></br>
+    <main className='flex flex-col items-center justify-between p-4'>
+      <ResponsePoem poem={poem} />
 
-      <div className='flex flex-wrap'>
-        {poem.map((poem) => (
-          <span key={poem.id}>
-            <p>id: {poem.id}</p>
-            <p>author: {poem.author}</p>
-            <p>name: {poem.name}</p>
-            <p>
-              {poem.content.split('\n\n').map((stanza, index) => (
-                <React.Fragment key={index}>
-                  {stanza.split('\n').map((line, lineIndex) => (
-                    <React.Fragment key={lineIndex}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>{' '}
-            <br></br>
-          </span>
-        ))}
-      </div>
-
-      <div className='flex flex-wrap'>
+      <div className='flex flex-wrap md:max-w-xs'>
         {prompts.map((prompt, index) => {
           const matchingResponse = responses.find(
             (response) => response.prompt_id === prompt.id
@@ -115,6 +91,6 @@ export default function ResponsePage() {
           {selectedPromptNumber === 2 ? 'Done' : 'Next'}
         </Button>
       </ButtonGroup>
-    </>
+    </main>
   );
 }
