@@ -17,9 +17,7 @@ body {
 }
 
 .logo {
-  font-family: 'Potta One';
-
-  @apply text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
+  @apply potta text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
 }
 
 .ovo {
@@ -28,4 +26,8 @@ body {
 
 .potta {
   font-family: 'Potta One';
+}
+
+.headingPurple {
+  @apply text-center ovo text-4xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
 }
