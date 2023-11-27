@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
+import PromptPoem from '@/components/PromptPoem';
 
 export default function PromptPage() {
   const params = useParams();
@@ -44,11 +45,11 @@ export default function PromptPage() {
     console.log('Submitting answer for prompt', promptInputs);
     // Implement submission logic here
   };
-  // flex flex-wrap justify-center items-stretch
+  //  min-h-screen
 
   return (
-    <div className='p-2'>
-      <div className='flex flex-wrap max-w-xs'>
+    <main className='flex flex-col items-center justify-between p-4'>
+      <div className='flex flex-wrap md:max-w-xs'>
         {prompts.map(
           (prompt, index) =>
             index === selectedPromptNumber && (
@@ -60,29 +61,7 @@ export default function PromptPage() {
         )}
       </div>
 
-      <div className='flex flex-wrap'>
-        {poem.map((poem) => (
-          <span key={poem.id}>
-            <small className='text-default-500'>{poem.author}</small>
-            <h4 className='font-bold text-large'>{poem.name}</h4>
-            <br></br>
-            <p>
-              {poem.content.split('\n\n').map((stanza, index) => (
-                <React.Fragment key={index}>
-                  {stanza.split('\n').map((line, lineIndex) => (
-                    <React.Fragment key={lineIndex}>
-                      {line}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>
-            <br></br>
-          </span>
-        ))}
-      </div>
+      <PromptPoem poem={poem} />
 
       <FollowupPrompt
         prompts={prompts}
@@ -109,6 +88,6 @@ export default function PromptPage() {
           {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
         </Button>
       </ButtonGroup>
-    </div>
+    </main>
   );
 }
