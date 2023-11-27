@@ -45,7 +45,6 @@ export default function PromptPage() {
     console.log('Submitting answer for prompt', promptInputs);
     // Implement submission logic here
   };
-  //  min-h-screen
 
   return (
     <main className='flex flex-col items-center justify-between p-4'>
