@@ -94,18 +94,28 @@ export default function PromptPage() {
   };
 
   return (
-    <main className='flex flex-col items-center justify-between p-4'>
-      <div className='flex flex-wrap md:max-w-xs'>
-        {prompts.map(
-          (prompt, index) =>
-            index === selectedPromptNumber && (
-              <span key={prompt.id}>
-                <p>{prompt.initial_prompt}</p>
-                <br></br>
-              </span>
-            )
-        )}
-      </div>
+
+    <main>
+      {prompts.map((prompt, index) =>
+        index === selectedPromptNumber ? (
+          <h2 key={prompt.id} className='promptPurple w-full'>
+            {prompt.initial_prompt}
+          </h2>
+        ) : null
+      )}
+      <div className='flex flex-col items-center justify-between p-4'>
+        <div className='flex flex-wrap md:max-w-xs'>
+          {prompts.map(
+            (prompt, index) =>
+              index === selectedPromptNumber && (
+                <span key={prompt.id}>
+                  <br></br>
+                </span>
+              )
+          )}
+        </div>
+
+   
 
       <PromptPoem
         poem={poem}
@@ -114,31 +124,34 @@ export default function PromptPage() {
         setHighlightedWordIds={setHighlightedWordIds}
       />
 
-      <FollowupPrompt
-        prompts={prompts}
-        selectedPromptNumber={selectedPromptNumber}
-        onInputChange={(value: string) => {
-          setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
-        }}
-        inputValue={promptInputs[selectedPromptNumber] || ''}
-      />
-
-      <ButtonGroup>
-        <Button
-          disabled={selectedPromptNumber === 0}
-          onClick={handlePrevClick}
-          className={`${
-            selectedPromptNumber === 0
-              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-              : ''
-          }`}
-        >
-          Prev
-        </Button>
-        <Button onClick={handleNextClick}>
-          {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
-        </Button>
-      </ButtonGroup>
+      <div>
+        <FollowupPrompt
+          prompts={prompts}
+          selectedPromptNumber={selectedPromptNumber}
+          onInputChange={(value: string) => {
+            setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
+          }}
+          inputValue={promptInputs[selectedPromptNumber] || ''}
+        />
+        <div className='flex flex-col items-center justify-between pb-12'>
+          <ButtonGroup>
+            <Button
+              disabled={selectedPromptNumber === 0}
+              onClick={handlePrevClick}
+              className={`${
+                selectedPromptNumber === 0
+                  ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+                  : ''
+              }`}
+            >
+              Prev
+            </Button>
+            <Button onClick={handleNextClick}>
+              {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
+            </Button>
+          </ButtonGroup>
+        </div>
+      </div>
     </main>
   );
 }
