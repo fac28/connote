@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -7,10 +7,12 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
+import { PoemsType, PromptsType } from '@/types';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
+import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 
 export default function PromptPage() {
-  const [poem, setPoem] = useState<PoemsType>([]);
-  const [prompts, setPrompts] = useState<PromptsType>([]);
   const [highlightedWordIds, setHighlightedWordIds] = useState<number[]>([]);
 
   const params = useParams();
@@ -52,30 +54,7 @@ export default function PromptPage() {
     }
   }
 
-  useEffect(() => {
-    if (!poemid) return;
-    const fetchData = async () => {
-      const supabase = createClientComponentClient();
-
-      const poemData = await fetchPoemById(poemid, supabase);
-      if (poemData) {
-        setPoem(poemData);
-        const promptIds = [
-          poemData[0].first_prompt_id,
-          poemData[0].second_prompt_id,
-          poemData[0].third_prompt_id,
-        ];
-        const promptData = await fetchPromptsByIds(promptIds, supabase);
-        if (promptData) {
-          setPrompts(promptData);
-        }
-      } else {
-        console.error('Error fetching poem or prompt data');
-      }
-    };
-
   const { poem, prompts } = useFetchPromptPageData(poemid);
-
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -85,7 +64,6 @@ export default function PromptPage() {
   };
 
   let wordCounter = 0;
-
 
   const handlePrevClick = () => {
     if (selectedPromptNumber > 0) {
@@ -121,7 +99,7 @@ export default function PromptPage() {
       </div>
 
       {/* <PromptPoem poem={poem} /> */}
-      
+
       <div className='flex flex-wrap'>
         {poem.map((poem) => (
           <span key={poem.id}>
