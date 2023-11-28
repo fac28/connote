@@ -25,7 +25,6 @@ export default function ProgressNav() {
     const x = `${searchParams}`;
     const indexOfFirstEquals = x.indexOf('=');
     const valueAfterFirstEquals = x.substring(indexOfFirstEquals + 1);
-    console.log(valueAfterFirstEquals);
     setPromptNumber(Number(valueAfterFirstEquals));
   }, [pathname, searchParams]);
 
@@ -46,6 +45,7 @@ export default function ProgressNav() {
           size='sm'
           aria-label='Loading...'
           value={(promptNumber + 1) * 33}
+          color='warning'
         />
       </NavbarContent>
 
