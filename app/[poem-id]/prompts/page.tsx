@@ -110,7 +110,7 @@ export default function PromptPage() {
       promptInputs.every((input) => !input.trim()) &&
       highlightedWordIds.every((ids) => ids.length === 0)
     ) {
-      return false; //Disable if no responses recorded at all.
+      return true; //Disable if no responses recorded at all.
     }
 
     return false; // Enable if all pairs are complete or empty.
