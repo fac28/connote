@@ -64,7 +64,6 @@ export default function AccountForm({ session }: { session: Session | null }) {
     <div className='flex flex-col items-center gap-4 mt-4 pl-12'>
       <div className='bg-white rounded-xl'>
         <Input
-          color='primary'
           size='sm'
           label='Email'
           id='email'

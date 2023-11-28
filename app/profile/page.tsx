@@ -13,9 +13,7 @@ export default async function Account() {
 
   return (
     <>
-      <h1 className='text-center text-4xl tracking-wide ovo bg-connote_pastel_purple bg-opacity-30 my-8 py-3'>
-        Profile
-      </h1>
+      <h1 className='headingPurple font-playfair'>Profile</h1>
       <AccountForm session={session} />;
       <CheckedPoems />
     </>

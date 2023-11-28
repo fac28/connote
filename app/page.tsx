@@ -1,6 +1,5 @@
 'use client';
 
-import { Button, Link } from '@nextui-org/react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -44,38 +43,38 @@ export default function Home() {
   }, [setPoemOfTheDay]);
 
   return (
-    <main className='dark flex min-h-screen flex-col items-center justify-between p-24'>
-      <div>
-        {poemOfTheDay && (
-          <>
-            <p className='text-tiny uppercase font-bold'>
-              {poemOfTheDay.display_date}
-            </p>
-            <small className='text-default-500'>{poemOfTheDay.author}</small>
-            <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
-            <br></br>
-            <p>
-              {poemOfTheDay.content
-                .split('\n\n')
-                .map((stanza: string, index: number) => (
-                  <React.Fragment key={index}>
-                    {stanza.split('\n').map((line, lineIndex) => (
-                      <React.Fragment key={lineIndex}>
-                        {line}
-                        <br />
-                      </React.Fragment>
-                    ))}
-                    <br />
-                  </React.Fragment>
-                ))}
-            </p>
-          </>
-        )}
-        <br></br>
-
-        <Link href='/account'>
-          <Button color='danger'>Login</Button>
-        </Link>
+    <main>
+      {' '}
+      <h1 className='headingPurple'>Poem of the day</h1>
+      <div className='dark flex min-h-screen flex-col items-center justify-between pt-10'>
+        <div>
+          {poemOfTheDay && (
+            <>
+              <p className='text-tiny uppercase font-bold'>
+                {poemOfTheDay.display_date}
+              </p>
+              <small className='text-default-500'>{poemOfTheDay.author}</small>
+              <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
+              <br></br>
+              <p>
+                {poemOfTheDay.content
+                  .split('\n\n')
+                  .map((stanza: string, index: number) => (
+                    <React.Fragment key={index}>
+                      {stanza.split('\n').map((line, lineIndex) => (
+                        <React.Fragment key={lineIndex}>
+                          {line}
+                          <br />
+                        </React.Fragment>
+                      ))}
+                      <br />
+                    </React.Fragment>
+                  ))}
+              </p>
+            </>
+          )}
+          <br></br>
+        </div>
       </div>
     </main>
   );

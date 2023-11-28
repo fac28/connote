@@ -14,6 +14,9 @@ import { Session } from '@supabase/auth-helpers-nextjs';
 import { useTheme as useNextTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
+import { MoonIcon } from './MoonIcon';
+import { SunIcon } from './SunIcon';
+import styles from '../styles/background.module.css';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
 import { Progress } from '@nextui-org/react';
@@ -22,7 +25,7 @@ import ProgressNav from './ProgressNav';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme } = useNextTheme();
+  const { theme, setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
   const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
@@ -30,6 +33,22 @@ export default function Nav({ session }: { session: Session | null }) {
   const searchParams = useSearchParams();
   const [promptNumber, setPromptNumber] = useState(0);
   const promptNumberValue = Number(searchParams.get('prompt'));
+
+  const toggleTheme = (isDarkTheme: any) => {
+    setTheme(isDarkTheme ? 'dark' : 'light');
+    if (isDarkTheme) {
+      document.documentElement.classList.add(styles.backgroundContainerDark);
+      document.documentElement.classList.remove(styles.backgroundContainer);
+    } else {
+      document.documentElement.classList.add(styles.backgroundContainer);
+      document.documentElement.classList.remove(styles.backgroundContainerDark);
+    }
+  };
+
+  useEffect(() => {
+    // Set initial class on load
+    toggleTheme(theme === 'dark');
+  });
 
   useEffect(() => {
     setCurrentPathname(pathname);
@@ -66,8 +85,16 @@ export default function Nav({ session }: { session: Session | null }) {
         <RenderNavLinks currentPathname={currentPathname} />
         <NavbarItem>
           <Switch
+            color='warning'
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+            thumbIcon={({ isSelected, className }) =>
+              isSelected ? (
+                <MoonIcon className={className} />
+              ) : (
+                <SunIcon className={className} />
+              )
+            }
           />
         </NavbarItem>
       </NavbarContent>
@@ -90,8 +117,16 @@ export default function Nav({ session }: { session: Session | null }) {
       {/* Mobile: Switch, Links */}
       <NavbarMenu className='mt-1'>
         <Switch
+          color='warning'
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+          thumbIcon={({ isSelected, className }) =>
+            isSelected ? (
+              <MoonIcon className={className} />
+            ) : (
+              <SunIcon className={className} />
+            )
+          }
         />
         <RenderNavLinks currentPathname={currentPathname} />
       </NavbarMenu>
