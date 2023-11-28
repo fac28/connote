@@ -1,4 +1,4 @@
-import { Ovo, Potta_One, Playfair_Display } from 'next/font/google';
+import { Ovo } from 'next/font/google';
 import './globals.css';
 import Providers from '../components/next/providers';
 import Nav from '../components/Nav';
@@ -11,21 +11,6 @@ import Head from 'next/head';
 export const ovo = Ovo({
   weight: '400',
   subsets: ['latin'],
-  variable: '--font-ovo',
-  display: 'swap',
-});
-
-export const potta = Potta_One({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-potta',
-  display: 'swap',
-});
-
-export const playfair = Playfair_Display({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-play',
   display: 'swap',
 });
 
