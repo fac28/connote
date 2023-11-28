@@ -3,6 +3,7 @@ import { NavbarItem, Link } from '@nextui-org/react';
 
 interface RenderNavLinksProps {
   currentPathname: string;
+  selectedColour: string;
 }
 
 const menuLinks = {
@@ -10,14 +11,17 @@ const menuLinks = {
   'Poem Library': '/poemLibrary',
 } as { [key: string]: string };
 
-const RenderNavLinks: React.FC<RenderNavLinksProps> = ({ currentPathname }) => {
+const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
+  currentPathname,
+  selectedColour,
+}) => {
   return (
     <>
       {Object.keys(menuLinks).map((item, index) => (
         <NavbarItem key={`${item}-${index}`}>
           <div
             className={`w-full ${
-              currentPathname === menuLinks[item] ? 'font-bold' : ''
+              currentPathname === menuLinks[item] ? selectedColour : ''
             }`}
           >
             <Link color='foreground' href={menuLinks[item]} size='lg'>

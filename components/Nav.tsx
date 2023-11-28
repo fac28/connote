@@ -82,7 +82,10 @@ export default function Nav({ session }: { session: Session | null }) {
       {/* Desktop: Logo, Links, Switch */}
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <Logo />
-        <RenderNavLinks currentPathname={currentPathname} />
+        <RenderNavLinks
+          currentPathname={currentPathname}
+          selectedColour='font-bold'
+        />
         <NavbarItem>
           <Switch
             color='warning'
@@ -128,7 +131,10 @@ export default function Nav({ session }: { session: Session | null }) {
             )
           }
         />
-        <RenderNavLinks currentPathname={currentPathname} />
+        <RenderNavLinks
+          currentPathname={currentPathname}
+          selectedColour='red-500'
+        />
       </NavbarMenu>
     </Navbar>
   );
