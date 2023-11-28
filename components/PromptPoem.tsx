@@ -13,7 +13,7 @@ export default function PromptPoem({ poem }: children) {
           <small className='text-default-500'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
           <br></br>
-          <p className='md:overflow-y-scroll md:h-48'>
+          <p className='md:overflow-y-scroll md:h-96'>
             {poem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
