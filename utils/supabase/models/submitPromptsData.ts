@@ -6,26 +6,6 @@ export const submitPromptsData = async (
   supabase: any
 ) => {
   try {
-    // Check if a row already exists with the specified criteria
-    const { data: existingRow, error: selectError } = await supabase
-      .from('responses')
-      .select()
-      .eq('user_id', userId)
-      .eq('poem_id', poemId)
-      .eq('prompt_id', promptId)
-      .single();
-
-    if (selectError) {
-      throw selectError;
-    }
-
-    // If a matching row exists, do not insert a new one
-    if (existingRow) {
-      console.log('Row already exists:', existingRow);
-      return;
-    }
-
-    // Insert a new row if no matching row exists
     const { data, error } = await supabase.from('responses').insert([
       {
         user_id: userId,

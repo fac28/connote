@@ -87,6 +87,8 @@ export default function PromptPage() {
       highlightedWordIds[2],
       createClientComponentClient()
     );
+
+    window.location.href = `/poemLibrary`;
   };
 
   return (
