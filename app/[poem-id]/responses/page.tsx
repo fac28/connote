@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
+import { useRouter } from 'next/navigation';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -13,16 +14,17 @@ export default function ResponsePage() {
   const searchParams = useSearchParams();
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-    promptNumber || 0
+    promptNumber !== undefined ? promptNumber + 1 : 0
   );
+  const router = useRouter();
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', String(number));
-    window.history.pushState({}, '', newUrl);
+    const newQueryParams = new URLSearchParams(window.location.search);
+    newQueryParams.set('prompt', String(number));
+    router.push(`${window.location.pathname}?${newQueryParams.toString()}`);
   };
 
   const handlePrevClick = () => {
@@ -45,34 +47,39 @@ export default function ResponsePage() {
 
   return (
     <main className='flex flex-col items-center justify-between p-4'>
-      <ResponsePoem poem={poem} />
+      <ResponsePoem
+        poem={poem}
+        responses={responses}
+        selectedPromptNumber={selectedPromptNumber}
+      />
 
       <div className='flex flex-wrap md:max-w-xs'>
-        {prompts.map((prompt, index) => {
-          const matchingResponse = responses.find(
-            (response) => response.prompt_id === prompt.id
-          );
-
-          return (
-            index === Number(selectedPromptNumber) && (
+        {prompts.map(
+          (prompt) =>
+            // promptIdToIndexMap[prompt.id] === selectedPromptNumber && (
+            prompt.id === selectedPromptNumber && (
               <span key={prompt.id}>
                 <p>promptid: {prompt.id}</p>
                 <p>initialprompt: {prompt.initial_prompt}</p>
                 <p>followupprompt: {prompt.follow_up_prompt}</p>
                 <p>highlightingformat: {prompt.highlighting_format}</p>
-                <p>
-                  response_selected:{' '}
-                  {matchingResponse ? matchingResponse.response_selected : ''}
-                </p>
-                <p>
-                  response_written:{' '}
-                  {matchingResponse ? matchingResponse.response_written : ''}
-                </p>
-                <br></br>
+                {responses
+                  .filter((response) => response.prompt_id === prompt.id)
+                  .map((response) => (
+                    <React.Fragment key={response.id}>
+                      <p>response_selected: {response.response_selected}</p>
+                      <div>
+                        <h2>Username:{response.user?.username}</h2>
+
+                        <p>Response: {response.response_written}</p>
+                        <div></div>
+                      </div>
+                      <br />
+                    </React.Fragment>
+                  ))}
               </span>
             )
-          );
-        })}
+        )}
       </div>
 
       <ButtonGroup>

@@ -25,8 +25,11 @@ export type ResponsesType =
       id: number;
       poem_id: number;
       prompt_id: number;
-      response_selected: string;
+      response_selected: number[];
       response_written: string;
       user_id: string;
+      user?: {
+        username: string;
+      };
     }>
   | [];
