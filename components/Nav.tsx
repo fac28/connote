@@ -100,6 +100,7 @@ export default function Nav({ session }: { session: Session | null }) {
 
         <NavbarItem>
           <Switch
+            color='warning'
             defaultSelected
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
@@ -133,6 +134,7 @@ export default function Nav({ session }: { session: Session | null }) {
           <NavbarMenuItem key={`${item}-${index}`}>
             {item === 'SwitchTheme' ? (
               <Switch
+                color='warning'
                 defaultSelected
                 size='sm'
                 onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
