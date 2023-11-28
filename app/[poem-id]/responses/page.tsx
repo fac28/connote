@@ -7,18 +7,10 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
 import { useRouter } from 'next/navigation';
-import { ResponsesType, PromptsType } from '@/types';
-
-export type PoemType = {
-  id: number;
-  author: string;
-  name: string;
-  content: string;
-  first_prompt_id: number;
-  second_prompt_id: number;
-  third_prompt_id: number;
-  display_date: string;
-};
+import {
+  updatePrompts012,
+  updateResponses012,
+} from '@/utils/supabase/models/mappingReponseDataTo012';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -31,31 +23,6 @@ export default function ResponsePage() {
   const router = useRouter();
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
-
-  function updateResponses012(poem: PoemType, responses: ResponsesType) {
-    return responses.map((response) => {
-      let updatedResponse = { ...response };
-
-      if (response.prompt_id === poem.first_prompt_id) {
-        updatedResponse.prompt_id = 0;
-      } else if (response.prompt_id === poem.second_prompt_id) {
-        updatedResponse.prompt_id = 1;
-      } else if (response.prompt_id === poem.third_prompt_id) {
-        updatedResponse.prompt_id = 2;
-      }
-
-      return updatedResponse;
-    });
-  }
-
-  function updatePrompts012(prompts: PromptsType) {
-    return prompts.map((prompt, index) => {
-      return {
-        ...prompt,
-        id: index, // Sets the id to the current index (0, 1, or 2)
-      };
-    });
-  }
 
   const updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
