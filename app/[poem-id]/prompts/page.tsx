@@ -105,6 +105,14 @@ export default function PromptPage() {
         return true; // Disable if any pair is incomplete.
       }
     }
+
+    if (
+      promptInputs.every((input) => !input.trim()) &&
+      highlightedWordIds.every((ids) => ids.length === 0)
+    ) {
+      return false; //Disable if no responses recorded at all.
+    }
+
     return false; // Enable if all pairs are complete or empty.
   };
 
