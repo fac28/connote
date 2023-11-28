@@ -11,7 +11,6 @@ import Head from 'next/head';
 export const ovo = Ovo({
   weight: '400',
   subsets: ['latin'],
-  display: 'swap',
 });
 
 export const metadata: Metadata = {
