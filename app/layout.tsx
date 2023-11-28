@@ -8,26 +8,26 @@ import { Database } from '@/types/supabase';
 import { Metadata } from 'next';
 import Head from 'next/head';
 
-export const ovo = Ovo({
+const ovo = Ovo({
   weight: '400',
   subsets: ['latin'],
   variable: '--font-ovo',
   display: 'swap',
 });
 
-export const potta = Potta_One({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-potta',
-  display: 'swap',
-});
+// export const potta = Potta_One({
+//   weight: '400',
+//   subsets: ['latin'],
+//   variable: '--font-potta',
+//   display: 'swap',
+// });
 
-export const playfair = Playfair_Display({
-  weight: '400',
-  subsets: ['latin'],
-  variable: '--font-play',
-  display: 'swap',
-});
+// export const playfair = Playfair_Display({
+//   weight: '400',
+//   subsets: ['latin'],
+//   variable: '--font-play',
+//   display: 'swap',
+// });
 
 export const metadata: Metadata = {
   title: 'Connote',
