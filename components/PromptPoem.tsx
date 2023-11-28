@@ -5,18 +5,16 @@ import { useState } from 'react';
 type PromptPoemProps = {
   poem: PoemsType;
   selectedPromptNumber: number;
+  highlightedWordIds: number[][];
+  setHighlightedWordIds: (newHighlightedWordIds: number[][]) => void;
 };
 
 export default function PromptPoem({
   poem,
   selectedPromptNumber,
+  highlightedWordIds,
+  setHighlightedWordIds,
 }: PromptPoemProps) {
-  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
-    [],
-    [],
-    [],
-  ]);
-
   function oneWordIdStoringFucnction(
     event: React.MouseEvent<HTMLSpanElement>,
     word: string

@@ -17,6 +17,11 @@ export default function PromptPage() {
     promptNumber || 0
   );
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
+  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
+    [],
+    [],
+    [],
+  ]);
 
   const { poem, prompts } = useFetchPromptPageData(poemid);
 
@@ -43,6 +48,7 @@ export default function PromptPage() {
 
   const handleSubmit = () => {
     console.log('Submitting answer for prompt', promptInputs);
+    console.log('Highlighted Word IDs:', highlightedWordIds);
     // Implement submission logic here
   };
 
@@ -60,7 +66,12 @@ export default function PromptPage() {
         )}
       </div>
 
-      <PromptPoem poem={poem} selectedPromptNumber={selectedPromptNumber} />
+      <PromptPoem
+        poem={poem}
+        selectedPromptNumber={selectedPromptNumber}
+        highlightedWordIds={highlightedWordIds}
+        setHighlightedWordIds={setHighlightedWordIds}
+      />
 
       <FollowupPrompt
         prompts={prompts}
