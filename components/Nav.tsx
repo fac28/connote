@@ -16,6 +16,9 @@ import { Session } from '@supabase/auth-helpers-nextjs';
 import { useTheme as useNextTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
+import { MoonIcon } from './MoonIcon';
+import { SunIcon } from './SunIcon';
+import styles from '../styles/background.module.css';
 
 const menuLinks = {
   Profile: '/profile',
@@ -24,9 +27,25 @@ const menuLinks = {
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme } = useNextTheme();
+  const { theme, setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
+
+  const toggleTheme = (isDarkTheme: any) => {
+    setTheme(isDarkTheme ? 'dark' : 'light');
+    if (isDarkTheme) {
+      document.documentElement.classList.add(styles.backgroundContainerDark);
+      document.documentElement.classList.remove(styles.backgroundContainer);
+    } else {
+      document.documentElement.classList.add(styles.backgroundContainer);
+      document.documentElement.classList.remove(styles.backgroundContainerDark);
+    }
+  };
+
+  useEffect(() => {
+    // Set initial class on load
+    toggleTheme(theme === 'dark');
+  });
 
   useEffect(() => {
     setCurrentPathname(pathname);
@@ -81,9 +100,17 @@ export default function Nav({ session }: { session: Session | null }) {
 
         <NavbarItem>
           <Switch
+            color='warning'
             defaultSelected
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+            thumbIcon={({ isSelected, className }) =>
+              isSelected ? (
+                <MoonIcon className={className} />
+              ) : (
+                <SunIcon className={className} />
+              )
+            }
           />
         </NavbarItem>
       </NavbarContent>
@@ -107,9 +134,17 @@ export default function Nav({ session }: { session: Session | null }) {
           <NavbarMenuItem key={`${item}-${index}`}>
             {item === 'SwitchTheme' ? (
               <Switch
+                color='warning'
                 defaultSelected
                 size='sm'
                 onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+                thumbIcon={({ isSelected, className }) =>
+                  isSelected ? (
+                    <MoonIcon className={className} />
+                  ) : (
+                    <SunIcon className={className} />
+                  )
+                }
               />
             ) : (
               <Link

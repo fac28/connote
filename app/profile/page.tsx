@@ -13,6 +13,7 @@ export default async function Account() {
 
   return (
     <>
+      <h1 className='headingPurple font-playfair'>Profile</h1>
       <AccountForm session={session} />;
       <CheckedPoems />
     </>

@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardBody, Image, Checkbox } from '@nextui-org/react';
-import { Bookmark } from './Bookmark';
+import { Bookmark, Bookmark1 } from './Bookmark';
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import React, { useState, useEffect } from 'react';
 import { fetchCheckedState } from '@/utils/supabase/models/fetchCheckedState';
@@ -55,7 +55,7 @@ export default function PoemCard({
           <Checkbox
             radius='full'
             isSelected={!isChecked}
-            icon={Bookmark}
+            icon={isChecked ? Bookmark : Bookmark1}
             color='default'
             className='ml-28'
             onChange={handleCheckboxChange}
