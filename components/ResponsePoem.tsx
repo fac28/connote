@@ -1,33 +1,59 @@
 import React from 'react';
-import { PoemsType } from '@/types';
+import { PoemsType, ResponsesType } from '@/types';
 
-type children = {
+type ResponsePoemProps = {
   poem: PoemsType;
+  responses: ResponsesType;
+  selectedPromptNumber: number;
 };
 
-export default function ResponsePoem({ poem }: children) {
+export default function ResponsePoem({
+  poem,
+  responses,
+  selectedPromptNumber,
+}: ResponsePoemProps) {
+  let wordCounter = 0;
   return (
     <div className='flex flex-wrap'>
-      {poem.map((poem) => (
-        <span key={poem.id}>
-          <p>id: {poem.id}</p>
-          <small className='text-default-500'>{poem.author}</small>
-          <h4 className='font-bold text-large'>{poem.name}</h4>
-          <br></br>
-          <p className='poemScrollOverflow'>
-            {poem.content.split('\n\n').map((stanza, index) => (
+      {poem.map((poemItem) => (
+        <span key={poemItem.id}>
+          <p>id: {poemItem.id}</p>
+          <p>author: {poemItem.author}</p>
+          <p>name: {poemItem.name}</p>
+          <br />
+          <p>
+            {poemItem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
                   <React.Fragment key={lineIndex}>
-                    {line}
+                    {line.split(' ').map((word, wordIndex) => {
+                      const currentWordIndex = wordCounter++;
+                      const isSelected = responses.some(
+                        (response) =>
+                          response.response_selected.includes(
+                            currentWordIndex
+                          ) && response.prompt_id === selectedPromptNumber
+                      );
+
+                      return (
+                        <React.Fragment key={currentWordIndex}>
+                          <span
+                            id={String(currentWordIndex)}
+                            className={isSelected ? 'bg-connote_orange' : ''}
+                          >
+                            {word}
+                          </span>{' '}
+                        </React.Fragment>
+                      );
+                    })}
                     <br />
                   </React.Fragment>
                 ))}
                 <br />
               </React.Fragment>
             ))}
-          </p>{' '}
-          <br></br>
+          </p>
+          <br />
         </span>
       ))}
     </div>
