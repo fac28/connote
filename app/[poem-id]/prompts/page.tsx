@@ -106,10 +106,7 @@ export default function PromptPage() {
       }
     }
 
-    if (
-      promptInputs.every((input) => !input.trim()) &&
-      highlightedWordIds.every((ids) => ids.length === 0)
-    ) {
+    if (highlightedWordIds.every((ids) => ids.length === 0)) {
       return true; //Disable if no responses recorded at all.
     }
 
