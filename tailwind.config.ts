@@ -23,6 +23,7 @@ const config: Config = {
         connote_pastel_yellow: '#ECBC0F',
         connote_pastel_purple: '#783697',
         connote_white: '#F9FEFE',
+        connote_dark: '#242230',
       },
     },
     container: {
