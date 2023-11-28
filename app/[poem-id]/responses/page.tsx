@@ -11,11 +11,13 @@ import {
   updatePrompts012,
   updateResponses012,
 } from '@/utils/supabase/models/mappingReponseDataTo012';
+import HeartIcon from '@/components/HeartIcon';
 
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
   const searchParams = useSearchParams();
+  const [likes, setLikes] = useState<{ [key: number]: number }>({});
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber !== undefined ? promptNumber + 1 : 0
@@ -52,6 +54,12 @@ export default function ResponsePage() {
     console.log('handle redirecting after you`ve looked through comments');
   };
 
+  const handleLikeClick = (responseId: number) => {
+    setLikes((prevLikes) => ({
+      ...prevLikes,
+      [responseId]: (prevLikes[responseId] || 0) + 1,
+    }));
+  };
   return (
     <main className='flex flex-col items-center justify-between p-4'>
       <ResponsePoem
@@ -65,21 +73,33 @@ export default function ResponsePage() {
           (prompt) =>
             prompt.id === selectedPromptNumber && (
               <span key={prompt.id}>
-                <p>promptid: {prompt.id}</p>
-                <p>initialprompt: {prompt.initial_prompt}</p>
-                <p>followupprompt: {prompt.follow_up_prompt}</p>
-                <p>highlightingformat: {prompt.highlighting_format}</p>
-                <br></br>
                 {updatedResponses
                   .filter((response) => response.prompt_id === prompt.id)
                   .map((response) => (
                     <React.Fragment key={response.id}>
-                      <p>response_selected: {response.response_selected}</p>
-                      <div>
-                        <h2>Username:{response.user?.username}</h2>
+                      <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
+                        <div className='flex flex-col'>
+                          <h2 className='text-connote_orange text-lg '>
+                            @{response.user?.username}
+                          </h2>
 
-                        <p>Response: {response.response_written}</p>
-                        <div></div>
+                          <p className='italic text-connote_dark pr-3'>
+                            {response.response_written}
+                          </p>
+                        </div>
+                        <div className='flex items-center flex-col'>
+                          <Button
+                            isIconOnly
+                            color='danger'
+                            aria-label='Like'
+                            onClick={() => handleLikeClick(response.id)}
+                          >
+                            <HeartIcon />
+                          </Button>
+                          <span className='text-secondary'>
+                            {likes[response.id] || 0}
+                          </span>
+                        </div>
                       </div>
                       <br />
                     </React.Fragment>
