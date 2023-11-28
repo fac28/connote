@@ -1,11 +1,13 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client';
 
 import React, { useEffect } from 'react';
 
 export default function PracticePage() {
   const handleSelection = () => {
-    const selectedText = window.getSelection().toString().trim();
-    if (selectedText !== '') {
+    const selection = window.getSelection();
+    if (selection && selection.toString().trim() !== '') {
+      const selectedText = selection.toString().trim();
       console.log(`Clicked on: ${selectedText}`);
       // You can perform any other actions with the selected text here
     }
