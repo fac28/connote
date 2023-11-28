@@ -7,6 +7,18 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
 import { useRouter } from 'next/navigation';
+import { ResponsesType } from '@/types';
+
+export type PoemType = {
+  id: number;
+  author: string;
+  name: string;
+  content: string;
+  first_prompt_id: number;
+  second_prompt_id: number;
+  third_prompt_id: number;
+  display_date: string;
+};
 
 export default function ResponsePage() {
   const params = useParams();
@@ -20,6 +32,23 @@ export default function ResponsePage() {
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
+  function updateResponsePrompts(poem: PoemType, responses: ResponsesType) {
+    return responses.map((response) => {
+      let updatedResponse = { ...response };
+
+      if (response.prompt_id === poem.first_prompt_id) {
+        updatedResponse.prompt_id = 0;
+      } else if (response.prompt_id === poem.second_prompt_id) {
+        updatedResponse.prompt_id = 1;
+      } else if (response.prompt_id === poem.third_prompt_id) {
+        updatedResponse.prompt_id = 2;
+      }
+
+      return updatedResponse;
+    });
+  }
+  const updatedResponses = updateResponsePrompts(poem[0], responses);
+  console.log(updatedResponses);
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);
@@ -49,7 +78,7 @@ export default function ResponsePage() {
     <main className='flex flex-col items-center justify-between p-4'>
       <ResponsePoem
         poem={poem}
-        responses={responses}
+        responses={updatedResponses}
         selectedPromptNumber={selectedPromptNumber}
       />
 
@@ -63,7 +92,8 @@ export default function ResponsePage() {
                 <p>initialprompt: {prompt.initial_prompt}</p>
                 <p>followupprompt: {prompt.follow_up_prompt}</p>
                 <p>highlightingformat: {prompt.highlighting_format}</p>
-                {responses
+                <br></br>
+                {updatedResponses
                   .filter((response) => response.prompt_id === prompt.id)
                   .map((response) => (
                     <React.Fragment key={response.id}>
