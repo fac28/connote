@@ -9,7 +9,6 @@ import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData'
 import PromptPoem from '@/components/PromptPoem';
 import { useRouter } from 'next/navigation';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
-import { supabase } from '@supabase/auth-ui-shared';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function PromptPage() {
@@ -20,7 +19,7 @@ export default function PromptPage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber || 0
   );
-  const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
+  const [promptInputs, setPromptInputs] = useState<string[]>([]);
   const router = useRouter();
   const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
     [],
@@ -73,6 +72,7 @@ export default function PromptPage() {
       poemid,
       prompts[0].id,
       highlightedWordIds[0],
+      promptInputs[0],
       createClientComponentClient()
     );
     submitPromptsData(
@@ -80,6 +80,7 @@ export default function PromptPage() {
       poemid,
       prompts[1].id,
       highlightedWordIds[1],
+      promptInputs[1],
       createClientComponentClient()
     );
     submitPromptsData(
@@ -87,6 +88,7 @@ export default function PromptPage() {
       poemid,
       prompts[2].id,
       highlightedWordIds[2],
+      promptInputs[2],
       createClientComponentClient()
     );
 
@@ -118,7 +120,11 @@ export default function PromptPage() {
         prompts={prompts}
         selectedPromptNumber={selectedPromptNumber}
         onInputChange={(value: string) => {
-          setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
+          setPromptInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            newInputs[selectedPromptNumber] = value;
+            return newInputs;
+          });
         }}
         inputValue={promptInputs[selectedPromptNumber] || ''}
       />
