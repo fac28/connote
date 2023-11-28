@@ -9,7 +9,6 @@ import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData'
 import PromptPoem from '@/components/PromptPoem';
 import { useRouter } from 'next/navigation';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
-import { supabase } from '@supabase/auth-ui-shared';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function PromptPage() {
@@ -20,7 +19,7 @@ export default function PromptPage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber || 0
   );
-  const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
+  const [promptInputs, setPromptInputs] = useState<string[]>([]);
   const router = useRouter();
   const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
     [],
@@ -73,6 +72,7 @@ export default function PromptPage() {
       poemid,
       prompts[0].id,
       highlightedWordIds[0],
+      promptInputs[0],
       createClientComponentClient()
     );
     submitPromptsData(
@@ -80,6 +80,7 @@ export default function PromptPage() {
       poemid,
       prompts[1].id,
       highlightedWordIds[1],
+      promptInputs[1],
       createClientComponentClient()
     );
     submitPromptsData(
@@ -87,10 +88,29 @@ export default function PromptPage() {
       poemid,
       prompts[2].id,
       highlightedWordIds[2],
+      promptInputs[2],
       createClientComponentClient()
     );
 
     window.location.href = `/poemLibrary`;
+  };
+
+  const isSubmitDisabled = () => {
+    for (let i = 0; i < prompts.length; i++) {
+      if (
+        (highlightedWordIds[i].length === 0 && promptInputs[i]) ||
+        ((!promptInputs[i] || !promptInputs[i].trim()) &&
+          highlightedWordIds[i].length > 0)
+      ) {
+        return true; // Disable if any pair is incomplete.
+      }
+    }
+
+    if (highlightedWordIds.every((ids) => ids.length === 0)) {
+      return true; //Disable if no responses recorded at all.
+    }
+
+    return false; // Enable if all pairs are complete or empty.
   };
 
   return (
@@ -113,8 +133,8 @@ export default function PromptPage() {
               )
           )}
         </div>
-
-        <PromptPoem
+        
+          <PromptPoem
           poem={poem}
           selectedPromptNumber={selectedPromptNumber}
           highlightedWordIds={highlightedWordIds}
@@ -122,34 +142,44 @@ export default function PromptPage() {
         />
       </div>
 
-      <div>
-        <FollowupPrompt
-          prompts={prompts}
-          selectedPromptNumber={selectedPromptNumber}
-          onInputChange={(value: string) => {
-            setPromptInputs({ ...promptInputs, [selectedPromptNumber]: value });
-          }}
-          inputValue={promptInputs[selectedPromptNumber] || ''}
-        />
-        <div className='flex flex-col items-center justify-between pb-12'>
-          <ButtonGroup>
-            <Button
-              disabled={selectedPromptNumber === 0}
-              onClick={handlePrevClick}
-              className={`${
-                selectedPromptNumber === 0
-                  ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-                  : ''
-              }`}
-            >
-              Prev
-            </Button>
-            <Button onClick={handleNextClick}>
-              {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
-            </Button>
-          </ButtonGroup>
-        </div>
-      </div>
+      <FollowupPrompt
+        prompts={prompts}
+        selectedPromptNumber={selectedPromptNumber}
+        onInputChange={(value: string) => {
+          setPromptInputs((prevInputs) => {
+            const newInputs = [...prevInputs];
+            newInputs[selectedPromptNumber] = value;
+            return newInputs;
+          });
+        }}
+        inputValue={promptInputs[selectedPromptNumber] || ''}
+      />
+
+      <ButtonGroup>
+        <Button
+          disabled={selectedPromptNumber === 0}
+          onClick={handlePrevClick}
+          className={`${
+            selectedPromptNumber === 0
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+        >
+          Prev
+        </Button>
+        <Button
+          disabled={selectedPromptNumber === 2 && isSubmitDisabled()}
+          className={`${
+            selectedPromptNumber === 2 && isSubmitDisabled()
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+          onClick={handleNextClick}
+        >
+          {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
+        </Button>
+      </ButtonGroup>
+
     </main>
   );
 }

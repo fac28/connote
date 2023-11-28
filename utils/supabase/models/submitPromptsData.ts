@@ -3,6 +3,7 @@ export const submitPromptsData = async (
   poemId: any,
   promptId: any,
   response_selected: any,
+  response_written: any,
   supabase: any
 ) => {
   try {
@@ -12,6 +13,7 @@ export const submitPromptsData = async (
         poem_id: poemId,
         prompt_id: promptId,
         response_selected: response_selected,
+        response_written: response_written,
       },
     ]);
 
