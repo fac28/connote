@@ -8,6 +8,9 @@ import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
 import { useRouter } from 'next/navigation';
+import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
+import { supabase } from '@supabase/auth-ui-shared';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 export default function PromptPage() {
   const params = useParams();
@@ -19,8 +22,26 @@ export default function PromptPage() {
   );
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
   const router = useRouter();
+  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
+    [],
+    [],
+    [],
+  ]);
+  const [userId, setUserId] = useState<string | null>(null);
 
   const { poem, prompts } = useFetchPromptPageData(poemid);
+
+  useEffect(() => {
+    const fetchUserId = async () => {
+      const supabase = createClientComponentClient();
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData?.session?.user?.id) {
+        setUserId(sessionData.session.user.id);
+      }
+    };
+    fetchUserId();
+    console.log('UserID', userId);
+  });
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -45,7 +66,31 @@ export default function PromptPage() {
 
   const handleSubmit = () => {
     console.log('Submitting answer for prompt', promptInputs);
+    console.log('Highlighted Word IDs:', highlightedWordIds);
     // Implement submission logic here
+    submitPromptsData(
+      userId,
+      poemid,
+      prompts[0].id,
+      highlightedWordIds[0],
+      createClientComponentClient()
+    );
+    submitPromptsData(
+      userId,
+      poemid,
+      prompts[1].id,
+      highlightedWordIds[1],
+      createClientComponentClient()
+    );
+    submitPromptsData(
+      userId,
+      poemid,
+      prompts[2].id,
+      highlightedWordIds[2],
+      createClientComponentClient()
+    );
+
+    window.location.href = `/poemLibrary`;
   };
 
   return (
@@ -62,7 +107,12 @@ export default function PromptPage() {
         )}
       </div>
 
-      <PromptPoem poem={poem} />
+      <PromptPoem
+        poem={poem}
+        selectedPromptNumber={selectedPromptNumber}
+        highlightedWordIds={highlightedWordIds}
+        setHighlightedWordIds={setHighlightedWordIds}
+      />
 
       <FollowupPrompt
         prompts={prompts}
