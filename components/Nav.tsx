@@ -17,6 +17,7 @@ import { usePathname } from 'next/navigation';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
 import { Progress } from '@nextui-org/react';
+import { useSearchParams } from 'next/navigation';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -24,10 +25,16 @@ export default function Nav({ session }: { session: Session | null }) {
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
   const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const searchParams = useSearchParams();
+  const [promptNumber, setPromptNumber] = useState(0);
+  const promptNumberValue = Number(searchParams.get('prompt'));
 
   useEffect(() => {
     setCurrentPathname(pathname);
-    // if current pathname is of the form /number/prompts or /number/prompts then let isPromptOrResponsePage be true. otherwise false
+
+    const promptOrResponseRegex = /^\/\d+\/(prompts|responses)/;
+    setIsPromptOrResponsePage(promptOrResponseRegex.test(pathname));
   }, [pathname]);
 
   return isPromptOrResponsePage ? (
@@ -43,7 +50,7 @@ export default function Nav({ session }: { session: Session | null }) {
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         />
-        <Progress size='sm' aria-label='Loading...' value={33} />
+        <Progress size='sm' aria-label='Loading...' value={progress} />
       </NavbarContent>
 
       {/* Navlinks */}
