@@ -7,7 +7,7 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
 import { useRouter } from 'next/navigation';
-import { ResponsesType } from '@/types';
+import { ResponsesType, PromptsType } from '@/types';
 
 export type PoemType = {
   id: number;
@@ -32,7 +32,7 @@ export default function ResponsePage() {
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
-  function updateResponsePrompts(poem: PoemType, responses: ResponsesType) {
+  function updateResponses012(poem: PoemType, responses: ResponsesType) {
     return responses.map((response) => {
       let updatedResponse = { ...response };
 
@@ -47,8 +47,19 @@ export default function ResponsePage() {
       return updatedResponse;
     });
   }
-  const updatedResponses = updateResponsePrompts(poem[0], responses);
-  console.log(updatedResponses);
+
+  function updatePrompts012(prompts: PromptsType) {
+    return prompts.map((prompt, index) => {
+      return {
+        ...prompt,
+        id: index, // Sets the id to the current index (0, 1, or 2)
+      };
+    });
+  }
+
+  const updatedResponses = updateResponses012(poem[0], responses);
+  const updatedPrompts = updatePrompts012(prompts);
+
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);
@@ -83,9 +94,8 @@ export default function ResponsePage() {
       />
 
       <div className='flex flex-wrap md:max-w-xs'>
-        {prompts.map(
+        {updatedPrompts.map(
           (prompt) =>
-            // promptIdToIndexMap[prompt.id] === selectedPromptNumber && (
             prompt.id === selectedPromptNumber && (
               <span key={prompt.id}>
                 <p>promptid: {prompt.id}</p>
