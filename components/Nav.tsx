@@ -29,10 +29,6 @@ export default function Nav({ session }: { session: Session | null }) {
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
   const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const searchParams = useSearchParams();
-  const [promptNumber, setPromptNumber] = useState(0);
-  const promptNumberValue = Number(searchParams.get('prompt'));
 
   const toggleTheme = (isDarkTheme: any) => {
     setTheme(isDarkTheme ? 'dark' : 'light');
