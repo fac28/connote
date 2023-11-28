@@ -4,12 +4,11 @@ import { useState } from 'react';
 
 type PromptPoemProps = {
   poem: PoemsType;
-  prompts: PromptsType[];
   selectedPromptNumber: number;
-  onHighlightChange: (
-    promptNumber: number,
-    highlightedWordIds: number[]
-  ) => void;
+  // onHighlightChange: (
+  //   promptNumber: number,
+  //   highlightedWordIds: number[]
+  // ) => void;
 };
 
 export default function PromptPoem({
@@ -22,7 +21,7 @@ export default function PromptPoem({
     [],
   ]);
 
-  function oneWordHighlightingFunction(
+  function oneWordIdStoringFucnction(
     event: React.MouseEvent<HTMLSpanElement>,
     word: string
   ) {
@@ -65,6 +64,26 @@ export default function PromptPoem({
     console.log('Highlighted Word IDs:', highlightedWordIds);
   }, [highlightedWordIds]);
 
+  function highlightWords() {
+    // Remove styling from all spans
+    document.querySelectorAll('span').forEach((span) => {
+      span.classList.remove('bg-black', 'text-white');
+    });
+
+    // Apply styling to spans with corresponding IDs in the highlightedWordIds array
+    highlightedWordIds[selectedPromptNumber]?.forEach((wordId) => {
+      const span = document.getElementById(String(wordId));
+      if (span) {
+        span.classList.add('bg-black', 'text-white');
+      }
+    });
+  }
+
+  useEffect(() => {
+    console.log('Change');
+    highlightWords();
+  }, [selectedPromptNumber]);
+
   let wordCounter = 0;
 
   return (
@@ -85,7 +104,7 @@ export default function PromptPoem({
                         <span
                           id={String(wordCounter)}
                           onClick={(event) =>
-                            oneWordHighlightingFunction(event, word)
+                            oneWordIdStoringFucnction(event, word)
                           }
                         >
                           {word}
