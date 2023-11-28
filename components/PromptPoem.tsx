@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { PoemsType, PromptsType } from '@/types';
-import { useState } from 'react';
+import { PoemsType } from '@/types';
 
 type PromptPoemProps = {
   poem: PoemsType;
