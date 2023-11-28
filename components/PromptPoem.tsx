@@ -1,15 +1,20 @@
 import React, { useEffect } from 'react';
 import { PoemsType } from '@/types';
-import { useState } from 'react';
 
-type children = {
+type PromptPoemProps = {
   poem: PoemsType;
+  selectedPromptNumber: number;
+  highlightedWordIds: number[][];
+  setHighlightedWordIds: (newHighlightedWordIds: number[][]) => void;
 };
 
-export default function PromptPoem({ poem }: children) {
-  const [highlightedWordIds, setHighlightedWordIds] = useState<number[]>([]);
-
-  function oneWordHighlightingFunction(
+export default function PromptPoem({
+  poem,
+  selectedPromptNumber,
+  highlightedWordIds,
+  setHighlightedWordIds,
+}: PromptPoemProps) {
+  function oneWordIdStoringFucnction(
     event: React.MouseEvent<HTMLSpanElement>,
     word: string
   ) {
@@ -18,15 +23,28 @@ export default function PromptPoem({ poem }: children) {
       const clickedSpan = event.target as HTMLSpanElement;
       const spanId = parseInt(clickedSpan.id);
 
-      const isHighlighted = highlightedWordIds.includes(spanId);
+      // Create a copy of the current state to avoid modifying it directly
+      const newHighlightedWordIds = [...highlightedWordIds];
+
+      // Get the array for the current prompt
+      const currentPromptHighlightedWords =
+        newHighlightedWordIds[selectedPromptNumber];
+
+      const isHighlighted = currentPromptHighlightedWords.includes(spanId);
 
       if (isHighlighted) {
-        setHighlightedWordIds((prevIds) =>
-          prevIds.filter((id) => id !== spanId)
-        );
+        // Remove the word ID from the array if already highlighted
+        newHighlightedWordIds[selectedPromptNumber] =
+          currentPromptHighlightedWords.filter((id) => id !== spanId);
       } else {
-        setHighlightedWordIds((prevIds) => [...prevIds, spanId]);
+        // Add the word ID to the array if not highlighted
+        newHighlightedWordIds[selectedPromptNumber] = [
+          ...currentPromptHighlightedWords,
+          spanId,
+        ];
       }
+
+      setHighlightedWordIds(newHighlightedWordIds);
 
       console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
 
@@ -38,6 +56,27 @@ export default function PromptPoem({ poem }: children) {
   useEffect(() => {
     console.log('Highlighted Word IDs:', highlightedWordIds);
   }, [highlightedWordIds]);
+
+  function highlightWords() {
+    // Remove styling from all spans
+    document.querySelectorAll('span').forEach((span) => {
+      span.classList.remove('bg-black', 'text-white');
+    });
+
+    // Apply styling to spans with corresponding IDs in the highlightedWordIds array
+    highlightedWordIds[selectedPromptNumber]?.forEach((wordId) => {
+      const span = document.getElementById(String(wordId));
+      if (span) {
+        span.classList.add('bg-black', 'text-white');
+      }
+    });
+  }
+
+  useEffect(() => {
+    console.log('Change');
+    highlightWords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedPromptNumber]);
 
   let wordCounter = 0;
 
@@ -59,7 +98,7 @@ export default function PromptPoem({ poem }: children) {
                         <span
                           id={String(wordCounter)}
                           onClick={(event) =>
-                            oneWordHighlightingFunction(event, word)
+                            oneWordIdStoringFucnction(event, word)
                           }
                         >
                           {word}
