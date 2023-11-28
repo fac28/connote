@@ -95,6 +95,19 @@ export default function PromptPage() {
     window.location.href = `/poemLibrary`;
   };
 
+  const isSubmitDisabled = () => {
+    for (let i = 0; i < prompts.length; i++) {
+      if (
+        (highlightedWordIds[i].length === 0 && promptInputs[i]) ||
+        ((!promptInputs[i] || !promptInputs[i].trim()) &&
+          highlightedWordIds[i].length > 0)
+      ) {
+        return true; // Disable if any pair is incomplete.
+      }
+    }
+    return false; // Enable if all pairs are complete or empty.
+  };
+
   return (
     <main className='flex flex-col items-center justify-between p-4'>
       <div className='flex flex-wrap md:max-w-xs'>
@@ -141,7 +154,15 @@ export default function PromptPage() {
         >
           Prev
         </Button>
-        <Button onClick={handleNextClick}>
+        <Button
+          disabled={selectedPromptNumber === 2 && isSubmitDisabled()}
+          className={`${
+            selectedPromptNumber === 2 && isSubmitDisabled()
+              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+              : ''
+          }`}
+          onClick={handleNextClick}
+        >
           {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
         </Button>
       </ButtonGroup>
