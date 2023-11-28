@@ -16,7 +16,6 @@ import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
-import { useSearchParams } from 'next/navigation';
 import { Progress } from '@nextui-org/react';
 
 export default function Nav({ session }: { session: Session | null }) {
@@ -24,22 +23,38 @@ export default function Nav({ session }: { session: Session | null }) {
   const { setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
-  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(true);
-
-  // if (isPromptOrResponsePage) {
-  //   const searchParams = useSearchParams();
-  //   const promptNumber = Number(searchParams.get('prompt'));
-  //   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-  //     promptNumber || 0
-  //   );
-  // }
+  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
 
   useEffect(() => {
     setCurrentPathname(pathname);
+    // if current pathname is of the form /number/prompts or /number/prompts then let isPromptOrResponsePage be true. otherwise false
   }, [pathname]);
 
   return isPromptOrResponsePage ? (
-    <Progress size='sm' aria-label='Loading...' value={33} />
+    <Navbar
+      className={'blue'}
+      isBordered
+      isMenuOpen={isMenuOpen}
+      onMenuOpenChange={setIsMenuOpen}
+      style={{ maxWidth: '100vw' }}
+    >
+      {/* Hamburger, Progressbar */}
+      <NavbarContent className='pr-3' justify='start'>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+        />
+        <Progress size='sm' aria-label='Loading...' value={33} />
+      </NavbarContent>
+
+      {/* Navlinks */}
+      <NavbarMenu className='mt-1'>
+        <Switch
+          size='sm'
+          onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+        />
+        <RenderNavLinks currentPathname={currentPathname} />
+      </NavbarMenu>
+    </Navbar>
   ) : (
     <Navbar
       className={'blue'}
@@ -48,21 +63,22 @@ export default function Nav({ session }: { session: Session | null }) {
       onMenuOpenChange={setIsMenuOpen}
       style={{ maxWidth: '100vw' }}
     >
+      {/* Mobile: Hamburger */}
       <NavbarContent className='sm:hidden pr-3' justify='start'>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         />
       </NavbarContent>
 
+      {/* Mobile: Logo */}
       <NavbarContent className='sm:hidden' justify='center'>
         <Logo />
       </NavbarContent>
 
+      {/* Desktop: Logo, Links, Switch */}
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
         <Logo />
-
         <RenderNavLinks currentPathname={currentPathname} />
-
         <NavbarItem>
           <Switch
             size='sm'
@@ -71,6 +87,7 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
+      {/* Both: Signout button */}
       <NavbarContent justify='end'>
         <NavbarItem>
           {session ? (
@@ -85,6 +102,7 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
+      {/* Mobile: Switch, Links */}
       <NavbarMenu className='mt-1'>
         <Switch
           size='sm'
