@@ -84,7 +84,8 @@ export default function Nav({ session }: { session: Session | null }) {
         <Logo />
         <RenderNavLinks
           currentPathname={currentPathname}
-          selectedColour='font-bold'
+          selectedWeight='font-bold'
+          selectedColour='foreground'
         />
         <NavbarItem>
           <Switch
@@ -133,7 +134,8 @@ export default function Nav({ session }: { session: Session | null }) {
         />
         <RenderNavLinks
           currentPathname={currentPathname}
-          selectedColour='red-500'
+          selectedColour='warning'
+          selectedWeight=''
         />
       </NavbarMenu>
     </Navbar>

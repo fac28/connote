@@ -3,7 +3,14 @@ import { NavbarItem, Link } from '@nextui-org/react';
 
 interface RenderNavLinksProps {
   currentPathname: string;
-  selectedColour: string;
+  selectedColour:
+    | 'warning'
+    | 'primary'
+    | 'secondary'
+    | 'success'
+    | 'danger'
+    | 'foreground';
+  selectedWeight: string;
 }
 
 const menuLinks = {
@@ -14,6 +21,7 @@ const menuLinks = {
 const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
   currentPathname,
   selectedColour,
+  selectedWeight,
 }) => {
   return (
     <>
@@ -21,10 +29,18 @@ const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
         <NavbarItem key={`${item}-${index}`}>
           <div
             className={`w-full ${
-              currentPathname === menuLinks[item] ? selectedColour : ''
+              currentPathname === menuLinks[item] ? selectedWeight : ''
             }`}
           >
-            <Link color='foreground' href={menuLinks[item]} size='lg'>
+            <Link
+              color={
+                menuLinks[item] === currentPathname
+                  ? selectedColour
+                  : 'foreground'
+              }
+              href={menuLinks[item]}
+              size='lg'
+            >
               {item}
             </Link>
           </div>
