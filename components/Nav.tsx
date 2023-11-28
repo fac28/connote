@@ -18,6 +18,7 @@ import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
 import { Progress } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
+import ProgressNav from './ProgressNav';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -38,30 +39,7 @@ export default function Nav({ session }: { session: Session | null }) {
   }, [pathname]);
 
   return isPromptOrResponsePage ? (
-    <Navbar
-      className={'blue'}
-      isBordered
-      isMenuOpen={isMenuOpen}
-      onMenuOpenChange={setIsMenuOpen}
-      style={{ maxWidth: '100vw' }}
-    >
-      {/* Hamburger, Progressbar */}
-      <NavbarContent className='pr-3' justify='start'>
-        <NavbarMenuToggle
-          aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-        />
-        <Progress size='sm' aria-label='Loading...' value={progress} />
-      </NavbarContent>
-
-      {/* Navlinks */}
-      <NavbarMenu className='mt-1'>
-        <Switch
-          size='sm'
-          onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-        />
-        <RenderNavLinks currentPathname={currentPathname} />
-      </NavbarMenu>
-    </Navbar>
+    <ProgressNav />
   ) : (
     <Navbar
       className={'blue'}

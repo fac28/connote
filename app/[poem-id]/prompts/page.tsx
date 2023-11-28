@@ -7,6 +7,7 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
+import { useRouter } from 'next/navigation';
 
 export default function PromptPage() {
   const params = useParams();
@@ -17,14 +18,15 @@ export default function PromptPage() {
     promptNumber || 0
   );
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
+  const router = useRouter();
 
   const { poem, prompts } = useFetchPromptPageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', String(number));
-    window.history.pushState({}, '', newUrl);
+    const newQueryParams = new URLSearchParams(window.location.search);
+    newQueryParams.set('prompt', String(number));
+    router.push(`${window.location.pathname}?${newQueryParams.toString()}`);
   };
 
   const handlePrevClick = () => {
