@@ -60,7 +60,7 @@ export default function PromptPage() {
         )}
       </div>
 
-      <PromptPoem poem={poem} />
+      <PromptPoem poem={poem} selectedPromptNumber={selectedPromptNumber} />
 
       <FollowupPrompt
         prompts={prompts}

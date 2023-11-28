@@ -1,13 +1,26 @@
 import React, { useEffect } from 'react';
-import { PoemsType } from '@/types';
+import { PoemsType, PromptsType } from '@/types';
 import { useState } from 'react';
 
-type children = {
+type PromptPoemProps = {
   poem: PoemsType;
+  prompts: PromptsType[];
+  selectedPromptNumber: number;
+  onHighlightChange: (
+    promptNumber: number,
+    highlightedWordIds: number[]
+  ) => void;
 };
 
-export default function PromptPoem({ poem }: children) {
-  const [highlightedWordIds, setHighlightedWordIds] = useState<number[]>([]);
+export default function PromptPoem({
+  poem,
+  selectedPromptNumber,
+}: PromptPoemProps) {
+  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
+    [],
+    [],
+    [],
+  ]);
 
   function oneWordHighlightingFunction(
     event: React.MouseEvent<HTMLSpanElement>,
@@ -18,15 +31,28 @@ export default function PromptPoem({ poem }: children) {
       const clickedSpan = event.target as HTMLSpanElement;
       const spanId = parseInt(clickedSpan.id);
 
-      const isHighlighted = highlightedWordIds.includes(spanId);
+      // Create a copy of the current state to avoid modifying it directly
+      const newHighlightedWordIds = [...highlightedWordIds];
+
+      // Get the array for the current prompt
+      const currentPromptHighlightedWords =
+        newHighlightedWordIds[selectedPromptNumber];
+
+      const isHighlighted = currentPromptHighlightedWords.includes(spanId);
 
       if (isHighlighted) {
-        setHighlightedWordIds((prevIds) =>
-          prevIds.filter((id) => id !== spanId)
-        );
+        // Remove the word ID from the array if already highlighted
+        newHighlightedWordIds[selectedPromptNumber] =
+          currentPromptHighlightedWords.filter((id) => id !== spanId);
       } else {
-        setHighlightedWordIds((prevIds) => [...prevIds, spanId]);
+        // Add the word ID to the array if not highlighted
+        newHighlightedWordIds[selectedPromptNumber] = [
+          ...currentPromptHighlightedWords,
+          spanId,
+        ];
       }
+
+      setHighlightedWordIds(newHighlightedWordIds);
 
       console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
 
