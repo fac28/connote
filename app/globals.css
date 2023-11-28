@@ -1,14 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Playfair+Display&family=Potta+One&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Playfair+Display&family=Potta+One&display=swap');
-
-/* :root {
+:root {
   --font-ovo: 'Ovo', sans-serif;
   --font-potta: 'Potta One', cursive;
   --font-playfair: 'Playfair Display', serif;
-} */
+}
 
 body {
   margin: 0;
@@ -22,14 +22,18 @@ body {
 }
 
 .logo {
-  @apply text-connote_white bg-connote_orange p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
+  font-family: var(--font-potta);
+  @apply text-connote_white bg-connote_orange p-2
+    rounded-tr-lg rounded-bl-lg text-2xl font-extrabold custom-text-shadow;
 }
 
 .headingPurple {
+  font-family: var(--font-playfair);
   @apply text-center text-4xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
 }
 
 .promptPurple {
+  font-family: var(--font-playfair);
   @apply text-center text-2xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
 }
 

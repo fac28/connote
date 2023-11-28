@@ -12,9 +12,9 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        ovo: 'var(--font-ovo)',
-        potta: 'var(--font-potta)',
-        playfair: 'var(--font-playfair)',
+        ovo: ['Ovo', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
+        potta: ['Potta One', 'cursive'],
       },
       colors: {
         connote_orange: '#F9844A',
