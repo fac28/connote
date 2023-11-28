@@ -94,7 +94,6 @@ export default function PromptPage() {
   };
 
   return (
-
     <main>
       {prompts.map((prompt, index) =>
         index === selectedPromptNumber ? (
@@ -115,14 +114,13 @@ export default function PromptPage() {
           )}
         </div>
 
-   
-
-      <PromptPoem
-        poem={poem}
-        selectedPromptNumber={selectedPromptNumber}
-        highlightedWordIds={highlightedWordIds}
-        setHighlightedWordIds={setHighlightedWordIds}
-      />
+        <PromptPoem
+          poem={poem}
+          selectedPromptNumber={selectedPromptNumber}
+          highlightedWordIds={highlightedWordIds}
+          setHighlightedWordIds={setHighlightedWordIds}
+        />
+      </div>
 
       <div>
         <FollowupPrompt
