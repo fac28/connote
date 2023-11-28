@@ -31,3 +31,10 @@ body {
 .headingPurple {
   @apply text-center ovo text-4xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
 }
+
+@media screen and (max-width: 767px) {
+  .poemScrollOverflow {
+    overflow-y: scroll;
+    height: 96px; /* Equivalent to Tailwind's h-96 */
+  }
+}
