@@ -7,14 +7,8 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
-import { PoemsType, PromptsType } from '@/types';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { fetchPoemById } from '@/utils/supabase/models/fetchPoemById';
-import { fetchPromptsByIds } from '@/utils/supabase/models/fetchPromptsByIds';
 
 export default function PromptPage() {
-  const [highlightedWordIds, setHighlightedWordIds] = useState<number[]>([]);
-
   const params = useParams();
   const poemid = +params['poem-id'];
   const searchParams = useSearchParams();
@@ -24,36 +18,6 @@ export default function PromptPage() {
   );
   const [promptInputs, setPromptInputs] = useState<Record<string, string>>({});
 
-  useEffect(() => {
-    console.log('Highlighted Word IDs:', highlightedWordIds);
-  }, [highlightedWordIds]);
-
-  function oneWordHighlightingFunction(
-    event: React.MouseEvent<HTMLSpanElement>,
-    word: string
-  ) {
-    // Check if event and event.target are defined
-    if (event && event.target) {
-      const clickedSpan = event.target as HTMLSpanElement;
-      const spanId = parseInt(clickedSpan.id);
-
-      const isHighlighted = highlightedWordIds.includes(spanId);
-
-      if (isHighlighted) {
-        setHighlightedWordIds((prevIds) =>
-          prevIds.filter((id) => id !== spanId)
-        );
-      } else {
-        setHighlightedWordIds((prevIds) => [...prevIds, spanId]);
-      }
-
-      console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
-
-      clickedSpan.classList.toggle('bg-black');
-      clickedSpan.classList.toggle('text-white');
-    }
-  }
-
   const { poem, prompts } = useFetchPromptPageData(poemid);
 
   const setPromptNumber = (number: number) => {
@@ -62,8 +26,6 @@ export default function PromptPage() {
     newUrl.searchParams.set('prompt', String(number));
     window.history.pushState({}, '', newUrl);
   };
-
-  let wordCounter = 0;
 
   const handlePrevClick = () => {
     if (selectedPromptNumber > 0) {
