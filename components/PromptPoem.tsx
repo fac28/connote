@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { PoemsType } from '@/types';
 import { useState } from 'react';
 
@@ -34,6 +34,10 @@ export default function PromptPoem({ poem }: children) {
       clickedSpan.classList.toggle('text-white');
     }
   }
+
+  useEffect(() => {
+    console.log('Highlighted Word IDs:', highlightedWordIds);
+  }, [highlightedWordIds]);
 
   let wordCounter = 0;
 

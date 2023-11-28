@@ -98,44 +98,7 @@ export default function PromptPage() {
         )}
       </div>
 
-      {/* <PromptPoem poem={poem} /> */}
-
-      <div className='flex flex-wrap'>
-        {poem.map((poem) => (
-          <span key={poem.id}>
-            <p>id: {poem.id}</p>
-            <p>author: {poem.author}</p>
-            <p>name: {poem.name}</p>
-            <br />
-            <p>
-              {poem.content.split('\n\n').map((stanza, index) => (
-                <React.Fragment key={index}>
-                  {stanza.split('\n').map((line, lineIndex) => (
-                    <React.Fragment key={lineIndex}>
-                      {/* Split each line into words and add click event listener */}
-                      {line.split(' ').map((word, wordIndex) => (
-                        <React.Fragment key={wordCounter++}>
-                          <span
-                            id={String(wordCounter)}
-                            onClick={(event) =>
-                              oneWordHighlightingFunction(event, word)
-                            }
-                          >
-                            {word}
-                          </span>{' '}
-                        </React.Fragment>
-                      ))}
-                      <br />
-                    </React.Fragment>
-                  ))}
-                  <br />
-                </React.Fragment>
-              ))}
-            </p>
-            <br />
-          </span>
-        ))}
-      </div>
+      <PromptPoem poem={poem} />
 
       <FollowupPrompt
         prompts={prompts}
