@@ -5,10 +5,6 @@ import { useState } from 'react';
 type PromptPoemProps = {
   poem: PoemsType;
   selectedPromptNumber: number;
-  // onHighlightChange: (
-  //   promptNumber: number,
-  //   highlightedWordIds: number[]
-  // ) => void;
 };
 
 export default function PromptPoem({
@@ -82,6 +78,7 @@ export default function PromptPoem({
   useEffect(() => {
     console.log('Change');
     highlightWords();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPromptNumber]);
 
   let wordCounter = 0;
