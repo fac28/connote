@@ -11,6 +11,11 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        ovo: 'var(--font-ovo)',
+        potta: 'var(--font-potta)',
+        playfair: 'var(--font-playfair)',
+      },
       colors: {
         connote_orange: '#F9844A',
         connote_green: '#43AA8B',

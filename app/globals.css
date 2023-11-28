@@ -5,6 +5,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Ovo&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Potta+One&display=swap');
 
+:root {
+  --font-ovo: 'Ovo', sans-serif;
+  --font-potta: 'Potta One', cursive;
+  --font-playfair: 'Playfair Display', serif;
+}
+
 body {
   margin: 0;
   overflow-x: hidden;
@@ -17,17 +23,9 @@ body {
 }
 
 .logo {
-  @apply potta text-connote_white bg-connote_green p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
-}
-
-.ovo {
-  font-family: 'Ovo';
-}
-
-.potta {
-  font-family: 'Potta One';
+  @apply text-connote_white bg-connote_orange p-2 rounded-tr-lg rounded-bl-lg text-2xl font-extrabold  custom-text-shadow;
 }
 
 .headingPurple {
-  @apply text-center ovo text-4xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
+  @apply text-center text-4xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
 }
