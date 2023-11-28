@@ -7,6 +7,10 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
 import { useRouter } from 'next/navigation';
+import {
+  updatePrompts012,
+  updateResponses012,
+} from '@/utils/supabase/models/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
 
 export default function ResponsePage() {
@@ -21,6 +25,9 @@ export default function ResponsePage() {
   const router = useRouter();
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
+
+  const updatedResponses = updateResponses012(poem[0], responses);
+  const updatedPrompts = updatePrompts012(prompts);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -57,16 +64,16 @@ export default function ResponsePage() {
     <main className='flex flex-col items-center justify-between p-4'>
       <ResponsePoem
         poem={poem}
-        responses={responses}
+        responses={updatedResponses}
         selectedPromptNumber={selectedPromptNumber}
       />
 
       <div className='flex flex-wrap md:max-w-xs'>
-        {prompts.map(
+        {updatedPrompts.map(
           (prompt) =>
             prompt.id === selectedPromptNumber && (
               <span key={prompt.id}>
-                {responses
+                {updatedResponses
                   .filter((response) => response.prompt_id === prompt.id)
                   .map((response) => (
                     <React.Fragment key={response.id}>
