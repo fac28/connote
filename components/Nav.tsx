@@ -2,9 +2,7 @@
 import React from 'react';
 import {
   Navbar,
-  NavbarBrand,
   NavbarMenuToggle,
-  NavbarMenuItem,
   NavbarMenu,
   NavbarContent,
   NavbarItem,
@@ -19,17 +17,22 @@ import { usePathname } from 'next/navigation';
 import { MoonIcon } from './MoonIcon';
 import { SunIcon } from './SunIcon';
 import styles from '../styles/background.module.css';
-
-const menuLinks = {
-  Profile: '/profile',
-  'Poem Library': '/poemLibrary',
-} as { [key: string]: string };
+import Logo from './NavComponents/Logo';
+import RenderNavLinks from './NavComponents/renderNavLinks';
+import { Progress } from '@nextui-org/react';
+import { useSearchParams } from 'next/navigation';
+import ProgressNav from './ProgressNav';
 
 export default function Nav({ session }: { session: Session | null }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { theme, setTheme } = useNextTheme();
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
+  const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const searchParams = useSearchParams();
+  const [promptNumber, setPromptNumber] = useState(0);
+  const promptNumberValue = Number(searchParams.get('prompt'));
 
   const toggleTheme = (isDarkTheme: any) => {
     setTheme(isDarkTheme ? 'dark' : 'light');
@@ -49,13 +52,14 @@ export default function Nav({ session }: { session: Session | null }) {
 
   useEffect(() => {
     setCurrentPathname(pathname);
+
+    const promptOrResponseRegex = /^\/\d+\/(prompts|responses)/;
+    setIsPromptOrResponsePage(promptOrResponseRegex.test(pathname));
   }, [pathname]);
 
-  const menuItems = ['SwitchTheme', 'Profile', 'Poem Library'];
-  // const currentPathname =
-  //   typeof window !== 'undefined' ? window.location.pathname : '';
-
-  return (
+  return isPromptOrResponsePage ? (
+    <ProgressNav />
+  ) : (
     <Navbar
       className={'blue'}
       isBordered
@@ -63,45 +67,25 @@ export default function Nav({ session }: { session: Session | null }) {
       onMenuOpenChange={setIsMenuOpen}
       style={{ maxWidth: '100vw' }}
     >
+      {/* Mobile: Hamburger */}
       <NavbarContent className='sm:hidden pr-3' justify='start'>
         <NavbarMenuToggle
           aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
         />
       </NavbarContent>
 
+      {/* Mobile: Logo */}
       <NavbarContent className='sm:hidden' justify='center'>
-        <NavbarBrand>
-          <Link href='/'>
-            <p className='logo'>Connote</p>
-          </Link>
-        </NavbarBrand>
+        <Logo />
       </NavbarContent>
 
+      {/* Desktop: Logo, Links, Switch */}
       <NavbarContent className='hidden sm:flex gap-4' justify='center'>
-        <NavbarBrand>
-          <Link href='/'>
-            <p className='logo'>Connote</p>
-          </Link>
-        </NavbarBrand>
-
-        {Object.keys(menuLinks).map((item, index) => (
-          <NavbarItem key={`${item}-${index}`}>
-            <div
-              className={`w-full ${
-                currentPathname === menuLinks[item] ? `font-bold` : ``
-              }`}
-            >
-              <Link color='foreground' href={menuLinks[item]} size='lg'>
-                {item}
-              </Link>
-            </div>
-          </NavbarItem>
-        ))}
-
+        <Logo />
+        <RenderNavLinks currentPathname={currentPathname} />
         <NavbarItem>
           <Switch
             color='warning'
-            defaultSelected
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
             thumbIcon={({ isSelected, className }) =>
@@ -115,6 +99,7 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
+      {/* Both: Signout button */}
       <NavbarContent justify='end'>
         <NavbarItem>
           {session ? (
@@ -129,37 +114,21 @@ export default function Nav({ session }: { session: Session | null }) {
         </NavbarItem>
       </NavbarContent>
 
+      {/* Mobile: Switch, Links */}
       <NavbarMenu className='mt-1'>
-        {menuItems.map((item, index) => (
-          <NavbarMenuItem key={`${item}-${index}`}>
-            {item === 'SwitchTheme' ? (
-              <Switch
-                color='warning'
-                defaultSelected
-                size='sm'
-                onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
-                thumbIcon={({ isSelected, className }) =>
-                  isSelected ? (
-                    <MoonIcon className={className} />
-                  ) : (
-                    <SunIcon className={className} />
-                  )
-                }
-              />
+        <Switch
+          color='warning'
+          size='sm'
+          onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+          thumbIcon={({ isSelected, className }) =>
+            isSelected ? (
+              <MoonIcon className={className} />
             ) : (
-              <Link
-                className='w-full'
-                color={
-                  menuLinks[item] === currentPathname ? 'warning' : 'foreground'
-                }
-                href={menuLinks[item]}
-                size='lg'
-              >
-                {item}
-              </Link>
-            )}
-          </NavbarMenuItem>
-        ))}
+              <SunIcon className={className} />
+            )
+          }
+        />
+        <RenderNavLinks currentPathname={currentPathname} />
       </NavbarMenu>
     </Navbar>
   );

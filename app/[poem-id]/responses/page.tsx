@@ -6,6 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
 import ResponsePoem from '@/components/ResponsePoem';
+import { useRouter } from 'next/navigation';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -15,14 +16,15 @@ export default function ResponsePage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber !== undefined ? promptNumber + 1 : 0
   );
+  const router = useRouter();
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
-    const newUrl = new URL(window.location.href);
-    newUrl.searchParams.set('prompt', String(number));
-    window.history.pushState({}, '', newUrl);
+    const newQueryParams = new URLSearchParams(window.location.search);
+    newQueryParams.set('prompt', String(number));
+    router.push(`${window.location.pathname}?${newQueryParams.toString()}`);
   };
 
   const handlePrevClick = () => {
