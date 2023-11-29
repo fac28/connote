@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Playfair+Display&family=Potta+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Playfair+Display&family=Tilt+Warp&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,7 +6,7 @@
 
 :root {
   --font-ovo: 'Ovo', sans-serif;
-  --font-potta: 'Potta One', cursive;
+  --font-tilt: 'Tilt Warp', cursive;
   --font-playfair: 'Playfair Display', serif;
 }
 
@@ -22,7 +22,7 @@ body {
 }
 
 .logo {
-  font-family: var(--font-potta);
+  font-family: var(--font-tilt);
   @apply text-connote_white bg-connote_orange p-2
     rounded-tr-lg rounded-bl-lg text-2xl font-extrabold custom-text-shadow;
 }
