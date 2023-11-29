@@ -8,6 +8,7 @@ import PromptPoem from '@/components/PromptPoem';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import InitialPromptBanner from '@/components/InitialPromptBanner';
+import { isSubmitDisabled } from '@/utils/supabase/models/isSubmitDisabled';
 
 export default function PromptPage() {
   const params = useParams();
@@ -73,22 +74,6 @@ export default function PromptPage() {
     window.location.href = `/poemLibrary`;
   };
 
-  const isSubmitDisabled = () => {
-    for (let i = 0; i < prompts.length; i++) {
-      if (
-        (highlightedWordIds[i].length === 0 && promptInputs[i]) ||
-        ((!promptInputs[i] || !promptInputs[i].trim()) &&
-          highlightedWordIds[i].length > 0)
-      ) {
-        return true; // Disable if any pair is incomplete.
-      }
-    }
-    if (highlightedWordIds.every((ids) => ids.length === 0)) {
-      return true; //Disable if no responses recorded at all.
-    }
-    return false; // Enable if all pairs are complete or empty.
-  };
-
   return (
     <main>
       <InitialPromptBanner
@@ -129,9 +114,13 @@ export default function PromptPage() {
           Prev
         </Button>
         <Button
-          disabled={selectedPromptNumber === 2 && isSubmitDisabled()}
+          disabled={
+            selectedPromptNumber === 2 &&
+            isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
+          }
           className={`${
-            selectedPromptNumber === 2 && isSubmitDisabled()
+            selectedPromptNumber === 2 &&
+            isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
               ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
               : ''
           }`}
