@@ -21,7 +21,7 @@ export default function ResponsePoem({
           <p>author: {poemItem.author}</p>
           <p>name: {poemItem.name}</p>
           <br />
-          <p>
+          <p className='poemScrollOverflow'>
             {poemItem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
