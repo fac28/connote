@@ -20,7 +20,7 @@ export default function ResponsePage() {
   const [likes, setLikes] = useState<{ [key: number]: number }>({});
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-    promptNumber !== undefined ? promptNumber + 1 : 0
+    promptNumber || 0
   );
   const router = useRouter();
 
