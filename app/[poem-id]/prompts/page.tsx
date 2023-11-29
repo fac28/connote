@@ -1,14 +1,13 @@
 'use client';
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
-import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import InitialPromptBanner from '@/components/InitialPromptBanner';
-import { isSubmitDisabled } from '@/utils/supabase/models/isSubmitDisabled';
+import PromptButtons from '@/components/PromptButtons';
 
 export default function PromptPage() {
   const params = useParams();
@@ -101,34 +100,14 @@ export default function PromptPage() {
         inputValue={promptInputs[selectedPromptNumber] || ''}
       />
 
-      <ButtonGroup>
-        <Button
-          disabled={selectedPromptNumber === 0}
-          onClick={handlePrevClick}
-          className={`${
-            selectedPromptNumber === 0
-              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-              : ''
-          }`}
-        >
-          Prev
-        </Button>
-        <Button
-          disabled={
-            selectedPromptNumber === 2 &&
-            isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
-          }
-          className={`${
-            selectedPromptNumber === 2 &&
-            isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
-              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-              : ''
-          }`}
-          onClick={handleNextClick}
-        >
-          {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
-        </Button>
-      </ButtonGroup>
+      <PromptButtons
+        selectedPromptNumber={selectedPromptNumber}
+        handlePrevClick={handlePrevClick}
+        handleNextClick={handleNextClick}
+        prompts={prompts}
+        highlightedWordIds={highlightedWordIds}
+        promptInputs={promptInputs}
+      />
     </main>
   );
 }
