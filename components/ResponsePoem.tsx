@@ -16,7 +16,7 @@ export default function ResponsePoem({
   let topThreeColours = [
     'bg-connote_orange',
     'bg-connote_green',
-    'bg-connote_white',
+    'bg-connote_pastel_blue',
   ];
 
   // Function to process and assign highlight_colour

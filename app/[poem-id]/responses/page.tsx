@@ -60,6 +60,13 @@ export default function ResponsePage() {
       [responseId]: (prevLikes[responseId] || 0) + 1,
     }));
   };
+
+  let topThreeColours = [
+    'bg-connote_orange',
+    'bg-connote_green',
+    'bg-connote_pastel_blue',
+  ];
+
   return (
     <main>
       {prompts.map((prompt, index) =>
