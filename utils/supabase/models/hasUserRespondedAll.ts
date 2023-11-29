@@ -6,19 +6,19 @@ export async function hasUserRespondedAll(
   poems: PoemsType
 ): Promise<boolean[]> {
   const supabase = createClientComponentClient();
-  if (!userId || poems.length === 0) {
-    return poems.map(() => false);
-  }
-
-  const poemIds = poems.map((poem) => poem.id);
   const { data: responses } = await supabase
     .from('responses')
     .select('poem_id')
-    .in('poem_id', poemIds)
     .eq('user_id', userId);
 
+  console.log(userId, 'userID');
+  // Create a Set of poem IDs that the user has responded to
   const respondedPoemIds = new Set(
     responses?.map((response) => response.poem_id)
   );
-  return poems.map((poem) => respondedPoemIds.has(poem.id));
+  console.log(responses, 'responses');
+  // Map each poem to true or false depending on whether the user has responded
+  const responseArray = poems.map((poem) => respondedPoemIds.has(poem.id));
+  console.log(responseArray, 'responsearray');
+  return responseArray;
 }

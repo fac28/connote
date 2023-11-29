@@ -16,12 +16,12 @@ export default function PoemDirectory() {
       const { data: sessionData } = await supabase.auth.getSession();
       if (sessionData?.session?.user?.id) {
         setUserId(sessionData.session.user.id);
+        await fetchData(sessionData.session.user.id);
       }
     };
-    fetchUserId();
 
     const currentDate = new Date();
-    const fetchData = async () => {
+    const fetchData = async (fetchedUserId: string) => {
       const supabase = createClientComponentClient();
       const { data, error } = await supabase
         .from('poems')
@@ -37,15 +37,13 @@ export default function PoemDirectory() {
           (poem) => new Date(poem.display_date) <= currentDate
         );
         setPoems(data); //Change this to filtered poems for production.
+
+        const IsRespondedArray = await hasUserRespondedAll(fetchedUserId, data);
+        setIsResponded(IsRespondedArray);
       }
     };
-    fetchData();
-
-    const fetchIsResponded = async () => {
-      setIsResponded(await hasUserRespondedAll(userId, poems));
-    };
-    fetchIsResponded();
-  }, [setPoems]);
+    fetchUserId();
+  }, []);
 
   return (
     <>
@@ -53,9 +51,8 @@ export default function PoemDirectory() {
         <h1 className='headingPurple'>Poem Library</h1>
         <div className='flex flex-col items-center'>
           <div className='flex flex-wrap justify-center'>
-            {poems.map((poem, userid) => (
+            {poems.map((poem, index) => (
               <span key={poem.id}>
-                {/* <p>{poem}</p> */}
                 <PoemCard
                   poemDate={poem.display_date}
                   poemAuthor={poem.author}
@@ -65,6 +62,7 @@ export default function PoemDirectory() {
                   userId={userId}
                   supabase={createClientComponentClient()}
                   key={poem.id}
+                  isResponded={isResponded ? isResponded[index] : false}
                   // onClick={() => handleSubmit(poem.id)}
                 />
               </span>

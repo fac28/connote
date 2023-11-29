@@ -15,6 +15,7 @@ type children = {
   poemId: number;
   userId: string | null;
   supabase: SupabaseClient;
+  isResponded: boolean;
 };
 
 export default function PoemCard({
@@ -25,6 +26,7 @@ export default function PoemCard({
   poemId,
   supabase,
   userId,
+  isResponded,
 }: children) {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -99,6 +101,7 @@ export default function PoemCard({
           />
         </div>
       </CardBody>
+      <p>{String(isResponded)}</p>
     </Card>
   );
 }
