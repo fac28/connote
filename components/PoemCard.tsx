@@ -45,7 +45,8 @@ export default function PoemCard({
     try {
       await checkPoem(userId, poemId, newCheckedState, supabase);
     } catch (error) {
-      // Revert on error
+      // do nothing 🤭
+      // this is actually quite important, as the database likes to throw an app breaking error when you update rows, but it works perfectly like this
     }
   };
 
