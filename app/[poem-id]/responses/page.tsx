@@ -1,4 +1,5 @@
 'use client';
+
 import React from 'react';
 import { useState } from 'react';
 import { useParams } from 'next/navigation';
@@ -12,7 +13,8 @@ import {
   updateResponses012,
 } from '@/utils/supabase/models/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
-import ResponsesType from '@/types';
+import { ResponsesType } from '@/types';
+
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
@@ -36,17 +38,19 @@ export default function ResponsePage() {
   ];
 
   function processResponses(responses: ResponsesType) {
-    let sortedResponses = responses.sort((a, b) => a.prompt_id - b.prompt_id);
+    let sortedResponses = [...responses].sort(
+      (a, b) => a.prompt_id - b.prompt_id
+    );
 
-    let result = sortedResponses.reduce((acc, response) => {
-      if (!acc[response.prompt_id]) {
-        acc[response.prompt_id] = [];
+    let result: Record<number, ResponsesType> = {};
+
+    sortedResponses.forEach((response) => {
+      if (!result[response.prompt_id]) {
+        result[response.prompt_id] = [];
       }
 
-      acc[response.prompt_id].push(response);
-
-      return acc;
-    }, {});
+      result[response.prompt_id].push(response);
+    });
 
     for (let key in result) {
       result[key].slice(0, 3).forEach((response, index) => {
@@ -134,7 +138,7 @@ export default function ResponsePage() {
                               @{response.user?.username}
                             </h2>
 
-                            <p className='responseComment text-connote_dark pr-3 text-sm response.highlight_colour'>
+                            <p className='responseComment text-connote_dark pr-3 text-sm'>
                               {response.response_written}
                             </p>
                           </div>

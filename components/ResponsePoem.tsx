@@ -49,7 +49,7 @@ export default function ResponsePoem({
                             id={String(currentWordIndex)}
                             className={
                               isSelected
-                                ? matchingResponse.highlight_colour
+                                ? matchingResponse?.highlight_colour ?? ''
                                 : ''
                             }
                           >
