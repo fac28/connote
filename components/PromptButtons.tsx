@@ -20,7 +20,7 @@ export default function PromptButtons({
   promptInputs,
 }: PromptButtonsProps) {
   return (
-    <ButtonGroup>
+    <ButtonGroup className='flex items-center p-4'>
       <Button
         disabled={selectedPromptNumber === 0}
         onClick={handlePrevClick}
