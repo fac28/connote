@@ -104,10 +104,17 @@ export default function Nav({ session }: { session: Session | null }) {
         <NavbarItem>
           {session ? (
             <form action='/signout' method='post'>
-              <button className='btn'>Logout</button>
+              <button className='btn hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'>
+                Logout
+              </button>
             </form>
           ) : (
-            <Button as={Link} className='btn' href='/account' variant='flat'>
+            <Button
+              as={Link}
+              className='btn hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
+              href='/account'
+              variant='flat'
+            >
               Login
             </Button>
           )}

@@ -68,7 +68,7 @@ export default function PoemCard({
 
   return (
     <Card
-      className='p-3 m-3 w-64 h-64 aspect-w-1 cursor-pointer bg-secondary text-left'
+      className='p-3 m-3 w-64 h-64 aspect-w-1 cursor-pointer bg-secondary text-left  hover:opacity-90'
       isPressable
       onPress={() => handleSubmit(poemId)}
     >
