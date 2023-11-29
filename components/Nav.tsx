@@ -29,7 +29,6 @@ export default function Nav({ session }: { session: Session | null }) {
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
   const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
-  const initialSwitchState = theme === 'dark';
 
   const toggleTheme = (isDarkTheme: any) => {
     setTheme(isDarkTheme ? 'dark' : 'light');
@@ -86,7 +85,6 @@ export default function Nav({ session }: { session: Session | null }) {
         />
         <NavbarItem>
           <Switch
-            defaultSelected={initialSwitchState}
             color='warning'
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
@@ -119,7 +117,6 @@ export default function Nav({ session }: { session: Session | null }) {
       {/* Mobile: Switch, Links */}
       <NavbarMenu className='mt-1'>
         <Switch
-          defaultSelected={initialSwitchState}
           color='warning'
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
