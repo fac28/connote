@@ -1,7 +1,6 @@
 'use client';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
-import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
 import PoemCard from '../../components/PoemCard';
 
 type PoemsType =
@@ -52,22 +51,6 @@ export default function PoemDirectory() {
     fetchData();
   }, [setPoems]);
 
-  async function handleSubmit(poemid: number) {
-    const supabase = createClientComponentClient();
-    const { data: sessionData } = await supabase.auth.getSession();
-    if (sessionData?.session?.user?.id) {
-      const userid = sessionData.session.user.id;
-      const responses = (await hasUserResponded({ userid, poemid })) || [];
-      if (responses.length) {
-        window.location.href = `${poemid}/responses`;
-      } else {
-        window.location.href = `${poemid}/prompts`;
-      }
-    } else {
-      window.location.href = `/account`;
-    }
-  }
-
   return (
     <>
       <div>
@@ -75,7 +58,7 @@ export default function PoemDirectory() {
         <div className='flex flex-col items-center'>
           <div className='flex flex-wrap justify-center'>
             {poems.map((poem, userid) => (
-              <span onClick={() => handleSubmit(poem.id)} key={poem.id}>
+              <span key={poem.id}>
                 <PoemCard
                   poemDate={poem.display_date}
                   poemAuthor={poem.author}
@@ -84,6 +67,8 @@ export default function PoemDirectory() {
                   poemId={poem.id}
                   userId={userId}
                   supabase={createClientComponentClient()}
+                  key={poem.id}
+                  // onClick={() => handleSubmit(poem.id)}
                 />
               </span>
             ))}
