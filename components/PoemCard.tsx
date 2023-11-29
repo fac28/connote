@@ -38,10 +38,13 @@ export default function PoemCard({
     initializeCheckedState();
   }, [userId, poemId, supabase]);
 
-  const handleCheckboxChange = async () => {
+  const handleIconClick = async (event: { stopPropagation: () => void }) => {
+    event.stopPropagation();
+    // Toggle the isChecked state
     const newCheckedState = !isChecked;
     setIsChecked(newCheckedState);
 
+    // Perform the same operations as in your handleCheckboxChange
     try {
       await checkPoem(userId, poemId, newCheckedState, supabase);
     } catch (error) {
@@ -77,14 +80,14 @@ export default function PoemCard({
         <div className='flex'>
           <p className='text-tiny uppercase font-bold'>{poemDate}</p>
 
-          <Checkbox
-            radius='full'
-            isSelected={!isChecked}
-            icon={isChecked ? Bookmark : Bookmark1}
-            color='default'
-            className='ml-28'
-            onChange={handleCheckboxChange}
-          ></Checkbox>
+          <Checkbox className='collapse'>
+            <div
+              onClick={(event) => handleIconClick(event)}
+              className='cursor-pointer ml-28 visible'
+            >
+              {isChecked ? <Bookmark /> : <Bookmark1 />}
+            </div>
+          </Checkbox>
         </div>
         <small className='text-default-500'>{poemAuthor}</small>
 
