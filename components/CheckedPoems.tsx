@@ -60,7 +60,8 @@ export default function CheckedPoems() {
             first_prompt_id,
             second_prompt_id,
             third_prompt_id,
-            display_date
+            display_date,
+            image
           `
           )
           .in('id', poemIds);

@@ -17,6 +17,7 @@ export type PoemsType =
       second_prompt_id: number;
       third_prompt_id: number;
       display_date: string;
+      image: string;
     }>
   | [];
 
