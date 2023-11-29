@@ -61,8 +61,8 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className='flex flex-col items-center gap-4 mt-4 pl-12'>
-      <div className='bg-white rounded-xl'>
+    <div className=' flex flex-col items-center gap-4 mt-4 pl-12'>
+      <div className='profileForm bg-white rounded-xl'>
         <Input
           size='sm'
           label='Email'
@@ -73,7 +73,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
           labelPlacement='inside'
         />
       </div>
-      <div>
+      <div className='profileForm'>
         <Input
           size='sm'
           label='Username'
