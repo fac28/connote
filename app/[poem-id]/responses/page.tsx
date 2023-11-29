@@ -1,6 +1,5 @@
 'use client';
-import React from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
@@ -12,12 +11,13 @@ import {
   updateResponses012,
 } from '@/utils/supabase/models/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
   const searchParams = useSearchParams();
-  const [likes, setLikes] = useState<{ [key: number]: number }>({});
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber !== undefined ? promptNumber + 1 : 0
@@ -28,6 +28,60 @@ export default function ResponsePage() {
 
   const updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
+
+  const [hearts, setHearts] = useState<{ [key: number]: number }>({});
+  const [loadingHearts, setLoadingHearts] = useState(true);
+  useEffect(() => {
+    const fetchInitialHearts = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const heartReacts = await fetchReacts('hearts', supabase);
+        console.log(heartReacts);
+        setHearts(heartReacts);
+        setLoadingHearts(false);
+      } catch (error) {
+        console.error('Error fetching initial hearts:', error);
+        setLoadingHearts(false);
+      }
+    };
+
+    fetchInitialHearts();
+  }, [updatedResponses]);
+  const handleHeartsClick = async (responseId: number) => {
+    try {
+      const supabase = createClientComponentClient();
+
+      // Insert a new row into the 'reacts' table
+      const { data, error } = await supabase.from('reacts').insert([
+        {
+          response_id: responseId,
+          type: 'heart',
+        },
+      ]);
+
+      // Fetch the updated count of hearts from the database
+      const { data: updatedHearts, error: fetchError } = await supabase
+        .from('reacts')
+        .select('response_id, count', { count: 'exact' })
+        .eq('response_id', responseId)
+        .eq('type', 'heart')
+        .single();
+
+      if (updatedHearts) {
+        // Update the local state with the actual count from the database
+        setHearts((prevHearts) => ({
+          ...prevHearts,
+          [responseId]: updatedHearts.count || 0,
+        }));
+      }
+
+      console.log('Heart added:', data);
+      console.error('Error adding heart:', error);
+    } catch (error) {
+      console.error('Error adding heart:', error);
+      // Handle error, show a message to the user, etc.
+    }
+  };
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -54,12 +108,6 @@ export default function ResponsePage() {
     console.log('handle redirecting after you`ve looked through comments');
   };
 
-  const handleLikeClick = (responseId: number) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [responseId]: (prevLikes[responseId] || 0) + 1,
-    }));
-  };
   return (
     <main className='flex flex-col items-center justify-between p-4'>
       <ResponsePoem
@@ -92,12 +140,17 @@ export default function ResponsePage() {
                             isIconOnly
                             color='danger'
                             aria-label='Like'
-                            onClick={() => handleLikeClick(response.id)}
+                            onClick={() => handleHeartsClick(response.id)}
                           >
                             <HeartIcon />
                           </Button>
-                          <span className='text-secondary'>
-                            {likes[response.id] || 0}
+                          {/* <span className='text-connote_dark'>
+                            {hearts[response.id] || 0}
+                          </span> */}
+                          <span className='text-connote_dark'>
+                            {loadingHearts
+                              ? 'Loading...'
+                              : hearts[response.id] || 0}
                           </span>
                         </div>
                       </div>
