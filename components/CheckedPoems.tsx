@@ -81,7 +81,7 @@ export default function CheckedPoems() {
       <h1>My Bookmarked Poems</h1>
       <div className='flex flex-wrap justify-center'>
         {checkedPoems.map((poem) => (
-          <span onClick={() => handleSubmit(poem.id)} key={poem.id}>
+          <span key={poem.id}>
             <PoemCard
               poemDate={poem.display_date}
               poemAuthor={poem.author}
