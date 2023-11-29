@@ -12,7 +12,7 @@ import {
   updateResponses012,
 } from '@/utils/supabase/models/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
-
+import ResponsesType from '@/types';
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
@@ -35,7 +35,7 @@ export default function ResponsePage() {
     'bg-connote_pastel_blue',
   ];
 
-  function processResponses(responses) {
+  function processResponses(responses: ResponsesType) {
     let sortedResponses = responses.sort((a, b) => a.prompt_id - b.prompt_id);
 
     let result = sortedResponses.reduce((acc, response) => {
