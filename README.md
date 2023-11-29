@@ -13,6 +13,9 @@ git clone https://github.com/fac28/connote.git
 cd connote
 ```
 
+Please make sure you have at least [Node.js 18](https://nodejs.org/) or a higher version installed on your system before proceeding.
+
+
 ## Running a Local Server
 To run the server locally:
 
