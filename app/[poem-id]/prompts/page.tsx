@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
-import PromptPoem from '@/components/PromptPoem';
+import PromptPoemLine from '@/components/PromptPoemLine';
 import { useRouter } from 'next/navigation';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -133,8 +133,8 @@ export default function PromptPage() {
               )
           )}
         </div>
-        
-          <PromptPoem
+
+        <PromptPoemLine
           poem={poem}
           selectedPromptNumber={selectedPromptNumber}
           highlightedWordIds={highlightedWordIds}
@@ -179,7 +179,6 @@ export default function PromptPage() {
           {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
         </Button>
       </ButtonGroup>
-
     </main>
   );
 }
