@@ -15,6 +15,7 @@ const config: Config = {
         ovo: ['Ovo', 'sans-serif'],
         playfair: ['Playfair Display', 'serif'],
         tilt: ['Tilt Warp', 'cursive'],
+        inter: ['Innter', 'sans-serif'],
       },
       colors: {
         connote_orange: '#F9844A',

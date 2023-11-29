@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Ovo&family=Playfair+Display&family=Tilt+Warp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Ovo&family=Playfair+Display&family=Tilt+Warp&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -8,6 +8,7 @@
   --font-ovo: 'Ovo', sans-serif;
   --font-tilt: 'Tilt Warp', cursive;
   --font-playfair: 'Playfair Display', serif;
+  --font-inter: 'Inter', sans-serif;
 }
 
 body {
@@ -35,6 +36,19 @@ body {
 .promptPurple {
   font-family: var(--font-playfair);
   @apply text-center text-2xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
+}
+
+.profileForm {
+  font-family: var(--font-inter);
+}
+
+.responseUser {
+  font-family: var(--font-inter);
+  font-weight: 600;
+}
+
+.responseComment {
+  font-family: var(--font-inter);
 }
 
 @media screen and (max-width: 767px) {
