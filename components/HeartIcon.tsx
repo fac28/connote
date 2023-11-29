@@ -23,8 +23,8 @@ const HeartIcon: FC<HeartIconProps> = ({
     //   style={{ backgroundColor: 'white', borderRadius: '50%', padding: '2px' }}
     // >
     <svg
-      width={size || width || 30}
-      height={size || height || 30}
+      width={size || width || 20}
+      height={size || height || 20}
       viewBox='0 0 24 24'
       fill={filled ? fill : 'none'}
       xmlns='http://www.w3.org/2000/svg'

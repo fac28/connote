@@ -98,14 +98,12 @@ export default function ResponsePage() {
                             </p>
                           </div>
                           <div className='flex items-center flex-col'>
-                            <Button
-                              isIconOnly
-                              color='danger'
+                            <button
                               aria-label='Like'
                               onClick={() => handleLikeClick(response.id)}
                             >
                               <HeartIcon />
-                            </Button>
+                            </button>
                             <span className='text-secondary'>
                               {likes[response.id] || 0}
                             </span>
