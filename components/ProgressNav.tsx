@@ -55,7 +55,11 @@ export default function ProgressNav() {
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
         />
-        <RenderNavLinks currentPathname={pathname} />
+        <RenderNavLinks
+          currentPathname={pathname}
+          selectedWeight=''
+          selectedColour='warning'
+        />
       </NavbarMenu>
     </Navbar>
   );
