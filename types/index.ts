@@ -33,3 +33,15 @@ export type ResponsesType =
       };
     }>
   | [];
+
+export type ReactsType =
+  | Array<{
+      id: number;
+      response_id: number;
+      reacter_id: string;
+      type: string;
+      reacter?: {
+        username: string;
+      };
+    }>
+  | [];
