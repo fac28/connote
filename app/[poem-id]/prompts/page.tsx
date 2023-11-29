@@ -39,7 +39,6 @@ export default function PromptPage() {
       }
     };
     fetchUserId();
-    console.log('UserID', userId);
   });
 
   const setPromptNumber = (number: number) => {
@@ -64,8 +63,6 @@ export default function PromptPage() {
   };
 
   const handleSubmit = () => {
-    console.log('Submitting answer for prompt', promptInputs);
-    console.log('Highlighted Word IDs:', highlightedWordIds);
     // Implement submission logic here
     submitPromptsData(
       userId,
@@ -133,8 +130,8 @@ export default function PromptPage() {
               )
           )}
         </div>
-        
-          <PromptPoem
+
+        <PromptPoem
           poem={poem}
           selectedPromptNumber={selectedPromptNumber}
           highlightedWordIds={highlightedWordIds}
@@ -179,7 +176,6 @@ export default function PromptPage() {
           {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
         </Button>
       </ButtonGroup>
-
     </main>
   );
 }

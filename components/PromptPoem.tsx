@@ -46,16 +46,10 @@ export default function PromptPoem({
 
       setHighlightedWordIds(newHighlightedWordIds);
 
-      console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
-
       clickedSpan.classList.toggle('bg-black');
       clickedSpan.classList.toggle('text-white');
     }
   }
-
-  useEffect(() => {
-    console.log('Highlighted Word IDs:', highlightedWordIds);
-  }, [highlightedWordIds]);
 
   function highlightWords() {
     // Remove styling from all spans
@@ -73,7 +67,6 @@ export default function PromptPoem({
   }
 
   useEffect(() => {
-    console.log('Change');
     highlightWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPromptNumber]);
