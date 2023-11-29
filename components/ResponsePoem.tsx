@@ -13,38 +13,38 @@ export default function ResponsePoem({
   selectedPromptNumber,
 }: ResponsePoemProps) {
   let wordCounter = 0;
-  let topThreeColours = [
-    'bg-connote_orange',
-    'bg-connote_green',
-    'bg-connote_pastel_blue',
-  ];
+  // let topThreeColours = [
+  //   'bg-connote_orange',
+  //   'bg-connote_green',
+  //   'bg-connote_pastel_blue',
+  // ];
 
-  // Function to process and assign highlight_colour
-  function processResponses(responses) {
-    let sortedResponses = responses.sort((a, b) => a.prompt_id - b.prompt_id);
+  // // Function to process and assign highlight_colour
+  // function processResponses(responses) {
+  //   let sortedResponses = responses.sort((a, b) => a.prompt_id - b.prompt_id);
 
-    let result = sortedResponses.reduce((acc, response) => {
-      if (!acc[response.prompt_id]) {
-        acc[response.prompt_id] = [];
-      }
+  //   let result = sortedResponses.reduce((acc, response) => {
+  //     if (!acc[response.prompt_id]) {
+  //       acc[response.prompt_id] = [];
+  //     }
 
-      acc[response.prompt_id].push(response);
+  //     acc[response.prompt_id].push(response);
 
-      return acc;
-    }, {});
+  //     return acc;
+  //   }, {});
 
-    for (let key in result) {
-      result[key].slice(0, 3).forEach((response, index) => {
-        response.highlight_colour = topThreeColours[index];
-      });
-    }
+  //   for (let key in result) {
+  //     result[key].slice(0, 3).forEach((response, index) => {
+  //       response.highlight_colour = topThreeColours[index];
+  //     });
+  //   }
 
-    let finalResult = Object.values(result).flat();
+  //   let finalResult = Object.values(result).flat();
 
-    return finalResult;
-  }
+  //   return finalResult;
+  // }
 
-  let processedResponses = processResponses(responses);
+  // let processedResponses = processResponses(responses);
 
   return (
     <div className='flex flex-wrap'>
@@ -68,7 +68,7 @@ export default function ResponsePoem({
                           ) && response.prompt_id === selectedPromptNumber
                       );
 
-                      const matchingResponse = processedResponses.find(
+                      const matchingResponse = responses.find(
                         (response) =>
                           response.response_selected.includes(
                             currentWordIndex

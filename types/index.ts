@@ -32,5 +32,6 @@ export type ResponsesType =
       user?: {
         username: string;
       };
+      highlight_colour?: string;
     }>
   | [];
