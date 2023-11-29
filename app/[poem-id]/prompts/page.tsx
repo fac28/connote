@@ -118,25 +118,12 @@ export default function PromptPage() {
         selectedPromptNumber={selectedPromptNumber}
       />
 
-      <div className='flex flex-col items-center justify-between p-4'>
-        <div className='flex flex-wrap md:max-w-xs'>
-          {prompts.map(
-            (prompt, index) =>
-              index === selectedPromptNumber && (
-                <span key={prompt.id}>
-                  <br></br>
-                </span>
-              )
-          )}
-        </div>
-
-        <PromptPoem
-          poem={poem}
-          selectedPromptNumber={selectedPromptNumber}
-          highlightedWordIds={highlightedWordIds}
-          setHighlightedWordIds={setHighlightedWordIds}
-        />
-      </div>
+      <PromptPoem
+        poem={poem}
+        selectedPromptNumber={selectedPromptNumber}
+        highlightedWordIds={highlightedWordIds}
+        setHighlightedWordIds={setHighlightedWordIds}
+      />
 
       <FollowupPrompt
         prompts={prompts}
