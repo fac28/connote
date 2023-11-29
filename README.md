@@ -1,38 +1,44 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Connote
 
-## Getting Started
+## Overview
+**Connote** is a web application designed to engage users with poetry through innovative annotation and collaboration features. It offers an interactive platform for exploring and understanding poetry in a communal setting.
 
-First, run the development server:
+Deployed [here](https://connote.vercel.app/) via vercel.
+
+## Installation Instructions
+Clone the repository and navigate to the project directory:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/fac28/connotegit
+cd connote
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Running a Local Server
+To run the server locally:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Access the application at `localhost:3000` in your web browser.
 
-## Learn More
+## Configuring Environmental Variables
+For setting up environmental variables, refer to [env.md](env.md).
 
-To learn more about Next.js, take a look at the following resources:
+## Technologies Used
+- Next.js 14
+- React
+- Typescript
+- Supabase
+- Tailwind CSS
+- Playwright
+- Jest
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contributors
+- Kyle - Product Owner
+- [Tess](https://github.com/tess-phillips) - QA
+- [Deepa](https://github.com/DeepsDali) - UI/UX
+- [Laurie](https://github.com/sgroi-l) - Scrum Master
+- [George](https://github.com/GeorgeKlemperer) - DevOps
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deployed on Vercel
-
-https://connote.vercel.app/
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
