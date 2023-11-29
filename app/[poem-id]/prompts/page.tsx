@@ -1,13 +1,10 @@
 'use client';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useSearchParams } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
 import PromptPoem from '@/components/PromptPoem';
-import { useRouter } from 'next/navigation';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import InitialPromptBanner from '@/components/InitialPromptBanner';
@@ -64,14 +61,14 @@ export default function PromptPage() {
   };
 
   const handleSubmit = () => {
-    // Implement submission logic here
+    const supabase = createClientComponentClient;
     submitPromptsData(
       userId,
       poemid,
       prompts[0].id,
       highlightedWordIds[0],
       promptInputs[0],
-      createClientComponentClient()
+      supabase
     );
     submitPromptsData(
       userId,
@@ -79,7 +76,7 @@ export default function PromptPage() {
       prompts[1].id,
       highlightedWordIds[1],
       promptInputs[1],
-      createClientComponentClient()
+      supabase
     );
     submitPromptsData(
       userId,
@@ -87,7 +84,7 @@ export default function PromptPage() {
       prompts[2].id,
       highlightedWordIds[2],
       promptInputs[2],
-      createClientComponentClient()
+      supabase
     );
 
     window.location.href = `/poemLibrary`;
