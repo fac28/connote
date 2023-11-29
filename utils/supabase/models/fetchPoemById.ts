@@ -7,7 +7,7 @@ export const fetchPoemById = async (
   const { data, error } = await supabase
     .from('poems')
     .select(
-      'id, author, name, content, first_prompt_id, second_prompt_id, third_prompt_id, display_date'
+      'id, author, name, content, first_prompt_id, second_prompt_id, third_prompt_id, display_date, image'
     )
     .eq('id', poemId);
 
