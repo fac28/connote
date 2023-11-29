@@ -40,6 +40,7 @@ const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
               }
               href={menuLinks[item]}
               size='lg'
+              className='hover:text-connote_orange transition duration-200'
             >
               {item}
             </Link>
