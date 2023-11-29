@@ -34,7 +34,7 @@ export default function Home() {
         if (data && data.length > 0) {
           setPoemOfTheDay(data[0]);
         } else {
-          console.log('No poem found for the current date');
+          console.error('No poem found for the current date');
         }
       }
     };
