@@ -1,15 +1,29 @@
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export const fetchReacts = async (type: string, supabase: SupabaseClient) => {
-  const { data, error } = await supabase
-    .from('reacts')
-    .select('response_id, type, count(*) as reaction_count')
-    .eq('type', type)
-    .group_by('response_id');
+  try {
+    const { data, error } = await supabase
+      .from('reacts')
+      .select('response_id, type')
+      .eq('type', type);
 
-  if (error || !data) {
-    throw new Error('Error fetching react data');
+    if (error) {
+      console.error('Error fetching react data:', error);
+      throw new Error('Error fetching react data');
+    }
+
+    // Perform grouping manually
+    const groupedData: { [key: number]: number } = data.reduce(
+      (acc: { [key: number]: number }, item: { response_id: number }) => {
+        const responseId = item.response_id;
+        acc[responseId] = (acc[responseId] || 0) + 1;
+        return acc;
+      },
+      {}
+    );
+    return groupedData;
+  } catch (error) {
+    console.error('Error fetching react data:', error);
+    throw error;
   }
-
-  return data;
 };

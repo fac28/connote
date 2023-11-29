@@ -35,8 +35,9 @@ export default function ResponsePage() {
     const fetchInitialHearts = async () => {
       try {
         const supabase = createClientComponentClient();
-        const heartReacts = await fetchReacts('hearts', supabase);
-        console.log(heartReacts);
+        const heartReacts = await fetchReacts('heart', supabase);
+
+        // console.log(heartReacts);
         setHearts(heartReacts);
         setLoadingHearts(false);
       } catch (error) {
@@ -44,7 +45,6 @@ export default function ResponsePage() {
         setLoadingHearts(false);
       }
     };
-
     fetchInitialHearts();
   }, [updatedResponses]);
   const handleHeartsClick = async (responseId: number) => {
@@ -68,18 +68,13 @@ export default function ResponsePage() {
         .single();
 
       if (updatedHearts) {
-        // Update the local state with the actual count from the database
         setHearts((prevHearts) => ({
           ...prevHearts,
           [responseId]: updatedHearts.count || 0,
         }));
       }
-
-      console.log('Heart added:', data);
-      console.error('Error adding heart:', error);
     } catch (error) {
       console.error('Error adding heart:', error);
-      // Handle error, show a message to the user, etc.
     }
   };
 
@@ -146,6 +141,7 @@ export default function ResponsePage() {
                           </Button>
                           {/* <span className='text-connote_dark'>
                             {hearts[response.id] || 0}
+                            response id {response.id}
                           </span> */}
                           <span className='text-connote_dark'>
                             {loadingHearts
