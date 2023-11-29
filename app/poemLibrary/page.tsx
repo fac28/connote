@@ -3,10 +3,12 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
 import PoemCard from '../../components/PoemCard';
 import { PoemsType } from '@/types';
+import { hasUserRespondedAll } from '@/utils/supabase/models/hasUserRespondedAll';
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isResponded, setIsResponded] = useState<boolean[] | null>(null);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -17,6 +19,7 @@ export default function PoemDirectory() {
       }
     };
     fetchUserId();
+
     const currentDate = new Date();
     const fetchData = async () => {
       const supabase = createClientComponentClient();
@@ -37,6 +40,11 @@ export default function PoemDirectory() {
       }
     };
     fetchData();
+
+    const fetchIsResponded = async () => {
+      setIsResponded(await hasUserRespondedAll(userId, poems));
+    };
+    fetchIsResponded();
   }, [setPoems]);
 
   return (
@@ -47,6 +55,7 @@ export default function PoemDirectory() {
           <div className='flex flex-wrap justify-center'>
             {poems.map((poem, userid) => (
               <span key={poem.id}>
+                {/* <p>{poem}</p> */}
                 <PoemCard
                   poemDate={poem.display_date}
                   poemAuthor={poem.author}
