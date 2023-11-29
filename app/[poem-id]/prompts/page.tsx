@@ -13,20 +13,18 @@ export default function PromptPage() {
   const params = useParams();
   const poemid = +params['poem-id'];
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const { poem, prompts } = useFetchPromptPageData(poemid);
+
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber || 0
   );
   const [promptInputs, setPromptInputs] = useState<string[]>([]);
-  const router = useRouter();
-  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>([
-    [],
-    [],
-    [],
-  ]);
+  const [highlightedWordIds, setHighlightedWordIds] = useState<number[][]>(
+    new Array(3).fill([])
+  );
   const [userId, setUserId] = useState<string | null>(null);
-
-  const { poem, prompts } = useFetchPromptPageData(poemid);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -61,32 +59,17 @@ export default function PromptPage() {
   };
 
   const handleSubmit = () => {
-    const supabase = createClientComponentClient;
-    submitPromptsData(
-      userId,
-      poemid,
-      prompts[0].id,
-      highlightedWordIds[0],
-      promptInputs[0],
-      supabase
-    );
-    submitPromptsData(
-      userId,
-      poemid,
-      prompts[1].id,
-      highlightedWordIds[1],
-      promptInputs[1],
-      supabase
-    );
-    submitPromptsData(
-      userId,
-      poemid,
-      prompts[2].id,
-      highlightedWordIds[2],
-      promptInputs[2],
-      supabase
-    );
-
+    const supabase = createClientComponentClient();
+    prompts.forEach((prompt, index) => {
+      submitPromptsData(
+        userId,
+        poemid,
+        prompt.id,
+        highlightedWordIds[index],
+        promptInputs[index],
+        supabase
+      );
+    });
     window.location.href = `/poemLibrary`;
   };
 
@@ -100,11 +83,9 @@ export default function PromptPage() {
         return true; // Disable if any pair is incomplete.
       }
     }
-
     if (highlightedWordIds.every((ids) => ids.length === 0)) {
       return true; //Disable if no responses recorded at all.
     }
-
     return false; // Enable if all pairs are complete or empty.
   };
 
