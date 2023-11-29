@@ -2,19 +2,7 @@
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
 import PoemCard from '../../components/PoemCard';
-
-type PoemsType =
-  | Array<{
-      id: number;
-      author: string;
-      name: string;
-      content: string;
-      first_prompt_id: number;
-      second_prompt_id: number;
-      third_prompt_id: number;
-      display_date: string;
-    }>
-  | [];
+import { PoemsType } from '@/types';
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
