@@ -54,7 +54,7 @@ body {
 @media screen and (max-width: 767px) {
   .poemScrollOverflow {
     overflow-y: scroll;
-    height: 96px; /* Equivalent to Tailwind's h-96 */
+    height: 200px;
   }
 }
 

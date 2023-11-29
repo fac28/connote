@@ -1,5 +1,6 @@
 import React from 'react';
 import { PoemsType, ResponsesType } from '@/types';
+import { ScrollShadow } from '@nextui-org/react';
 
 type ResponsePoemProps = {
   poem: PoemsType;
@@ -17,11 +18,9 @@ export default function ResponsePoem({
     <div className='flex flex-wrap'>
       {poem.map((poemItem) => (
         <span key={poemItem.id}>
-          <p>id: {poemItem.id}</p>
-          <p>author: {poemItem.author}</p>
-          <p>name: {poemItem.name}</p>
-          <br />
-          <p>
+          <small className='text-default-500'>{poemItem.author}</small>
+          <h4 className='font-bold text-large'>{poemItem.name}</h4>
+          <ScrollShadow className='w-[300px] h-[300px]'>
             {poemItem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
@@ -52,7 +51,7 @@ export default function ResponsePoem({
                 <br />
               </React.Fragment>
             ))}
-          </p>
+          </ScrollShadow>
           <br />
         </span>
       ))}
