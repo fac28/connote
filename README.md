@@ -9,7 +9,7 @@ Deployed [here](https://connote.vercel.app/) via vercel.
 Clone the repository and navigate to the project directory:
 
 ```bash
-git clone https://github.com/fac28/connotegit
+git clone https://github.com/fac28/connote.git
 cd connote
 ```
 
