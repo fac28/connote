@@ -120,12 +120,12 @@ export default function ResponsePage() {
                 <span key={prompt.id}>
                   {updatedResponses
                     .filter((response) => response.prompt_id === prompt.id)
-                    .map((response) => (
+                    .map((response, index) => (
                       <React.Fragment key={response.id}>
                         <div
                           className={`${
-                            response.highlight_colour
-                              ? response.highlight_colour
+                            topThreeColours[index]
+                              ? topThreeColours[index]
                               : 'bg-connote_white'
                           } p-4 mt-4 rounded-md flex justify-between shadow-inner`}
                         >
