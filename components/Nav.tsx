@@ -19,8 +19,6 @@ import { SunIcon } from './SunIcon';
 import styles from '../styles/background.module.css';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
-import { Progress } from '@nextui-org/react';
-import { useSearchParams } from 'next/navigation';
 import ProgressNav from './ProgressNav';
 
 export default function Nav({ session }: { session: Session | null }) {
