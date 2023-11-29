@@ -10,6 +10,7 @@ import PromptPoem from '@/components/PromptPoem';
 import { useRouter } from 'next/navigation';
 import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import InitialPromptBanner from '@/components/InitialPromptBanner';
 
 export default function PromptPage() {
   const params = useParams();
@@ -112,13 +113,11 @@ export default function PromptPage() {
 
   return (
     <main>
-      {prompts.map((prompt, index) =>
-        index === selectedPromptNumber ? (
-          <h2 key={prompt.id} className='promptPurple w-full'>
-            {prompt.initial_prompt}
-          </h2>
-        ) : null
-      )}
+      <InitialPromptBanner
+        prompts={prompts}
+        selectedPromptNumber={selectedPromptNumber}
+      />
+
       <div className='flex flex-col items-center justify-between p-4'>
         <div className='flex flex-wrap md:max-w-xs'>
           {prompts.map(
