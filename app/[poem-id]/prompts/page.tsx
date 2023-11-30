@@ -49,6 +49,8 @@ export default function PromptPage() {
   const handlePrevClick = () => {
     if (selectedPromptNumber > 0) {
       setPromptNumber(selectedPromptNumber - 1);
+    } else {
+      router.push('/poemLibrary');
     }
   };
 

@@ -12,6 +12,18 @@ type PromptButtonsProps = {
   promptInputs: string[];
 };
 
+let goBackCounter = 0;
+function goBack() {
+  if (goBackCounter % 2 === 0) {
+    alert('Are you sure you want to go back? Your answers might not be saved.');
+    goBackCounter++;
+    return false;
+  } else {
+    goBackCounter++;
+    return true;
+  }
+}
+
 export default function PromptButtons({
   selectedPromptNumber,
   handlePrevClick,
@@ -20,29 +32,41 @@ export default function PromptButtons({
   highlightedWordIds,
   promptInputs,
 }: PromptButtonsProps) {
+  const handleGoBack = () => {
+    if (goBack()) {
+      handlePrevClick();
+    }
+  };
+
+  const handleDisabledSubmit = () => {
+    if (isSubmitDisabled(prompts, highlightedWordIds, promptInputs)) {
+      alert(
+        'For each prompt you either need to a) select a word AND write an answer or b) not select a word AND not write an answer'
+      );
+    }
+  };
+
   return (
     <ButtonGroup className='flex items-center p-4'>
       <Button
-        disabled={selectedPromptNumber === 0}
-        onClick={handlePrevClick}
-        className={`bg-connote_orange rounded-xl mx-12 ${
-          selectedPromptNumber === 0 ? ' text-gray-500 cursor-not-allowed' : ''
-        }`}
+        onClick={selectedPromptNumber === 0 ? handleGoBack : handlePrevClick}
+        className={`bg-connote_orange rounded-xl mx-12 `}
       >
-        <FaChevronLeft />
+        {selectedPromptNumber === 0 ? 'Go Back' : <FaChevronLeft />}
       </Button>
       <Button
-        disabled={
-          selectedPromptNumber === 2 &&
-          isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
-        }
         className={`bg-connote_orange rounded-xl mx-12 ${
           selectedPromptNumber === 2 &&
           isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
             ? 'text-gray-500 opacity-70 rounded-xl cursor-not-allowed'
             : ''
         }`}
-        onClick={handleNextClick}
+        onClick={
+          selectedPromptNumber === 2 &&
+          isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
+            ? handleDisabledSubmit
+            : handleNextClick
+        }
       >
         {selectedPromptNumber === 2 ? 'Submit' : <FaChevronRight />}
       </Button>
