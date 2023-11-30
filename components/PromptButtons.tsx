@@ -1,6 +1,7 @@
 import { Button, ButtonGroup } from '@nextui-org/react';
 import { isSubmitDisabled } from '@/utils/supabase/models/isSubmitDisabled';
 import { PromptsType } from '@/types';
+import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 
 type PromptButtonsProps = {
   selectedPromptNumber: number;
@@ -30,7 +31,7 @@ export default function PromptButtons({
             : ''
         }`}
       >
-        Prev
+        <BsChevronCompactLeft />
       </Button>
       <Button
         disabled={
@@ -45,7 +46,7 @@ export default function PromptButtons({
         }`}
         onClick={handleNextClick}
       >
-        {selectedPromptNumber === 2 ? 'Submit' : 'Next'}
+        {selectedPromptNumber === 2 ? 'Submit' : <BsChevronCompactRight />}
       </Button>
     </ButtonGroup>
   );
