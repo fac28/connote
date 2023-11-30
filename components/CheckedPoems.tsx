@@ -80,7 +80,7 @@ export default function CheckedPoems() {
   return (
     <div className='flex flex-col items-center'>
       <h1 className='sub-heading'>My Bookmarked Poems</h1>
-      <div className='flex flex-wrap justify-center'>
+      <div className='flex flex-wrap justify-center max-w-[1024px]'>
         {checkedPoems.map((poem) => (
           <span key={poem.id}>
             <PoemCard

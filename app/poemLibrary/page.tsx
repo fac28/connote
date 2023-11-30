@@ -55,7 +55,7 @@ export default function PoemDirectory() {
       <div>
         <h1 className='headingPurple'>Poem Library</h1>
         <div className='flex flex-col items-center'>
-          <div className='flex flex-wrap justify-center'>
+          <div className='flex flex-wrap justify-center max-w-[1024px]'>
             {poems.map((poem, index) => (
               <span key={poem.id}>
                 <PoemCard
