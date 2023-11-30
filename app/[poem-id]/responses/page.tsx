@@ -15,7 +15,6 @@ import HeartIcon from '@/components/HeartIcon';
 
 import {
   addingHighlightAttribute,
-  topThreeColours,
   topThreeTextColours,
 } from '@/utils/dbParsingFunctions/addingHighlightAttribute';
 
@@ -40,8 +39,6 @@ export default function ResponsePage() {
 
   updatedResponses = addingHighlightAttribute(updatedResponses);
 
-  console.log(updatedResponses);
-
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
   useEffect(() => {
@@ -60,7 +57,9 @@ export default function ResponsePage() {
     };
     fetchInitialHearts();
   }, [updatedResponses]);
+
   const handleHeartsClick = async (responseId: number, userId: string) => {
+
     try {
       const supabase = createClientComponentClient();
 
@@ -170,10 +169,7 @@ export default function ResponsePage() {
                             >
                               <HeartIcon />
                             </Button>
-                            {/* <span className='text-connote_dark'>
-                            {hearts[response.id] || 0}
-                            response id {response.id}
-                          </span> */}
+
                             <span className='text-connote_dark'>
                               {loadingHearts
                                 ? 'Loading...'
@@ -211,7 +207,4 @@ export default function ResponsePage() {
       </div>
     </main>
   );
-}
-function setLikes(arg0: (prevLikes: any) => any) {
-  throw new Error('Function not implemented.');
 }

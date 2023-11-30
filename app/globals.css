@@ -11,6 +11,30 @@
   --font-inter: 'Inter', sans-serif;
 }
 
+.orange_bg_col {
+  @apply bg-connote_orange;
+}
+
+.pastel_blue_bg_col {
+  @apply bg-connote_pastel_blue;
+}
+
+.green_bg_col {
+  @apply bg-connote_green;
+}
+
+.orange_text_col {
+  @apply text-connote_orange;
+}
+
+.pastel_blue_text_col {
+  @apply text-connote_pastel_blue;
+}
+
+.green_text_col {
+  @apply text-connote_green;
+}
+
 body {
   margin: 0;
   overflow-x: hidden;
