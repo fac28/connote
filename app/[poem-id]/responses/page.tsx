@@ -40,7 +40,7 @@ export default function ResponsePage() {
 
   updatedResponses = addingHighlightAttribute(updatedResponses);
 
-  console.log(updatedResponses);
+  // console.log(updatedResponses);
 
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);

@@ -1,15 +1,15 @@
 import { ResponsesType } from '@/types';
 
 export let topThreeColours = [
-  'bg-connote_orange',
-  'bg-connote_green',
-  'bg-connote_pastel_blue',
+  'orange_bg_col',
+  'green_bg_col',
+  'pastel_blue_bg_col',
 ];
 
 export let topThreeTextColours = [
-  'text-connote_orange',
-  'text-connote_green',
-  'text-connote_pastel_blue',
+  'orange_text_col',
+  'green_text_col',
+  'pastel_blue_text_col',
 ];
 
 export function addingHighlightAttribute(responses: ResponsesType) {
