@@ -43,10 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, isLoading }) => {
           isRequired
         />
       </div>
-      <button
-        disabled={isLoading}
-        className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
-      >
+      <button disabled={isLoading} className='button'>
         Login
       </button>
     </form>

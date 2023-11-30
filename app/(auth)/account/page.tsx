@@ -90,7 +90,7 @@ const LogIn = () => {
       <Tabs aria-label='Options' color='warning' variant='solid'>
         <Tab key='login' title='Login'>
           <div className='text-center mt-10'>
-            <h2 className='mt-5 text-3xl'>Log In</h2>
+            <h2 className='sub-heading'>Log In</h2>
             <p className='mt-2 text-sm italic'>
               Please log in to your account.
             </p>
@@ -100,7 +100,7 @@ const LogIn = () => {
         </Tab>
         <Tab key='signup' title='Sign Up'>
           <div className='text-center mt-10'>
-            <h2 className='mt-5 text-3xl'>Sign up</h2>
+            <h2 className='sub-heading'>Sign up</h2>
             <p className='mt-2 text-sm italic'>Please create an account</p>
             <AuthForm handleSubmit={handleSubmitSign} isLoading={isLoading} />
             {formError && <div>{formError}</div>}

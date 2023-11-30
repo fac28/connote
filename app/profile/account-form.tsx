@@ -86,23 +86,12 @@ export default function AccountForm({ session }: { session: Session | null }) {
       </div>
       <div>
         <button
-          className=' text-xs bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-1 duration-150'
+          className='button'
           onClick={() => updateProfile({ username })}
           disabled={loading}
         >
           {loading ? 'Loading ...' : 'Update'}
         </button>
-      </div>
-
-      <div>
-        <form action='/signout' method='post'>
-          <button
-            className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
-            type='submit'
-          >
-            Logout
-          </button>
-        </form>
       </div>
     </div>
   );

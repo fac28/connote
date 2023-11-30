@@ -61,3 +61,23 @@ body {
 html {
   font-family: 'Ovo';
 }
+.button {
+  @apply bg-connote_orange hover:opacity-80 w-36 active:scale-95 rounded-xl text-white p-2  duration-150;
+}
+.sub-heading {
+  font-family: var(--font-playfair);
+  @apply text-center text-2xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 p-3 rounded-md shadow-lg;
+}
+.backgroundContainer {
+  background-image: url('/JPG/42. Charm.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.backgroundContainerDark {
+  background-image: url('/JPG/100. Chetwode Blue.jpg');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}

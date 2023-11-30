@@ -16,7 +16,6 @@ import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import { MoonIcon } from './MoonIcon';
 import { SunIcon } from './SunIcon';
-import styles from '../styles/background.module.css';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
 import ProgressNav from './ProgressNav';
@@ -32,11 +31,11 @@ export default function Nav({ session }: { session: Session | null }) {
   const toggleTheme = (isDarkTheme: any) => {
     setTheme(isDarkTheme ? 'dark' : 'light');
     if (isDarkTheme) {
-      document.documentElement.classList.add(styles.backgroundContainerDark);
-      document.documentElement.classList.remove(styles.backgroundContainer);
+      document.documentElement.classList.add('backgroundContainerDark');
+      document.documentElement.classList.remove('backgroundContainer');
     } else {
-      document.documentElement.classList.add(styles.backgroundContainer);
-      document.documentElement.classList.remove(styles.backgroundContainerDark);
+      document.documentElement.classList.add('backgroundContainer');
+      document.documentElement.classList.remove('backgroundContainerDark');
     }
   };
 
