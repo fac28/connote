@@ -13,13 +13,16 @@ import { usePathname } from 'next/navigation';
 import RenderNavLinks from './NavComponents/renderNavLinks';
 import { Progress } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
+import { MoonIcon } from './MoonIcon';
+import { SunIcon } from './SunIcon';
 
 export default function ProgressNav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { setTheme } = useNextTheme();
+  const { theme, setTheme } = useNextTheme();
   const pathname = usePathname();
   const [promptNumber, setPromptNumber] = useState(0);
   const searchParams = useSearchParams();
+  const initialSwitchState = theme === 'dark';
 
   useEffect(() => {
     const x = `${searchParams}`;
@@ -52,8 +55,17 @@ export default function ProgressNav() {
       {/* Navlinks */}
       <NavbarMenu className='mt-1'>
         <Switch
+          color='warning'
+          defaultSelected={initialSwitchState}
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
+          thumbIcon={({ isSelected, className }) =>
+            isSelected ? (
+              <MoonIcon className={className} />
+            ) : (
+              <SunIcon className={className} />
+            )
+          }
         />
         <RenderNavLinks
           currentPathname={pathname}

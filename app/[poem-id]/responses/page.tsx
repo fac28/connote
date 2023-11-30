@@ -20,7 +20,7 @@ export default function ResponsePage() {
   const searchParams = useSearchParams();
   const promptNumber = Number(searchParams.get('prompt'));
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
-    promptNumber !== undefined ? promptNumber + 1 : 0
+    promptNumber || 0
   );
   const router = useRouter();
 
@@ -104,28 +104,37 @@ export default function ResponsePage() {
   };
 
   return (
-    <main className='flex flex-col items-center justify-between p-4'>
-      <ResponsePoem
-        poem={poem}
-        responses={updatedResponses}
-        selectedPromptNumber={selectedPromptNumber}
-      />
-
-      <div className='flex flex-wrap md:max-w-xs'>
-        {updatedPrompts.map(
-          (prompt) =>
-            prompt.id === selectedPromptNumber && (
-              <span key={prompt.id}>
-                {updatedResponses
-                  .filter((response) => response.prompt_id === prompt.id)
-                  .map((response) => (
-                    <React.Fragment key={response.id}>
-                      <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
-                        <div className='flex flex-col'>
-                          <h2 className='text-connote_orange text-lg '>
-                            @{response.user?.username}
-                          </h2>
-
+    <main>
+      {prompts.map((prompt, index) =>
+        index === selectedPromptNumber ? (
+          <h2 key={prompt.id} className='promptPurple w-full'>
+            {prompt.initial_prompt}
+          </h2>
+        ) : null
+      )}
+      <div className='flex flex-col items-center justify-between p-4'>
+        <ResponsePoem
+          poem={poem}
+          responses={updatedResponses}
+          selectedPromptNumber={selectedPromptNumber}
+        />
+      </div>
+      <h2 className='promptPurple w-full'>Responses</h2>
+      <div className='flex flex-col items-center justify-between p-4'>
+        <div className='flex flex-wrap max-w-xs'>
+          {updatedPrompts.map(
+            (prompt) =>
+              prompt.id === selectedPromptNumber && (
+                <span key={prompt.id}>
+                  {updatedResponses
+                    .filter((response) => response.prompt_id === prompt.id)
+                    .map((response) => (
+                      <React.Fragment key={response.id}>
+                        <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
+                          <div className='flex flex-col'>
+                            <h2 className='responseUser text-connote_dark text-md '>
+                              @{response.user?.username}
+                            </h2>
                           <p className='italic text-connote_dark pr-3'>
                             {response.response_written}
                           </p>
@@ -148,32 +157,33 @@ export default function ResponsePage() {
                               ? 'Loading...'
                               : hearts[response.id] || 0}
                           </span>
+                              
                         </div>
-                      </div>
-                      <br />
-                    </React.Fragment>
-                  ))}
-              </span>
-            )
-        )}
-      </div>
+                        <br />
+                      </React.Fragment>
+                    ))}
+                </span>
+              )
+          )}
+        </div>
 
-      <ButtonGroup>
-        <Button
-          disabled={selectedPromptNumber === 0}
-          onClick={handlePrevClick}
-          className={`${
-            selectedPromptNumber === 0
-              ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-              : ''
-          }`}
-        >
-          Prev
-        </Button>
-        <Button onClick={handleNextClick}>
-          {selectedPromptNumber === 2 ? 'Done' : 'Next'}
-        </Button>
-      </ButtonGroup>
+        <ButtonGroup>
+          <Button
+            disabled={selectedPromptNumber === 0}
+            onClick={handlePrevClick}
+            className={`${
+              selectedPromptNumber === 0
+                ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+                : ''
+            }`}
+          >
+            Prev
+          </Button>
+          <Button onClick={handleNextClick}>
+            {selectedPromptNumber === 2 ? 'Done' : 'Next'}
+          </Button>
+        </ButtonGroup>
+      </div>
     </main>
   );
 }

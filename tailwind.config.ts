@@ -14,7 +14,8 @@ const config: Config = {
       fontFamily: {
         ovo: ['Ovo', 'sans-serif'],
         playfair: ['Playfair Display', 'serif'],
-        potta: ['Potta One', 'cursive'],
+        tilt: ['Tilt Warp', 'cursive'],
+        inter: ['Innter', 'sans-serif'],
       },
       colors: {
         connote_orange: '#F9844A',

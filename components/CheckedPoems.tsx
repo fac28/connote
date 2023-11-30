@@ -60,7 +60,8 @@ export default function CheckedPoems() {
             first_prompt_id,
             second_prompt_id,
             third_prompt_id,
-            display_date
+            display_date,
+            image
           `
           )
           .in('id', poemIds);
@@ -81,7 +82,7 @@ export default function CheckedPoems() {
       <h1>My Bookmarked Poems</h1>
       <div className='flex flex-wrap justify-center'>
         {checkedPoems.map((poem) => (
-          <span onClick={() => handleSubmit(poem.id)} key={poem.id}>
+          <span key={poem.id}>
             <PoemCard
               poemDate={poem.display_date}
               poemAuthor={poem.author}

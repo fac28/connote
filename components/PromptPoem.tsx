@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { PoemsType } from '@/types';
+import { ScrollShadow } from '@nextui-org/react';
 
 type PromptPoemProps = {
   poem: PoemsType;
@@ -46,16 +47,10 @@ export default function PromptPoem({
 
       setHighlightedWordIds(newHighlightedWordIds);
 
-      console.log(`Clicked word: ${word}, Span ID: ${spanId}`);
-
       clickedSpan.classList.toggle('bg-black');
       clickedSpan.classList.toggle('text-white');
     }
   }
-
-  useEffect(() => {
-    console.log('Highlighted Word IDs:', highlightedWordIds);
-  }, [highlightedWordIds]);
 
   function highlightWords() {
     // Remove styling from all spans
@@ -73,7 +68,6 @@ export default function PromptPoem({
   }
 
   useEffect(() => {
-    console.log('Change');
     highlightWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPromptNumber]);
@@ -81,13 +75,12 @@ export default function PromptPoem({
   let wordCounter = 0;
 
   return (
-    <div className='flex flex-wrap'>
+    <div className='flex flex-col items-center justify-between p-4'>
       {poem.map((poem) => (
         <span key={poem.id}>
           <small className='text-default-500'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
-          <br></br>
-          <p className='poemScrollOverflow'>
+          <ScrollShadow className='w-[300px] h-[300px]'>
             {poem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
@@ -111,7 +104,7 @@ export default function PromptPoem({
                 <br />
               </React.Fragment>
             ))}
-          </p>
+          </ScrollShadow>
           <br></br>
         </span>
       ))}

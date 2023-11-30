@@ -19,8 +19,6 @@ import { SunIcon } from './SunIcon';
 import styles from '../styles/background.module.css';
 import Logo from './NavComponents/Logo';
 import RenderNavLinks from './NavComponents/renderNavLinks';
-import { Progress } from '@nextui-org/react';
-import { useSearchParams } from 'next/navigation';
 import ProgressNav from './ProgressNav';
 
 export default function Nav({ session }: { session: Session | null }) {
@@ -29,6 +27,7 @@ export default function Nav({ session }: { session: Session | null }) {
   const [currentPathname, setCurrentPathname] = useState('');
   const pathname = usePathname();
   const [isPromptOrResponsePage, setIsPromptOrResponsePage] = useState(false);
+  const initialSwitchState = theme === 'dark';
 
   const toggleTheme = (isDarkTheme: any) => {
     setTheme(isDarkTheme ? 'dark' : 'light');
@@ -85,6 +84,7 @@ export default function Nav({ session }: { session: Session | null }) {
         />
         <NavbarItem>
           <Switch
+            defaultSelected={initialSwitchState}
             color='warning'
             size='sm'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
@@ -104,10 +104,17 @@ export default function Nav({ session }: { session: Session | null }) {
         <NavbarItem>
           {session ? (
             <form action='/signout' method='post'>
-              <button className='btn'>Logout</button>
+              <button className='btn hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'>
+                Logout
+              </button>
             </form>
           ) : (
-            <Button as={Link} className='btn' href='/account' variant='flat'>
+            <Button
+              as={Link}
+              className='btn hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
+              href='/account'
+              variant='flat'
+            >
               Login
             </Button>
           )}
@@ -117,6 +124,7 @@ export default function Nav({ session }: { session: Session | null }) {
       {/* Mobile: Switch, Links */}
       <NavbarMenu className='mt-1'>
         <Switch
+          defaultSelected={initialSwitchState}
           color='warning'
           size='sm'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
