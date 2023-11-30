@@ -12,6 +12,18 @@ type PromptButtonsProps = {
   promptInputs: string[];
 };
 
+let goBackCounter = 0;
+function goBack() {
+  if (goBackCounter % 2 === 0) {
+    alert('Are you sure you want to go back? Your answers might not be saved.');
+    goBackCounter++;
+    return false;
+  } else {
+    goBackCounter++;
+    return true;
+  }
+}
+
 export default function PromptButtons({
   selectedPromptNumber,
   handlePrevClick,
@@ -20,11 +32,16 @@ export default function PromptButtons({
   highlightedWordIds,
   promptInputs,
 }: PromptButtonsProps) {
+  const handleGoBack = () => {
+    if (goBack()) {
+      handlePrevClick();
+    }
+  };
+
   return (
     <ButtonGroup className='flex items-center p-4'>
       <Button
-        // disabled={selectedPromptNumber === 0}
-        onClick={handlePrevClick}
+        onClick={selectedPromptNumber === 0 ? handleGoBack : handlePrevClick}
         className={`bg-connote_orange rounded-xl mx-12 `}
       >
         {selectedPromptNumber === 0 ? 'Go Back' : <FaChevronLeft />}
