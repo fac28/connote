@@ -122,13 +122,6 @@ export default function ResponsePage() {
     console.log('handle redirecting after you`ve looked through comments');
   };
 
-  const handleLikeClick = (responseId: number) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [responseId]: (prevLikes[responseId] || 0) + 1,
-    }));
-  };
-
   return (
     <main>
       {prompts.map((prompt, index) =>
@@ -223,7 +216,4 @@ export default function ResponsePage() {
       </div>
     </main>
   );
-}
-function setLikes(arg0: (prevLikes: any) => any) {
-  throw new Error('Function not implemented.');
 }
