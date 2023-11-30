@@ -17,11 +17,11 @@ export default function PoemDirectory() {
       if (sessionData?.session?.user?.id) {
         setUserId(sessionData.session.user.id);
         await fetchData(sessionData.session.user.id);
-      }
+      } else await fetchData(null);
     };
 
     const currentDate = new Date();
-    const fetchData = async (fetchedUserId: string) => {
+    const fetchData = async (fetchedUserId: string | null) => {
       const supabase = createClientComponentClient();
       const { data, error } = await supabase
         .from('poems')
@@ -38,8 +38,13 @@ export default function PoemDirectory() {
         );
         setPoems(data); //Change this to filtered poems for production.
 
-        const IsRespondedArray = await hasUserRespondedAll(fetchedUserId, data);
-        setIsResponded(IsRespondedArray);
+        if (fetchUserId != null) {
+          const IsRespondedArray = await hasUserRespondedAll(
+            fetchedUserId,
+            data
+          );
+          setIsResponded(IsRespondedArray);
+        }
       }
     };
     fetchUserId();
@@ -59,7 +64,7 @@ export default function PoemDirectory() {
                   poemName={poem.name}
                   poemImage={poem.image}
                   poemId={poem.id}
-                  userId={userId}
+                  userId={userId ? userId : null}
                   supabase={createClientComponentClient()}
                   key={poem.id}
                   isResponded={isResponded ? isResponded[index] : false}
