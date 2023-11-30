@@ -2,6 +2,7 @@ import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 
 export const fetchReacts = async (type: string, supabase: SupabaseClient) => {
   try {
+    console.log("fetchReacts start")
     const { data, error } = await supabase
       .from('reacts')
       .select('response_id, type')

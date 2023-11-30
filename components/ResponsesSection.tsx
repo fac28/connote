@@ -9,6 +9,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 
 type ResponsesSectionProps = {
+  updatedResponses: ResponsesType;
   reupdatedResponses: ResponsesType;
   updatedPrompts: PromptsType;
   selectedPromptNumber: number;
@@ -22,6 +23,7 @@ export default function ResponsesSection({
   selectedPromptNumber,
   handlePrevClick,
   handleNextClick,
+  updatedResponses,
 }: ResponsesSectionProps) {
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
@@ -30,6 +32,8 @@ export default function ResponsesSection({
   }>({});
 
   useEffect(() => {
+    console.log("useEffect responses section start")
+    // console.log(updatedPrompts)
     const fetchInitialHearts = async () => {
       try {
         const supabase = createClientComponentClient();
@@ -42,7 +46,8 @@ export default function ResponsesSection({
       }
     };
     fetchInitialHearts();
-  }, [reupdatedResponses]);
+    console.log("useEffect responses section end", )
+  }, [updatedResponses]);
 
   const handleHeartsClick = async (responseId: number, userId: string) => {
     try {
