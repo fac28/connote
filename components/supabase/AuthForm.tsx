@@ -83,10 +83,7 @@ const AuthForm: React.FC<AuthFormProps> = ({ handleSubmit, isLoading }) => {
       </div>
       {errorMessage && <p className='text-red-500'>{errorMessage}</p>}{' '}
       {/* Display error message */}
-      <button
-        disabled={isLoading}
-        className='bg-connote_orange hover:opacity-80 active:scale-95 rounded-xl text-white p-2 duration-150'
-      >
+      <button disabled={isLoading} className='button'>
         Create account
       </button>
     </form>
