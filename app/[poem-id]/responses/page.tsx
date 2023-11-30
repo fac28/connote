@@ -15,7 +15,6 @@ import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 import {
   addingHighlightAttribute,
-  topThreeColours,
   topThreeTextColours,
 } from '@/utils/dbParsingFunctions/addingHighlightAttribute';
 
@@ -50,8 +49,6 @@ export default function ResponsePage() {
       try {
         const supabase = createClientComponentClient();
         const heartReacts = await fetchReacts('heart', supabase);
-
-        // console.log(heartReacts);
         setHearts(heartReacts);
         setLoadingHearts(false);
       } catch (error) {
@@ -61,19 +58,17 @@ export default function ResponsePage() {
     };
     fetchInitialHearts();
   }, [updatedResponses]);
-  const handleHeartsClick = async (responseId: number) => {
+
+  const handleHeartsClick = async (responseId: number, userId: string) => {
     try {
       const supabase = createClientComponentClient();
-
-      // Insert a new row into the 'reacts' table
       const { data, error } = await supabase.from('reacts').insert([
         {
           response_id: responseId,
           type: 'heart',
+          reacter_id: userId,
         },
       ]);
-
-      // Fetch the updated count of hearts from the database
       const { data: updatedHearts, error: fetchError } = await supabase
         .from('reacts')
         .select('response_id, count', { count: 'exact' })
@@ -165,18 +160,17 @@ export default function ResponsePage() {
                               {response.response_written}
                             </p>
                           </div>
-
                           <br />
                           <div className='flex items-center flex-col '>
                             {likedResponses[response.id] ? (
                               <FaHeart
                                 className='text-red-500 hover:cursor-pointer'
-                                onClick={() => handleHeartsClick(response.id)}
+                                onClick={() => handleHeartsClick(response.id, response.user_id)}
                               />
                             ) : (
                               <FaRegHeart
                                 className='hover:cursor-pointer'
-                                onClick={() => handleHeartsClick(response.id)}
+                                onClick={() => handleHeartsClick(response.id, response.user_id)}
                               />
                             )}
 
