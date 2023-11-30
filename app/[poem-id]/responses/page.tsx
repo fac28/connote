@@ -13,7 +13,6 @@ import {
   updateResponses012,
 } from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
-import { ResponsesType } from '@/types';
 import {
   addingHighlightAttribute,
   topThreeColours,
@@ -34,38 +33,6 @@ export default function ResponsePage() {
 
   let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
-
-  // let topThreeColours = [
-  //   'bg-connote_orange',
-  //   'bg-connote_green',
-  //   'bg-connote_pastel_blue',
-  // ];
-
-  // function addingHighlightAttribute(responses: ResponsesType) {
-  //   let sortedResponses = [...responses].sort(
-  //     (a, b) => a.prompt_id - b.prompt_id
-  //   );
-
-  //   let result: Record<number, ResponsesType> = {};
-
-  //   sortedResponses.forEach((response) => {
-  //     if (!result[response.prompt_id]) {
-  //       result[response.prompt_id] = [];
-  //     }
-
-  //     result[response.prompt_id].push(response);
-  //   });
-
-  //   for (let key in result) {
-  //     result[key].slice(0, 3).forEach((response, index) => {
-  //       response.highlight_colour = topThreeColours[index];
-  //     });
-  //   }
-
-  //   let finalResult = Object.values(result).flat();
-
-  //   return finalResult;
-  // }
 
   updatedResponses = addingHighlightAttribute(updatedResponses);
 
