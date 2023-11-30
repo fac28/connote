@@ -3,10 +3,12 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { useState, useEffect } from 'react';
 import PoemCard from '../../components/PoemCard';
 import { PoemsType } from '@/types';
+import { hasUserRespondedAll } from '@/utils/supabase/models/hasUserRespondedAll';
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
   const [userId, setUserId] = useState<string | null>(null);
+  const [isResponded, setIsResponded] = useState<boolean[] | null>(null);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -14,11 +16,12 @@ export default function PoemDirectory() {
       const { data: sessionData } = await supabase.auth.getSession();
       if (sessionData?.session?.user?.id) {
         setUserId(sessionData.session.user.id);
+        await fetchData(sessionData.session.user.id);
       }
     };
-    fetchUserId();
+
     const currentDate = new Date();
-    const fetchData = async () => {
+    const fetchData = async (fetchedUserId: string) => {
       const supabase = createClientComponentClient();
       const { data, error } = await supabase
         .from('poems')
@@ -34,10 +37,13 @@ export default function PoemDirectory() {
           (poem) => new Date(poem.display_date) <= currentDate
         );
         setPoems(data); //Change this to filtered poems for production.
+
+        const IsRespondedArray = await hasUserRespondedAll(fetchedUserId, data);
+        setIsResponded(IsRespondedArray);
       }
     };
-    fetchData();
-  }, [setPoems]);
+    fetchUserId();
+  }, []);
 
   return (
     <>
@@ -45,7 +51,7 @@ export default function PoemDirectory() {
         <h1 className='headingPurple'>Poem Library</h1>
         <div className='flex flex-col items-center'>
           <div className='flex flex-wrap justify-center'>
-            {poems.map((poem, userid) => (
+            {poems.map((poem, index) => (
               <span key={poem.id}>
                 <PoemCard
                   poemDate={poem.display_date}
@@ -56,6 +62,7 @@ export default function PoemDirectory() {
                   userId={userId}
                   supabase={createClientComponentClient()}
                   key={poem.id}
+                  isResponded={isResponded ? isResponded[index] : false}
                   // onClick={() => handleSubmit(poem.id)}
                 />
               </span>

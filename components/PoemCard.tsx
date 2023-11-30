@@ -15,6 +15,7 @@ type children = {
   poemId: number;
   userId: string | null;
   supabase: SupabaseClient;
+  isResponded: boolean;
 };
 
 export default function PoemCard({
@@ -25,6 +26,7 @@ export default function PoemCard({
   poemId,
   supabase,
   userId,
+  isResponded,
 }: children) {
   const [isChecked, setIsChecked] = useState(false);
 
@@ -98,7 +100,9 @@ export default function PoemCard({
         <div className='absolute top-0 left-0 right-0 bottom-0 rounded-xl overflow-hidden'>
           <Image
             alt='Card background'
-            className='object-contain '
+            className={
+              isResponded ? 'object-contain' : 'grayscale object-contain'
+            }
             src={poemImage}
           />
         </div>
