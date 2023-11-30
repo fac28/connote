@@ -91,6 +91,7 @@ export default function CheckedPoems() {
               poemId={poem.id}
               userId={userId}
               supabase={createClientComponentClient()}
+              isResponded={true}
             />
           </span>
         ))}
