@@ -1,10 +1,6 @@
 import { ResponsesType } from '@/types';
 
-export let topThreeColours = [
-  'orange_bg_col',
-  'green_bg_col',
-  'pastel_blue_bg_col',
-];
+let topThreeColours = ['orange_bg_col', 'green_bg_col', 'pastel_blue_bg_col'];
 
 export let topThreeTextColours = [
   'orange_text_col',

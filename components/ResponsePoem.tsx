@@ -1,6 +1,9 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect } from 'react';
 import { PoemsType, ResponsesType } from '@/types';
 import { ScrollShadow } from '@nextui-org/react';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 
 type ResponsePoemProps = {
   poem: PoemsType;
@@ -13,6 +16,23 @@ export default function ResponsePoem({
   responses,
   selectedPromptNumber,
 }: ResponsePoemProps) {
+  const supabase = createClientComponentClient();
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        console.log('user id', user.id);
+      } catch (error) {
+        console.error('Error fetching user data:', error);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
   let wordCounter = 0;
 
   return (
