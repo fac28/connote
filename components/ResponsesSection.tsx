@@ -5,6 +5,7 @@ import { ResponsesType, PromptsType } from '@/types';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
+import ResponseItem from './ResponseItem';
 
 type ResponsesSectionProps = {
   updatedResponses: ResponsesType;
@@ -41,49 +42,15 @@ export default function ResponsesSection({
                   .filter((response) => response.prompt_id === prompt.id)
                   .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
                   .map((response, index) => (
-                    <React.Fragment key={response.id}>
-                      <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner responseComment'>
-                        <div className='flex flex-col'>
-                          <h2
-                            className={`${
-                              topThreeTextColours[index]
-                                ? topThreeTextColours[index]
-                                : 'text-connote_dark'
-                            } responseUser  text-md`}
-                          >
-                            @{response.user?.username}
-                          </h2>
-
-                          <p className=' text-connote_dark '>
-                            {response.response_written}
-                          </p>
-                        </div>
-                        <br />
-                        <div className='flex items-center flex-col '>
-                          {likedResponses[response.id] ? (
-                            <FaHeart
-                              className='text-red-500 hover:cursor-pointer'
-                              onClick={() =>
-                                handleHeartsClick(response.id, response.user_id)
-                              }
-                            />
-                          ) : (
-                            <FaRegHeart
-                              className='hover:cursor-pointer'
-                              onClick={() =>
-                                handleHeartsClick(response.id, response.user_id)
-                              }
-                            />
-                          )}
-
-                          <span className='text-connote_dark text-tiny'>
-                            {loadingHearts
-                              ? 'Loading...'
-                              : hearts[response.id] || 0}
-                          </span>
-                        </div>
-                      </div>
-                    </React.Fragment>
+                    <ResponseItem
+                      key={response.id}
+                      response={response}
+                      index={index}
+                      hearts={hearts}
+                      likedResponses={likedResponses}
+                      handleHeartsClick={handleHeartsClick}
+                      loadingHearts={loadingHearts}
+                    />
                   ))}
               </span>
             )
