@@ -44,6 +44,7 @@ export default function ResponsePage() {
 
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
+
   useEffect(() => {
     const fetchInitialHearts = async () => {
       try {

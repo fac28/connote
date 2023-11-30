@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PoemsType, ResponsesType } from '@/types';
 import { ScrollShadow } from '@nextui-org/react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -18,13 +18,18 @@ export default function ResponsePoem({
 }: ResponsePoemProps) {
   const supabase = createClientComponentClient();
 
+  const [currentUser, setCurrentUser] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
         const {
           data: { user },
         } = await supabase.auth.getUser();
-        console.log('user id', user.id);
+        if (user) {
+          console.log('user id', user.id);
+          setCurrentUser(user.id);
+        }
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -62,14 +67,30 @@ export default function ResponsePoem({
                           ) && response.prompt_id === selectedPromptNumber
                       );
 
+                      const myHighlights = responses
+                        .filter(
+                          (response) =>
+                            response.user_id === currentUser &&
+                            response.response_selected.includes(
+                              currentWordIndex
+                            ) &&
+                            response.prompt_id === selectedPromptNumber
+                        )
+                        .map((response) => response.response_selected)
+                        .flat();
+
                       return (
                         <React.Fragment key={currentWordIndex}>
                           <span
                             id={String(currentWordIndex)}
                             className={
-                              isSelected
+                              (isSelected
                                 ? matchingResponse?.highlight_colour ?? ''
-                                : ''
+                                : '') +
+                              ' ' +
+                              (myHighlights.includes(currentWordIndex)
+                                ? 'underline'
+                                : '')
                             }
                           >
                             {word}
