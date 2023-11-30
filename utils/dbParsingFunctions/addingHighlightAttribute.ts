@@ -7,27 +7,22 @@ export let topThreeColours = [
 ];
 
 export function addingHighlightAttribute(responses: ResponsesType) {
-  let sortedResponses = [...responses].sort(
+  const sortedResponses: ResponsesType = [...responses].sort(
     (a, b) => a.prompt_id - b.prompt_id
   );
 
-  let result: Record<number, ResponsesType> = {};
+  const result: Record<number, ResponsesType> = {};
 
   sortedResponses.forEach((response) => {
-    if (!result[response.prompt_id]) {
-      result[response.prompt_id] = [];
-    }
-
-    result[response.prompt_id].push(response);
+    const { prompt_id } = response;
+    result[prompt_id] = [...(result[prompt_id] || []), response];
   });
 
-  for (let key in result) {
+  for (const key in result) {
     result[key].slice(0, 3).forEach((response, index) => {
       response.highlight_colour = topThreeColours[index];
     });
   }
 
-  let finalResult = Object.values(result).flat();
-
-  return finalResult;
+  return Object.values(result).flat();
 }
