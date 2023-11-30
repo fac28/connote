@@ -1,5 +1,5 @@
 import { Button, ButtonGroup } from '@nextui-org/react';
-import { isSubmitDisabled } from '@/utils/supabase/models/isSubmitDisabled';
+import { isSubmitDisabled } from '@/utils/promptPageHandlingFunctions/isSubmitDisabled';
 import { PromptsType } from '@/types';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
