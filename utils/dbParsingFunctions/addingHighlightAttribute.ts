@@ -6,6 +6,12 @@ export let topThreeColours = [
   'bg-connote_pastel_blue',
 ];
 
+export let topThreeTextColours = [
+  'text-connote_orange',
+  'text-connote_green',
+  'text-connote_pastel_blue',
+];
+
 export function addingHighlightAttribute(responses: ResponsesType) {
   const sortedResponses: ResponsesType = [...responses].sort(
     (a, b) => a.prompt_id - b.prompt_id

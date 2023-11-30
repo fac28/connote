@@ -16,6 +16,7 @@ import HeartIcon from '@/components/HeartIcon';
 import {
   addingHighlightAttribute,
   topThreeColours,
+  topThreeTextColours,
 } from '@/utils/dbParsingFunctions/addingHighlightAttribute';
 
 export default function ResponsePage() {
@@ -97,15 +98,15 @@ export default function ResponsePage() {
                     .filter((response) => response.prompt_id === prompt.id)
                     .map((response, index) => (
                       <React.Fragment key={response.id}>
-                        <div
-                          className={`${
-                            topThreeColours[index]
-                              ? topThreeColours[index]
-                              : 'bg-connote_white'
-                          } p-4 mt-4 rounded-md flex justify-between shadow-inner`}
-                        >
+                        <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
                           <div className='flex flex-col'>
-                            <h2 className='responseUser text-connote_dark text-md '>
+                            <h2
+                              className={`${
+                                topThreeTextColours[index]
+                                  ? topThreeTextColours[index]
+                                  : 'text-connote_dark'
+                              } responseUser  text-md`}
+                            >
                               @{response.user?.username}
                             </h2>
 
