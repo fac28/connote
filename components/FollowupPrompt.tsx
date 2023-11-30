@@ -23,7 +23,7 @@ export default function FollowupPrompt({
           </h2>
         ) : null
       )}
-      <div className='flex flex-col items-center justify-between'>
+      <div className='flex flex-col items-center justify-between mt-4'>
         <div className='flex flex-wrap md:max-w-xs'>
           {prompts.map(
             (prompt, index) =>

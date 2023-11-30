@@ -35,7 +35,7 @@ body {
 
 .promptPurple {
   font-family: var(--font-playfair);
-  @apply text-center text-2xl tracking-wide bg-connote_pastel_purple bg-opacity-30 my-8 py-3;
+  @apply text-center text-2xl tracking-wide bg-connote_pastel_purple bg-opacity-30 py-3;
 }
 
 .profileForm {
