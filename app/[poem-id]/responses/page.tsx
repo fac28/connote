@@ -15,7 +15,6 @@ import HeartIcon from '@/components/HeartIcon';
 
 import {
   addingHighlightAttribute,
-  topThreeColours,
   topThreeTextColours,
 } from '@/utils/dbParsingFunctions/addingHighlightAttribute';
 
@@ -40,8 +39,6 @@ export default function ResponsePage() {
 
   updatedResponses = addingHighlightAttribute(updatedResponses);
 
-  // console.log(updatedResponses);
-
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
   useEffect(() => {
@@ -60,6 +57,7 @@ export default function ResponsePage() {
     };
     fetchInitialHearts();
   }, [updatedResponses]);
+
   const handleHeartsClick = async (responseId: number) => {
     try {
       const supabase = createClientComponentClient();
@@ -116,13 +114,6 @@ export default function ResponsePage() {
     console.log('handle redirecting after you`ve looked through comments');
   };
 
-  const handleLikeClick = (responseId: number) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [responseId]: (prevLikes[responseId] || 0) + 1,
-    }));
-  };
-
   return (
     <main>
       {prompts.map((prompt, index) =>
@@ -174,10 +165,7 @@ export default function ResponsePage() {
                             >
                               <HeartIcon />
                             </Button>
-                            {/* <span className='text-connote_dark'>
-                            {hearts[response.id] || 0}
-                            response id {response.id}
-                          </span> */}
+
                             <span className='text-connote_dark'>
                               {loadingHearts
                                 ? 'Loading...'
@@ -215,7 +203,4 @@ export default function ResponsePage() {
       </div>
     </main>
   );
-}
-function setLikes(arg0: (prevLikes: any) => any) {
-  throw new Error('Function not implemented.');
 }
