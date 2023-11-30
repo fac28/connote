@@ -1,4 +1,5 @@
 'use client';
+
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
@@ -9,11 +10,19 @@ import { useRouter } from 'next/navigation';
 import {
   updatePrompts012,
   updateResponses012,
-} from '@/utils/supabase/models/mappingReponseDataTo012';
+} from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
+
+import {
+  addingHighlightAttribute,
+  topThreeColours,
+  topThreeTextColours,
+} from '@/utils/dbParsingFunctions/addingHighlightAttribute';
+
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
+
 
 export default function ResponsePage() {
   const params = useParams();
@@ -27,9 +36,13 @@ export default function ResponsePage() {
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
-  const updatedResponses = updateResponses012(poem[0], responses);
+  let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
 
+  updatedResponses = addingHighlightAttribute(updatedResponses);
+
+  console.log(updatedResponses);
+        
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
   useEffect(() => {
@@ -104,6 +117,14 @@ export default function ResponsePage() {
     console.log('handle redirecting after you`ve looked through comments');
   };
 
+
+  const handleLikeClick = (responseId: number) => {
+    setLikes((prevLikes) => ({
+      ...prevLikes,
+      [responseId]: (prevLikes[responseId] || 0) + 1,
+    }));
+  };
+
   return (
     <main>
       {prompts.map((prompt, index) =>
@@ -129,11 +150,17 @@ export default function ResponsePage() {
                 <span key={prompt.id}>
                   {updatedResponses
                     .filter((response) => response.prompt_id === prompt.id)
-                    .map((response) => (
+                    .map((response, index) => (
                       <React.Fragment key={response.id}>
                         <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
                           <div className='flex flex-col'>
-                            <h2 className='responseUser text-connote_dark text-md '>
+                            <h2
+                              className={`${
+                                topThreeTextColours[index]
+                                  ? topThreeTextColours[index]
+                                  : 'text-connote_dark'
+                              } responseUser  text-md`}
+                            >
                               @{response.user?.username}
                             </h2>
                             <p className='italic text-connote_dark pr-3'>

@@ -29,6 +29,7 @@ export type ResponsesType =
       response_selected: number[];
       response_written: string;
       user_id: string;
+      highlight_colour?: string;
       user?: {
         username: string;
       };

@@ -14,6 +14,7 @@ export default function ResponsePoem({
   selectedPromptNumber,
 }: ResponsePoemProps) {
   let wordCounter = 0;
+
   return (
     <div className='flex flex-wrap'>
       {poem.map((poemItem) => (
@@ -34,11 +35,22 @@ export default function ResponsePoem({
                           ) && response.prompt_id === selectedPromptNumber
                       );
 
+                      const matchingResponse = responses.find(
+                        (response) =>
+                          response.response_selected.includes(
+                            currentWordIndex
+                          ) && response.prompt_id === selectedPromptNumber
+                      );
+
                       return (
                         <React.Fragment key={currentWordIndex}>
                           <span
                             id={String(currentWordIndex)}
-                            className={isSelected ? 'bg-connote_orange' : ''}
+                            className={
+                              isSelected
+                                ? matchingResponse?.highlight_colour ?? ''
+                                : ''
+                            }
                           >
                             {word}
                           </span>{' '}
