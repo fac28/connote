@@ -46,8 +46,6 @@ export default function ResponsePage() {
       try {
         const supabase = createClientComponentClient();
         const heartReacts = await fetchReacts('heart', supabase);
-
-        // console.log(heartReacts);
         setHearts(heartReacts);
         setLoadingHearts(false);
       } catch (error) {
@@ -59,20 +57,15 @@ export default function ResponsePage() {
   }, [updatedResponses]);
 
   const handleHeartsClick = async (responseId: number, userId: string) => {
-
     try {
       const supabase = createClientComponentClient();
-
-      // Insert a new row into the 'reacts' table
       const { data, error } = await supabase.from('reacts').insert([
         {
           response_id: responseId,
           type: 'heart',
-          react_id: userId,
+          reacter_id: userId,
         },
       ]);
-
-      // Fetch the updated count of hearts from the database
       const { data: updatedHearts, error: fetchError } = await supabase
         .from('reacts')
         .select('response_id, count', { count: 'exact' })
