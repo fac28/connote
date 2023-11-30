@@ -32,6 +32,8 @@ export default function PromptPage() {
       const { data: sessionData } = await supabase.auth.getSession();
       if (sessionData?.session?.user?.id) {
         setUserId(sessionData.session.user.id);
+      } else {
+        router.push('/');
       }
     };
     fetchUserId();
