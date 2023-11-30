@@ -82,14 +82,18 @@ export default function PoemCard({
         <div className='flex'>
           <p className='text-tiny uppercase font-bold'>{poemDate}</p>
 
-          <Checkbox className='collapse'>
-            <div
-              onClick={(event) => handleIconClick(event)}
-              className='cursor-pointer ml-28 visible'
-            >
-              {isChecked ? <Bookmark /> : <Bookmark1 />}
-            </div>
-          </Checkbox>
+          {userId ? (
+            <Checkbox className='collapse'>
+              <div
+                onClick={(event) => handleIconClick(event)}
+                className='cursor-pointer ml-28 visible'
+              >
+                {isChecked ? <Bookmark /> : <Bookmark1 />}
+              </div>
+            </Checkbox>
+          ) : (
+            ''
+          )}
         </div>
         <small className='text-default-500'>{poemAuthor}</small>
 
@@ -100,9 +104,9 @@ export default function PoemCard({
         <div className='absolute top-0 left-0 right-0 bottom-0 rounded-xl overflow-hidden'>
           <Image
             alt='Card background'
-            className={
-              isResponded ? 'object-contain' : 'grayscale object-contain'
-            }
+            className={`object-contain ${
+              userId && !isResponded ? 'grayscale' : ''
+            }`}
             src={poemImage}
           />
         </div>
