@@ -11,7 +11,7 @@ import {
   updatePrompts012,
   updateResponses012,
 } from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
-import HeartIcon from '@/components/HeartIcon';
+import { FaRegHeart } from 'react-icons/fa6';
 
 import {
   addingHighlightAttribute,
@@ -39,8 +39,6 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
 
   updatedResponses = addingHighlightAttribute(updatedResponses);
-
-  console.log(updatedResponses);
 
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
@@ -150,7 +148,7 @@ export default function ResponsePage() {
                     .filter((response) => response.prompt_id === prompt.id)
                     .map((response, index) => (
                       <React.Fragment key={response.id}>
-                        <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner'>
+                        <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner responseComment'>
                           <div className='flex flex-col'>
                             <h2
                               className={`${
@@ -161,30 +159,29 @@ export default function ResponsePage() {
                             >
                               @{response.user?.username}
                             </h2>
-                            <p className='italic text-connote_dark pr-3'>
+
+                            <p className=' text-connote_dark '>
                               {response.response_written}
                             </p>
                           </div>
-                          <div className='flex items-center flex-col'>
-                            <Button
-                              isIconOnly
-                              color='danger'
-                              aria-label='Like'
+
+                          <br />
+                          <div className='flex items-center flex-col '>
+                            <FaRegHeart
+                              className='hover:cursor-pointer'
                               onClick={() => handleHeartsClick(response.id)}
-                            >
-                              <HeartIcon />
-                            </Button>
+                            />
+
                             {/* <span className='text-connote_dark'>
                             {hearts[response.id] || 0}
                             response id {response.id}
                           </span> */}
-                            <span className='text-connote_dark'>
+                            <span className='text-connote_dark text-tiny'>
                               {loadingHearts
                                 ? 'Loading...'
                                 : hearts[response.id] || 0}
                             </span>
                           </div>
-                          <br />
                         </div>
                       </React.Fragment>
                     ))}
