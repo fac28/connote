@@ -1,10 +1,8 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Button, ButtonGroup } from '@nextui-org/react';
 import { ResponsesType, PromptsType } from '@/types';
-import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
-import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
 import ResponseItem from './ResponseItem';
 
 type ResponsesSectionProps = {

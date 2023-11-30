@@ -1,4 +1,3 @@
-// ResponseItem.tsx
 import React from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
