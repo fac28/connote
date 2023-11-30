@@ -23,13 +23,11 @@ export default function PromptButtons({
   return (
     <ButtonGroup className='flex items-center p-4'>
       <Button
-        disabled={selectedPromptNumber === 0}
+        // disabled={selectedPromptNumber === 0}
         onClick={handlePrevClick}
-        className={`bg-connote_orange rounded-xl mx-12 ${
-          selectedPromptNumber === 0 ? ' text-gray-500 cursor-not-allowed' : ''
-        }`}
+        className={`bg-connote_orange rounded-xl mx-12 `}
       >
-        <FaChevronLeft />
+        {selectedPromptNumber === 0 ? 'Go Back' : <FaChevronLeft />}
       </Button>
       <Button
         disabled={
