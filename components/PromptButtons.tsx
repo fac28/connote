@@ -38,6 +38,14 @@ export default function PromptButtons({
     }
   };
 
+  const handleDisabledSubmit = () => {
+    if (isSubmitDisabled(prompts, highlightedWordIds, promptInputs)) {
+      alert(
+        'For each prompt you either need to a) select a word AND write an answer or b) not select a word AND not write an answer'
+      );
+    }
+  };
+
   return (
     <ButtonGroup className='flex items-center p-4'>
       <Button
@@ -47,17 +55,18 @@ export default function PromptButtons({
         {selectedPromptNumber === 0 ? 'Go Back' : <FaChevronLeft />}
       </Button>
       <Button
-        disabled={
-          selectedPromptNumber === 2 &&
-          isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
-        }
         className={`bg-connote_orange rounded-xl mx-12 ${
           selectedPromptNumber === 2 &&
           isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
             ? 'text-gray-500 opacity-70 rounded-xl cursor-not-allowed'
             : ''
         }`}
-        onClick={handleNextClick}
+        onClick={
+          selectedPromptNumber === 2 &&
+          isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
+            ? handleDisabledSubmit
+            : handleNextClick
+        }
       >
         {selectedPromptNumber === 2 ? 'Submit' : <FaChevronRight />}
       </Button>
