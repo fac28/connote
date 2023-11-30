@@ -5,8 +5,6 @@ import { ResponsesType, PromptsType } from '@/types';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 
 type ResponsesSectionProps = {
   updatedResponses: ResponsesType;
@@ -15,73 +13,23 @@ type ResponsesSectionProps = {
   selectedPromptNumber: number;
   handlePrevClick: () => void;
   handleNextClick: () => void;
+  hearts: { [key: number]: number };
+  likedResponses: { [key: number]: boolean };
+  handleHeartsClick: (responseId: number, userId: string) => Promise<void>; // Adjusted to match the function signature
+  loadingHearts: boolean;
 };
 
 export default function ResponsesSection({
+  hearts,
+  likedResponses,
+  handleHeartsClick,
+  loadingHearts,
   reupdatedResponses,
   updatedPrompts,
   selectedPromptNumber,
   handlePrevClick,
   handleNextClick,
-  updatedResponses,
 }: ResponsesSectionProps) {
-  const [hearts, setHearts] = useState<{ [key: number]: number }>({});
-  const [loadingHearts, setLoadingHearts] = useState(true);
-  const [likedResponses, setLikedResponses] = useState<{
-    [key: number]: boolean;
-  }>({});
-
-  useEffect(() => {
-    console.log("useEffect responses section start")
-    // console.log(updatedPrompts)
-    const fetchInitialHearts = async () => {
-      try {
-        const supabase = createClientComponentClient();
-        const heartReacts = await fetchReacts('heart', supabase);
-        setHearts(heartReacts);
-        setLoadingHearts(false);
-      } catch (error) {
-        console.error('Error fetching initial hearts:', error);
-        setLoadingHearts(false);
-      }
-    };
-    fetchInitialHearts();
-    console.log("useEffect responses section end", )
-  }, [updatedResponses]);
-
-  const handleHeartsClick = async (responseId: number, userId: string) => {
-    try {
-      const supabase = createClientComponentClient();
-      const { data, error } = await supabase.from('reacts').insert([
-        {
-          response_id: responseId,
-          type: 'heart',
-          reacter_id: userId,
-        },
-      ]);
-      const { data: updatedHearts, error: fetchError } = await supabase
-        .from('reacts')
-        .select('response_id, count', { count: 'exact' })
-        .eq('response_id', responseId)
-        .eq('type', 'heart')
-        .single();
-
-      if (updatedHearts) {
-        setHearts((prevHearts) => ({
-          ...prevHearts,
-          [responseId]: updatedHearts.count || 0,
-        }));
-      }
-
-      setLikedResponses((prev) => ({
-        ...prev,
-        [responseId]: !prev[responseId],
-      }));
-    } catch (error) {
-      console.error('Error adding heart:', error);
-    }
-  };
-
   return (
     <div className='flex flex-col items-center justify-between p-4'>
       <div className='flex flex-wrap max-w-xs'>

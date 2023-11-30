@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useSearchParams } from 'next/navigation';
 import useFetchResponsePageData from '@/utils/supabase/models/fetchResponsePageData';
@@ -13,6 +13,8 @@ import {
   updatePrompts012,
   updateResponses012,
 } from '@/utils/responsePageHandling/mappingReponseDataTo012';
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -29,6 +31,60 @@ export default function ResponsePage() {
   let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses);
+
+  const [hearts, setHearts] = useState<{ [key: number]: number }>({});
+  const [loadingHearts, setLoadingHearts] = useState(true);
+  const [likedResponses, setLikedResponses] = useState<{
+    [key: number]: boolean;
+  }>({});
+
+  useEffect(() => {
+    const fetchInitialHearts = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const heartReacts = await fetchReacts('heart', supabase);
+        setHearts(heartReacts);
+        setLoadingHearts(false);
+      } catch (error) {
+        console.error('Error fetching initial hearts:', error);
+        setLoadingHearts(false);
+      }
+    };
+    fetchInitialHearts();
+  }, [updatedResponses]);
+
+  const handleHeartsClick = async (responseId: number, userId: string) => {
+    try {
+      const supabase = createClientComponentClient();
+      const { data, error } = await supabase.from('reacts').insert([
+        {
+          response_id: responseId,
+          type: 'heart',
+          reacter_id: userId,
+        },
+      ]);
+      const { data: updatedHearts, error: fetchError } = await supabase
+        .from('reacts')
+        .select('response_id, count', { count: 'exact' })
+        .eq('response_id', responseId)
+        .eq('type', 'heart')
+        .single();
+
+      if (updatedHearts) {
+        setHearts((prevHearts) => ({
+          ...prevHearts,
+          [responseId]: updatedHearts.count || 0,
+        }));
+      }
+
+      setLikedResponses((prev) => ({
+        ...prev,
+        [responseId]: !prev[responseId],
+      }));
+    } catch (error) {
+      console.error('Error adding heart:', error);
+    }
+  };
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
@@ -73,6 +129,10 @@ export default function ResponsePage() {
       <h2 className='promptPurple w-full'>Responses</h2>
 
       <ResponsesSection
+        hearts={hearts}
+        likedResponses={likedResponses}
+        handleHeartsClick={handleHeartsClick}
+        loadingHearts={loadingHearts}
         updatedResponses={updatedResponses}
         reupdatedResponses={reupdatedResponses}
         updatedPrompts={updatedPrompts}
