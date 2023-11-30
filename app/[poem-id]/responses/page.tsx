@@ -30,57 +30,6 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses);
 
-  // const [hearts, setHearts] = useState<{ [key: number]: number }>({});
-  // const [loadingHearts, setLoadingHearts] = useState(true);
-
-  // useEffect(() => {
-  //   const fetchInitialHearts = async () => {
-  //     try {
-  //       const supabase = createClientComponentClient();
-  //       const heartReacts = await fetchReacts('heart', supabase);
-  //       setHearts(heartReacts);
-  //       setLoadingHearts(false);
-  //     } catch (error) {
-  //       console.error('Error fetching initial hearts:', error);
-  //       setLoadingHearts(false);
-  //     }
-  //   };
-  //   fetchInitialHearts();
-  // }, [updatedResponses]);
-
-  // const handleHeartsClick = async (responseId: number, userId: string) => {
-  //   try {
-  //     const supabase = createClientComponentClient();
-  //     const { data, error } = await supabase.from('reacts').insert([
-  //       {
-  //         response_id: responseId,
-  //         type: 'heart',
-  //         reacter_id: userId,
-  //       },
-  //     ]);
-  //     const { data: updatedHearts, error: fetchError } = await supabase
-  //       .from('reacts')
-  //       .select('response_id, count', { count: 'exact' })
-  //       .eq('response_id', responseId)
-  //       .eq('type', 'heart')
-  //       .single();
-
-  //     if (updatedHearts) {
-  //       setHearts((prevHearts) => ({
-  //         ...prevHearts,
-  //         [responseId]: updatedHearts.count || 0,
-  //       }));
-  //     }
-
-  //     setLikedResponses((prev) => ({
-  //       ...prev,
-  //       [responseId]: !prev[responseId],
-  //     }));
-  //   } catch (error) {
-  //     console.error('Error adding heart:', error);
-  //   }
-  // };
-
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);
