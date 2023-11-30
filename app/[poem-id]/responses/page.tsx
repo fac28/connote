@@ -13,7 +13,7 @@ import {
 import HeartIcon from '@/components/HeartIcon';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
-import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -168,20 +168,23 @@ export default function ResponsePage() {
           )}
         </div>
 
-        <ButtonGroup>
+        <ButtonGroup className='mt-4'>
           <Button
             disabled={selectedPromptNumber === 0}
             onClick={handlePrevClick}
-            className={`${
+            className={`bg-connote_orange rounded-xl mx-12 ${
               selectedPromptNumber === 0
-                ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+                ? 'text-gray-500 cursor-not-allowed'
                 : ''
             }`}
           >
-            <BsChevronCompactLeft />
+            <FaChevronLeft />
           </Button>
-          <Button onClick={handleNextClick}>
-            {selectedPromptNumber === 2 ? 'Done' : <BsChevronCompactRight />}
+          <Button
+            className='bg-connote_orange rounded-xl mx-12'
+            onClick={handleNextClick}
+          >
+            {selectedPromptNumber === 2 ? 'Done' : <FaChevronRight />}
           </Button>
         </ButtonGroup>
       </div>

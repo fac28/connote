@@ -1,7 +1,7 @@
 import { Button, ButtonGroup } from '@nextui-org/react';
 import { isSubmitDisabled } from '@/utils/supabase/models/isSubmitDisabled';
 import { PromptsType } from '@/types';
-import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
 type PromptButtonsProps = {
   selectedPromptNumber: number;
@@ -25,28 +25,26 @@ export default function PromptButtons({
       <Button
         disabled={selectedPromptNumber === 0}
         onClick={handlePrevClick}
-        className={`${
-          selectedPromptNumber === 0
-            ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
-            : ''
+        className={`bg-connote_orange rounded-xl mx-12 ${
+          selectedPromptNumber === 0 ? ' text-gray-500 cursor-not-allowed' : ''
         }`}
       >
-        <BsChevronCompactLeft />
+        <FaChevronLeft />
       </Button>
       <Button
         disabled={
           selectedPromptNumber === 2 &&
           isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
         }
-        className={`${
+        className={`bg-connote_orange rounded-xl mx-12 ${
           selectedPromptNumber === 2 &&
           isSubmitDisabled(prompts, highlightedWordIds, promptInputs)
-            ? 'bg-gray-400 text-gray-500 cursor-not-allowed'
+            ? 'text-gray-500 opacity-70 rounded-xl cursor-not-allowed'
             : ''
         }`}
         onClick={handleNextClick}
       >
-        {selectedPromptNumber === 2 ? 'Submit' : <BsChevronCompactRight />}
+        {selectedPromptNumber === 2 ? 'Submit' : <FaChevronRight />}
       </Button>
     </ButtonGroup>
   );
