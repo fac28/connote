@@ -60,7 +60,7 @@ export default function ResponsePage() {
     };
     fetchInitialHearts();
   }, [updatedResponses]);
-  const handleHeartsClick = async (responseId: number) => {
+  const handleHeartsClick = async (responseId: number, userId: string) => {
     try {
       const supabase = createClientComponentClient();
 
@@ -69,6 +69,7 @@ export default function ResponsePage() {
         {
           response_id: responseId,
           type: 'heart',
+          react_id: userId,
         },
       ]);
 
@@ -114,13 +115,6 @@ export default function ResponsePage() {
 
   const handleDone = () => {
     console.log('handle redirecting after you`ve looked through comments');
-  };
-
-  const handleLikeClick = (responseId: number) => {
-    setLikes((prevLikes) => ({
-      ...prevLikes,
-      [responseId]: (prevLikes[responseId] || 0) + 1,
-    }));
   };
 
   return (
@@ -170,7 +164,9 @@ export default function ResponsePage() {
                               isIconOnly
                               color='danger'
                               aria-label='Like'
-                              onClick={() => handleHeartsClick(response.id)}
+                              onClick={() =>
+                                handleHeartsClick(response.id, response.user_id)
+                              }
                             >
                               <HeartIcon />
                             </Button>
