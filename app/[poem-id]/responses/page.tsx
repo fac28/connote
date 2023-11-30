@@ -135,31 +135,31 @@ export default function ResponsePage() {
                             <h2 className='responseUser text-connote_dark text-md '>
                               @{response.user?.username}
                             </h2>
-                          <p className='italic text-connote_dark pr-3'>
-                            {response.response_written}
-                          </p>
-                        </div>
-                        <div className='flex items-center flex-col'>
-                          <Button
-                            isIconOnly
-                            color='danger'
-                            aria-label='Like'
-                            onClick={() => handleHeartsClick(response.id)}
-                          >
-                            <HeartIcon />
-                          </Button>
-                          {/* <span className='text-connote_dark'>
+                            <p className='italic text-connote_dark pr-3'>
+                              {response.response_written}
+                            </p>
+                          </div>
+                          <div className='flex items-center flex-col'>
+                            <Button
+                              isIconOnly
+                              color='danger'
+                              aria-label='Like'
+                              onClick={() => handleHeartsClick(response.id)}
+                            >
+                              <HeartIcon />
+                            </Button>
+                            {/* <span className='text-connote_dark'>
                             {hearts[response.id] || 0}
                             response id {response.id}
                           </span> */}
-                          <span className='text-connote_dark'>
-                            {loadingHearts
-                              ? 'Loading...'
-                              : hearts[response.id] || 0}
-                          </span>
-                              
+                            <span className='text-connote_dark'>
+                              {loadingHearts
+                                ? 'Loading...'
+                                : hearts[response.id] || 0}
+                            </span>
+                          </div>
+                          <br />
                         </div>
-                        <br />
                       </React.Fragment>
                     ))}
                 </span>
