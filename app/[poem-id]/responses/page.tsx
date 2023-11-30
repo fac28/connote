@@ -40,7 +40,7 @@ export default function ResponsePage() {
   let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
 
-  updatedResponses = addingHighlightAttribute(updatedResponses);
+  let reupdatedResponses = addingHighlightAttribute(updatedResponses);
 
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
@@ -129,7 +129,7 @@ export default function ResponsePage() {
       <div className='flex flex-col items-center justify-between p-4'>
         <ResponsePoem
           poem={poem}
-          responses={updatedResponses}
+          responses={reupdatedResponses}
           selectedPromptNumber={selectedPromptNumber}
         />
       </div>
@@ -140,7 +140,7 @@ export default function ResponsePage() {
             (prompt) =>
               prompt.id === selectedPromptNumber && (
                 <span key={prompt.id}>
-                  {updatedResponses
+                  {reupdatedResponses
                     .filter((response) => response.prompt_id === prompt.id)
                     .map((response, index) => (
                       <React.Fragment key={response.id}>
