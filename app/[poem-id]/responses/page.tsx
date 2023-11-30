@@ -58,7 +58,8 @@ export default function ResponsePage() {
     fetchInitialHearts();
   }, [updatedResponses]);
 
-  const handleHeartsClick = async (responseId: number) => {
+  const handleHeartsClick = async (responseId: number, userId: string) => {
+
     try {
       const supabase = createClientComponentClient();
 
@@ -67,6 +68,7 @@ export default function ResponsePage() {
         {
           response_id: responseId,
           type: 'heart',
+          react_id: userId,
         },
       ]);
 
@@ -161,7 +163,9 @@ export default function ResponsePage() {
                               isIconOnly
                               color='danger'
                               aria-label='Like'
-                              onClick={() => handleHeartsClick(response.id)}
+                              onClick={() =>
+                                handleHeartsClick(response.id, response.user_id)
+                              }
                             >
                               <HeartIcon />
                             </Button>
