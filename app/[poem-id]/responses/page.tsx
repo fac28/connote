@@ -142,6 +142,7 @@ export default function ResponsePage() {
                 <span key={prompt.id}>
                   {reupdatedResponses
                     .filter((response) => response.prompt_id === prompt.id)
+                    .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
                     .map((response, index) => (
                       <React.Fragment key={response.id}>
                         <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner responseComment'>

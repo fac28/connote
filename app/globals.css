@@ -47,9 +47,9 @@ body {
 }
 
 .logo {
-  font-family: var(--font-tilt);
-  @apply text-connote_white bg-connote_orange p-2
-    rounded-tr-lg rounded-bl-lg text-2xl font-extrabold custom-text-shadow;
+  font-family: var(--font-Inter);
+  @apply text-connote_orange p-1 border-2 border-connote_orange
+    rounded-tr-lg rounded-bl-lg text-xl font-extrabold;
 }
 
 .headingPurple {
