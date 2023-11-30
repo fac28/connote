@@ -11,9 +11,13 @@ import { useRouter } from 'next/navigation';
 import {
   updatePrompts012,
   updateResponses012,
-} from '@/utils/supabase/models/mappingReponseDataTo012';
+} from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
 import HeartIcon from '@/components/HeartIcon';
 import { ResponsesType } from '@/types';
+import {
+  addingHighlightAttribute,
+  topThreeColours,
+} from '@/utils/dbParsingFunctions/addingHighlightAttribute';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -31,39 +35,39 @@ export default function ResponsePage() {
   let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
 
-  let topThreeColours = [
-    'bg-connote_orange',
-    'bg-connote_green',
-    'bg-connote_pastel_blue',
-  ];
+  // let topThreeColours = [
+  //   'bg-connote_orange',
+  //   'bg-connote_green',
+  //   'bg-connote_pastel_blue',
+  // ];
 
-  function processResponses(responses: ResponsesType) {
-    let sortedResponses = [...responses].sort(
-      (a, b) => a.prompt_id - b.prompt_id
-    );
+  // function addingHighlightAttribute(responses: ResponsesType) {
+  //   let sortedResponses = [...responses].sort(
+  //     (a, b) => a.prompt_id - b.prompt_id
+  //   );
 
-    let result: Record<number, ResponsesType> = {};
+  //   let result: Record<number, ResponsesType> = {};
 
-    sortedResponses.forEach((response) => {
-      if (!result[response.prompt_id]) {
-        result[response.prompt_id] = [];
-      }
+  //   sortedResponses.forEach((response) => {
+  //     if (!result[response.prompt_id]) {
+  //       result[response.prompt_id] = [];
+  //     }
 
-      result[response.prompt_id].push(response);
-    });
+  //     result[response.prompt_id].push(response);
+  //   });
 
-    for (let key in result) {
-      result[key].slice(0, 3).forEach((response, index) => {
-        response.highlight_colour = topThreeColours[index];
-      });
-    }
+  //   for (let key in result) {
+  //     result[key].slice(0, 3).forEach((response, index) => {
+  //       response.highlight_colour = topThreeColours[index];
+  //     });
+  //   }
 
-    let finalResult = Object.values(result).flat();
+  //   let finalResult = Object.values(result).flat();
 
-    return finalResult;
-  }
+  //   return finalResult;
+  // }
 
-  updatedResponses = processResponses(updatedResponses);
+  updatedResponses = addingHighlightAttribute(updatedResponses);
 
   console.log(updatedResponses);
 
