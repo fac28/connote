@@ -23,7 +23,6 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 
-
 export default function ResponsePage() {
   const params = useParams();
   const poemid = +params['poem-id'];
@@ -42,7 +41,7 @@ export default function ResponsePage() {
   updatedResponses = addingHighlightAttribute(updatedResponses);
 
   console.log(updatedResponses);
-        
+
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
   const [loadingHearts, setLoadingHearts] = useState(true);
   useEffect(() => {
@@ -116,7 +115,6 @@ export default function ResponsePage() {
   const handleDone = () => {
     console.log('handle redirecting after you`ve looked through comments');
   };
-
 
   const handleLikeClick = (responseId: number) => {
     setLikes((prevLikes) => ({
@@ -217,4 +215,7 @@ export default function ResponsePage() {
       </div>
     </main>
   );
+}
+function setLikes(arg0: (prevLikes: any) => any) {
+  throw new Error('Function not implemented.');
 }
