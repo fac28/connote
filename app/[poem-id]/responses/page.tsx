@@ -10,13 +10,13 @@ import { useRouter } from 'next/navigation';
 import {
   updatePrompts012,
   updateResponses012,
-} from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
+} from '@/utils/responsePageHandling/mappingReponseDataTo012';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 import {
   addingHighlightAttribute,
   topThreeTextColours,
-} from '@/utils/dbParsingFunctions/addingHighlightAttribute';
+} from '@/utils/responsePageHandling/addingHighlightAttribute';
 
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
@@ -165,12 +165,22 @@ export default function ResponsePage() {
                             {likedResponses[response.id] ? (
                               <FaHeart
                                 className='text-red-500 hover:cursor-pointer'
-                                onClick={() => handleHeartsClick(response.id, response.user_id)}
+                                onClick={() =>
+                                  handleHeartsClick(
+                                    response.id,
+                                    response.user_id
+                                  )
+                                }
                               />
                             ) : (
                               <FaRegHeart
                                 className='hover:cursor-pointer'
-                                onClick={() => handleHeartsClick(response.id, response.user_id)}
+                                onClick={() =>
+                                  handleHeartsClick(
+                                    response.id,
+                                    response.user_id
+                                  )
+                                }
                               />
                             )}
 
