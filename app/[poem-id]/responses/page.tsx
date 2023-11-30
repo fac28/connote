@@ -11,7 +11,7 @@ import {
   updatePrompts012,
   updateResponses012,
 } from '@/utils/dbParsingFunctions/mappingReponseDataTo012';
-import { FaRegHeart } from 'react-icons/fa6';
+import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 
 import {
   addingHighlightAttribute,
@@ -31,6 +31,9 @@ export default function ResponsePage() {
   const [selectedPromptNumber, setSelectedPromptNumber] = useState<number>(
     promptNumber || 0
   );
+  const [likedResponses, setLikedResponses] = useState<{
+    [key: number]: boolean;
+  }>({});
   const router = useRouter();
 
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
@@ -84,6 +87,11 @@ export default function ResponsePage() {
           [responseId]: updatedHearts.count || 0,
         }));
       }
+
+      setLikedResponses((prev) => ({
+        ...prev,
+        [responseId]: !prev[responseId],
+      }));
     } catch (error) {
       console.error('Error adding heart:', error);
     }
@@ -167,15 +175,18 @@ export default function ResponsePage() {
 
                           <br />
                           <div className='flex items-center flex-col '>
-                            <FaRegHeart
-                              className='hover:cursor-pointer'
-                              onClick={() => handleHeartsClick(response.id)}
-                            />
+                            {likedResponses[response.id] ? (
+                              <FaHeart
+                                className='text-red-500 hover:cursor-pointer'
+                                onClick={() => handleHeartsClick(response.id)}
+                              />
+                            ) : (
+                              <FaRegHeart
+                                className='hover:cursor-pointer'
+                                onClick={() => handleHeartsClick(response.id)}
+                              />
+                            )}
 
-                            {/* <span className='text-connote_dark'>
-                            {hearts[response.id] || 0}
-                            response id {response.id}
-                          </span> */}
                             <span className='text-connote_dark text-tiny'>
                               {loadingHearts
                                 ? 'Loading...'
