@@ -13,6 +13,7 @@ import {
 import HeartIcon from '@/components/HeartIcon';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
+import { BsChevronCompactLeft, BsChevronCompactRight } from 'react-icons/bs';
 
 export default function ResponsePage() {
   const params = useParams();
@@ -177,10 +178,10 @@ export default function ResponsePage() {
                 : ''
             }`}
           >
-            Prev
+            <BsChevronCompactLeft />
           </Button>
           <Button onClick={handleNextClick}>
-            {selectedPromptNumber === 2 ? 'Done' : 'Next'}
+            {selectedPromptNumber === 2 ? 'Done' : <BsChevronCompactRight />}
           </Button>
         </ButtonGroup>
       </div>
