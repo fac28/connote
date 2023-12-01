@@ -52,7 +52,8 @@ export default function ResponsePage() {
       }
     };
     fetchInitialHearts();
-  }, []);
+    console.log('HELLO FETCH');
+  }, [hearts]);
 
   useEffect(() => {
     const fetchUserReactions = async () => {
@@ -157,7 +158,7 @@ export default function ResponsePage() {
     }
   };
 
-  useEffect(() => {}, [hearts]);
+  // useEffect(() => {console.log("HELLO FETCH")}, [hearts]);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
