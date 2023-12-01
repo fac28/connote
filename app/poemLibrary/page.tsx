@@ -8,6 +8,7 @@ import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
+  const [filteredPoems, setFilteredPoems] = useState<PoemsType>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [isResponded, setIsResponded] = useState<boolean[] | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,10 +20,11 @@ export default function PoemDirectory() {
       if (sessionData?.session?.user?.id) {
         setUserId(sessionData.session.user.id);
         await fetchData(sessionData.session.user.id);
-      } else await fetchData(null);
+      } else {
+        await fetchData(null);
+      }
     };
 
-    const currentDate = new Date();
     const fetchData = async (fetchedUserId: string | null) => {
       const supabase = createClientComponentClient();
       const { data, error } = await supabase
@@ -34,29 +36,52 @@ export default function PoemDirectory() {
 
       if (error) {
         console.error('Error fetching data:', error.message);
-      } else {
-        const filteredPoems = data.filter(
-          (poem) => new Date(poem.display_date) <= currentDate
-        );
-        setPoems(filteredPoems);
+        return;
+      }
 
-        if (fetchUserId != null) {
-          const IsRespondedArray = await hasUserRespondedAll(
-            fetchedUserId,
-            data
-          );
-          setIsResponded(IsRespondedArray);
-        }
+      const currentDate = new Date();
+      const initialFilteredPoems = data.filter(
+        (poem) => new Date(poem.display_date) <= currentDate
+      );
+
+      setPoems(data);
+      setFilteredPoems(initialFilteredPoems);
+
+      if (fetchedUserId) {
+        const IsRespondedArray = await hasUserRespondedAll(
+          fetchedUserId,
+          initialFilteredPoems
+        );
+        setIsResponded(IsRespondedArray);
       }
     };
+
     fetchUserId();
   }, []);
 
-  const filteredPoems = poems.filter(
-    (poem) =>
-      poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      poem.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const filterAndSetPoems = async () => {
+      const currentDate = new Date();
+      const newFilteredPoems = poems.filter(
+        (poem) =>
+          (poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            poem.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+          new Date(poem.display_date) <= currentDate
+      );
+
+      setFilteredPoems(newFilteredPoems);
+
+      if (userId) {
+        const newIsResponded = await hasUserRespondedAll(
+          userId,
+          newFilteredPoems
+        );
+        setIsResponded(newIsResponded);
+      }
+    };
+
+    filterAndSetPoems();
+  }, [searchTerm, userId, poems]);
 
   return (
     <>
@@ -81,9 +106,7 @@ export default function PoemDirectory() {
                   poemId={poem.id}
                   userId={userId ? userId : null}
                   supabase={createClientComponentClient()}
-                  key={poem.id}
                   isResponded={isResponded ? isResponded[index] : false}
-                  // onClick={() => handleSubmit(poem.id)}
                 />
               </span>
             ))}
