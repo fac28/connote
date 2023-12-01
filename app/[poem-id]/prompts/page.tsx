@@ -62,19 +62,32 @@ export default function PromptPage() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // Server-side validation logic
+    if (promptInputs.some((input) => input && input.length > 200)) {
+      console.error('Input length exceeds the allowed limit.');
+      return;
+    }
+
     const supabase = createClientComponentClient();
+
     prompts.forEach((prompt, index) => {
-      submitPromptsData(
-        userId,
-        poemid,
-        prompt.id,
-        highlightedWordIds[index],
-        promptInputs[index],
-        supabase
-      );
+      const input = promptInputs[index];
+
+      // Check if the prompt input is not empty
+      if (input && input.trim() !== '') {
+        submitPromptsData(
+          userId,
+          poemid,
+          prompt.id,
+          highlightedWordIds[index],
+          input,
+          supabase
+        );
+      }
     });
-    window.location.href = `/poemLibrary`;
+
+    window.location.href = `/${poemid}/responses`;
   };
 
   return (

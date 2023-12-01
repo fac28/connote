@@ -12,8 +12,6 @@ export function addingHighlightAttribute(
   responses: ResponsesType,
   hearts: { [key: number]: number }
 ) {
-  console.log('hearts', hearts);
-
   const sortedResponses: ResponsesType = [...responses]
     .sort((a, b) => a.prompt_id - b.prompt_id)
     .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0));
