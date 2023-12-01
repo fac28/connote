@@ -1,9 +1,8 @@
 'use client';
-
 import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
-import React from 'react';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
 
 type PoemsType =
   | {
@@ -17,6 +16,7 @@ type PoemsType =
 
 export default function Home() {
   const [poemOfTheDay, setPoemOfTheDay] = useState<PoemsType>(undefined);
+  const [hasResponded, setHasResponded] = useState(false);
 
   useEffect(() => {
     const currentDate = new Date();
@@ -43,9 +43,37 @@ export default function Home() {
     fetchData();
   }, [setPoemOfTheDay]);
 
+  const handleButtonClick = async () => {
+    const poemid = poemOfTheDay?.id;
+    if (poemid) {
+      const supabase = createClientComponentClient();
+      const { data: sessionData } = await supabase.auth.getSession();
+
+      if (sessionData?.session?.user?.id) {
+        const userid = sessionData.session.user.id;
+
+        try {
+          const hasResponded = await hasUserResponded({ userid, poemid });
+          console.log('Has Responded:', hasResponded);
+
+          if (Array.isArray(hasResponded) && hasResponded.length === 0) {
+            console.log('User has not responded. Redirecting to prompts.');
+            window.location.href = `${poemid}/prompts`;
+          } else {
+            console.log('User has responded. Redirecting to responses.');
+            window.location.href = `${poemid}/responses`;
+          }
+        } catch (error) {
+          console.error('Error checking user response:', error);
+        }
+      } else {
+        window.location.href = `/account`;
+      }
+    }
+  };
+
   return (
     <main>
-      {' '}
       <h1 className='headingPurple'>Poem of the day</h1>
       <div className='dark flex flex-col min-h-screen items-center justify-between pt-10'>
         <div>
@@ -62,7 +90,9 @@ export default function Home() {
                   <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
                 </div>
                 <div>
-                  <button className='button'>Respond</button>
+                  <button className='button' onClick={handleButtonClick}>
+                    {hasResponded ? 'View Responses' : 'Respond'}
+                  </button>
                 </div>
               </div>
 
