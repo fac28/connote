@@ -8,10 +8,15 @@ export let topThreeTextColours = [
   'pastel_blue_text_col',
 ];
 
-export function addingHighlightAttribute(responses: ResponsesType) {
-  const sortedResponses: ResponsesType = [...responses].sort(
-    (a, b) => a.prompt_id - b.prompt_id
-  );
+export function addingHighlightAttribute(
+  responses: ResponsesType,
+  hearts: { [key: number]: number }
+) {
+  console.log('hearts', hearts);
+
+  const sortedResponses: ResponsesType = [...responses]
+    .sort((a, b) => a.prompt_id - b.prompt_id)
+    .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0));
 
   const result: Record<number, ResponsesType> = {};
 
