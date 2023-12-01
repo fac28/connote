@@ -9,6 +9,7 @@ export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
   const [userId, setUserId] = useState<string | null>(null);
   const [isResponded, setIsResponded] = useState<boolean[] | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -36,7 +37,7 @@ export default function PoemDirectory() {
         const filteredPoems = data.filter(
           (poem) => new Date(poem.display_date) <= currentDate
         );
-        setPoems(data); //Change this to filtered poems for production.
+        setPoems(data);
 
         if (fetchUserId != null) {
           const IsRespondedArray = await hasUserRespondedAll(
@@ -50,16 +51,42 @@ export default function PoemDirectory() {
     fetchUserId();
   }, []);
 
+  const filteredPoems = poems.filter(
+    (poem) =>
+      poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      poem.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const formatDate = (dateString: string | number | Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      'en-GB',
+      options
+    );
+    return formattedDate;
+  };
+
   return (
     <>
       <div>
         <h1 className='headingPurple'>Poem Library</h1>
         <div className='flex flex-col items-center'>
+          <input
+            type='text'
+            placeholder='Search poems...'
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className='p-3 mb-4 rounded-full w-72 bg-secondary focus:outline-none'
+          />
           <div className='flex flex-wrap justify-center max-w-[1024px]'>
-            {poems.map((poem, index) => (
+            {filteredPoems.map((poem, index) => (
               <span key={poem.id}>
                 <PoemCard
-                  poemDate={poem.display_date}
+                  poemDate={formatDate(poem.display_date)}
                   poemAuthor={poem.author}
                   poemName={poem.name}
                   poemImage={poem.image}

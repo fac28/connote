@@ -72,15 +72,27 @@ export default function PoemCard({
     }
   }
 
+  const formatDate = (dateString: string | number | Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      'en-GB',
+      options
+    );
+    return formattedDate;
+  };
   return (
     <Card
       className='p-3 m-3 w-64 h-64 aspect-w-1 cursor-pointer bg-secondary text-left  hover:opacity-90'
       isPressable
       onPress={() => handleSubmit(poemId)}
     >
-      <CardHeader className='pt-2 px-4 flex-col items-start'>
-        <div className='flex'>
-          <p className='text-tiny uppercase font-bold'>{poemDate}</p>
+      <CardHeader className='pt-2 px-3 flex-col items-start'>
+        <div className='flex w-24'>
+          <p className='text-tiny font-bold w-10'>{poemDate}</p>
 
           {userId ? (
             <Checkbox className='collapse'>
