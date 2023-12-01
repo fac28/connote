@@ -37,7 +37,7 @@ export default function PoemDirectory() {
         const filteredPoems = data.filter(
           (poem) => new Date(poem.display_date) <= currentDate
         );
-        setPoems(data);
+        setPoems(filteredPoems);
 
         if (fetchUserId != null) {
           const IsRespondedArray = await hasUserRespondedAll(
