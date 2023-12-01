@@ -1,5 +1,6 @@
 'use client';
 
+import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -46,15 +47,25 @@ export default function Home() {
     <main>
       {' '}
       <h1 className='headingPurple'>Poem of the day</h1>
-      <div className='dark flex min-h-screen flex-col items-center justify-between pt-10'>
+      <div className='dark flex flex-col min-h-screen items-center justify-between pt-10'>
         <div>
           {poemOfTheDay && (
             <>
-              <p className='text-tiny uppercase font-bold'>
-                {poemOfTheDay.display_date}
-              </p>
-              <small className='text-default-500'>{poemOfTheDay.author}</small>
-              <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
+              <div className='flex justify-between border-b pb-4 border-connote_orange'>
+                <div className='w-28'>
+                  <p className='text-tiny font-bold'>
+                    {formatDate(poemOfTheDay.display_date)}
+                  </p>
+                  <small className='text-default-500'>
+                    {poemOfTheDay.author}
+                  </small>
+                  <h4 className='font-bold text-large'>{poemOfTheDay.name}</h4>
+                </div>
+                <div>
+                  <button className='button'>Respond</button>
+                </div>
+              </div>
+
               <br></br>
               <p>
                 {poemOfTheDay.content
