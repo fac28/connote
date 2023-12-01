@@ -89,8 +89,9 @@ export default function ResponsePoem({
                                 : '') +
                               ' ' +
                               (myHighlights.includes(currentWordIndex)
-                                ? 'underline'
-                                : '')
+                                ? '  border-2'
+                                : '') +
+                              ' p-0.5 px-1.5 rounded-md shadow-sm'
                             }
                           >
                             {word}

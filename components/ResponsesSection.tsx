@@ -14,7 +14,8 @@ type ResponsesSectionProps = {
   handleNextClick: () => void;
   hearts: { [key: number]: number };
   likedResponses: { [key: number]: boolean };
-  handleHeartsClick: (responseId: number, userId: string) => Promise<void>; // Adjusted to match the function signature
+  handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
+  // Adjusted to match the function signature
   loadingHearts: boolean;
 };
 
