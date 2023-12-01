@@ -53,16 +53,47 @@ export default function ResponsePage() {
     fetchInitialHearts();
   }, [updatedResponses]);
 
-  const handleHeartsClick = async (responseId: number, userId: string) => {
+  const handleHeartsClick = async (responseId: number) => {
     try {
       const supabase = createClientComponentClient();
-      const { data, error } = await supabase.from('reacts').insert([
-        {
-          response_id: responseId,
-          type: 'heart',
-          reacter_id: userId,
-        },
-      ]);
+      const user = await supabase.auth.getUser();
+
+      // Check if user is logged in and has a valid user object
+      if (!user.data.user) {
+        console.error('User not logged in');
+        return;
+      }
+
+      const userId = user.data.user.id;
+      console.log(userId);
+
+      // Check if the current user has already reacted with a heart
+      const { data: existingReact, error: reactError } = await supabase
+        .from('reacts')
+        .select('*')
+        .eq('response_id', responseId)
+        .eq('type', 'heart')
+        .eq('reacter_id', userId)
+        .single();
+
+      if (existingReact) {
+        // If the heart react exists, delete it
+        const { error: deleteError } = await supabase
+          .from('reacts')
+          .delete()
+          .match({ id: existingReact.id });
+      } else {
+        // If the heart react does not exist, insert it
+        const { error: insertError } = await supabase.from('reacts').insert([
+          {
+            response_id: responseId,
+            type: 'heart',
+            reacter_id: userId,
+          },
+        ]);
+      }
+
+      // Fetch the updated heart count
       const { data: updatedHearts, error: fetchError } = await supabase
         .from('reacts')
         .select('response_id, count', { count: 'exact' })
@@ -82,7 +113,8 @@ export default function ResponsePage() {
         [responseId]: !prev[responseId],
       }));
     } catch (error) {
-      console.error('Error adding heart:', error);
+      console.error('Error handling heart click:', error);
+      return;
     }
   };
 
