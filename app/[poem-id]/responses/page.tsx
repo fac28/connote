@@ -38,8 +38,6 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses, hearts);
 
-  console.log('responses', reupdatedResponses);
-
   useEffect(() => {
     const fetchInitialHearts = async () => {
       try {
@@ -110,7 +108,7 @@ export default function ResponsePage() {
   };
 
   const handleDone = () => {
-    console.log('handle redirecting after you`ve looked through comments');
+    router.push('/poemLibrary');
   };
 
   return (

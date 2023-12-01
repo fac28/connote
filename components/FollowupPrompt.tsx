@@ -34,6 +34,7 @@ export default function FollowupPrompt({
                     placeholder='I think...'
                     value={inputValue}
                     onChange={(e) => onInputChange(e.target.value)}
+                    maxLength={200}
                   />
                   <br></br>
                 </span>
