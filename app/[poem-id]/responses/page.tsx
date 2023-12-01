@@ -17,6 +17,12 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 
 export default function ResponsePage() {
+  const [hearts, setHearts] = useState<{ [key: number]: number }>({});
+  const [loadingHearts, setLoadingHearts] = useState(true);
+  const [likedResponses, setLikedResponses] = useState<{
+    [key: number]: boolean;
+  }>({});
+
   const params = useParams();
   const poemid = +params['poem-id'];
   const searchParams = useSearchParams();
@@ -30,13 +36,9 @@ export default function ResponsePage() {
 
   let updatedResponses = updateResponses012(poem[0], responses);
   const updatedPrompts = updatePrompts012(prompts);
-  let reupdatedResponses = addingHighlightAttribute(updatedResponses);
+  let reupdatedResponses = addingHighlightAttribute(updatedResponses, hearts);
 
-  const [hearts, setHearts] = useState<{ [key: number]: number }>({});
-  const [loadingHearts, setLoadingHearts] = useState(true);
-  const [likedResponses, setLikedResponses] = useState<{
-    [key: number]: boolean;
-  }>({});
+  console.log('responses', reupdatedResponses);
 
   useEffect(() => {
     const fetchInitialHearts = async () => {
