@@ -15,6 +15,7 @@ import {
 } from '@/utils/responsePageHandling/mappingReponseDataTo012';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
+import { LikedResponsesType } from '@/types';
 
 export default function ResponsePage() {
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});
@@ -52,6 +53,44 @@ export default function ResponsePage() {
     };
     fetchInitialHearts();
   }, [updatedResponses]);
+
+  useEffect(() => {
+    const fetchUserReactions = async () => {
+      try {
+        const supabase = createClientComponentClient();
+        const user = await supabase.auth.getUser();
+
+        if (!user.data.user) {
+          console.error('User not logged in');
+          return;
+        }
+
+        const userId = user.data.user.id;
+
+        // Fetch all heart reactions by the user
+        const { data: userReactions, error } = await supabase
+          .from('reacts')
+          .select('response_id')
+          .eq('reacter_id', userId)
+          .eq('type', 'heart');
+
+        if (error) {
+          throw error;
+        }
+
+        // Map the reactions to the likedResponses state
+        const newLikedResponses: LikedResponsesType = {};
+        userReactions.forEach((reaction) => {
+          newLikedResponses[reaction.response_id] = true;
+        });
+        setLikedResponses(newLikedResponses);
+      } catch (error) {
+        console.error('Error fetching user reactions:', error);
+      }
+    };
+
+    fetchUserReactions();
+  }, []);
 
   const handleHeartsClick = async (responseId: number) => {
     try {
