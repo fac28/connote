@@ -4,6 +4,7 @@ import PoemCard from './PoemCard';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { PoemsType } from '@/types';
 import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
+import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 
 export default function CheckedPoems() {
   const [checkedPoems, setCheckedPoems] = useState<PoemsType>([]);
@@ -84,7 +85,7 @@ export default function CheckedPoems() {
         {checkedPoems.map((poem) => (
           <span key={poem.id}>
             <PoemCard
-              poemDate={poem.display_date}
+              poemDate={formatDate(poem.display_date)}
               poemAuthor={poem.author}
               poemName={poem.name}
               poemImage={poem.image}

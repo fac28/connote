@@ -17,7 +17,32 @@ type PoemsType =
 export default function Home() {
   const [poemOfTheDay, setPoemOfTheDay] = useState<PoemsType>(undefined);
   const [hasResponded, setHasResponded] = useState(false);
+  const [buttonText, setButtonText] = useState<string>('Respond');
 
+  // useEffect(() => {
+  //   const currentDate = new Date();
+  //   const formattedDate = currentDate.toISOString().split('T')[0];
+
+  //   const fetchData = async () => {
+  //     const supabase = createClientComponentClient();
+  //     const { data, error } = await supabase
+  //       .from('poems')
+  //       .select('id, author, name, content, display_date')
+  //       .eq('display_date', formattedDate);
+
+  //     if (error) {
+  //       console.error('Error fetching data:', error.message);
+  //     } else {
+  //       if (data && data.length > 0) {
+  //         setPoemOfTheDay(data[0]);
+  //       } else {
+  //         console.error('No poem found for the current date');
+  //       }
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, [setPoemOfTheDay]);
   useEffect(() => {
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split('T')[0];
@@ -34,6 +59,25 @@ export default function Home() {
       } else {
         if (data && data.length > 0) {
           setPoemOfTheDay(data[0]);
+
+          const poemid = data[0].id;
+          const { data: sessionData } = await supabase.auth.getSession();
+
+          if (sessionData?.session?.user?.id) {
+            const userid = sessionData.session.user.id;
+
+            try {
+              const hasResponded = await hasUserResponded({ userid, poemid });
+              console.log('Has Responded:', hasResponded);
+
+              if (Array.isArray(hasResponded) && hasResponded.length > 0) {
+                setHasResponded(true);
+                setButtonText('View Responses');
+              }
+            } catch (error) {
+              console.error('Error checking user response:', error);
+            }
+          }
         } else {
           console.error('No poem found for the current date');
         }
@@ -58,6 +102,7 @@ export default function Home() {
 
           if (Array.isArray(hasResponded) && hasResponded.length === 0) {
             console.log('User has not responded. Redirecting to prompts.');
+
             window.location.href = `${poemid}/prompts`;
           } else {
             console.log('User has responded. Redirecting to responses.');
@@ -91,7 +136,7 @@ export default function Home() {
                 </div>
                 <div>
                   <button className='button' onClick={handleButtonClick}>
-                    {hasResponded ? 'View Responses' : 'Respond'}
+                    {buttonText}
                   </button>
                 </div>
               </div>
