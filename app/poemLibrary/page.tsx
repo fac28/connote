@@ -57,6 +57,19 @@ export default function PoemDirectory() {
       poem.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const formatDate = (dateString: string | number | Date) => {
+    const options: Intl.DateTimeFormatOptions = {
+      weekday: 'long',
+      month: 'short',
+      day: 'numeric',
+    };
+    const formattedDate = new Date(dateString).toLocaleDateString(
+      'en-GB',
+      options
+    );
+    return formattedDate;
+  };
+
   return (
     <>
       <div>
@@ -67,13 +80,13 @@ export default function PoemDirectory() {
             placeholder='Search poems...'
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className='p-3 mb-4 rounded-full w-72 bg-secondary'
+            className='p-3 mb-4 rounded-full w-72 bg-secondary focus:outline-none'
           />
           <div className='flex flex-wrap justify-center max-w-[1024px]'>
             {filteredPoems.map((poem, index) => (
               <span key={poem.id}>
                 <PoemCard
-                  poemDate={poem.display_date}
+                  poemDate={formatDate(poem.display_date)}
                   poemAuthor={poem.author}
                   poemName={poem.name}
                   poemImage={poem.image}
