@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import PoemCard from '../../components/PoemCard';
 import { PoemsType } from '@/types';
 import { hasUserRespondedAll } from '@/utils/supabase/models/hasUserRespondedAll';
+import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 
 export default function PoemDirectory() {
   const [poems, setPoems] = useState<PoemsType>([]);
@@ -56,19 +57,6 @@ export default function PoemDirectory() {
       poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
       poem.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  const formatDate = (dateString: string | number | Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-    };
-    const formattedDate = new Date(dateString).toLocaleDateString(
-      'en-GB',
-      options
-    );
-    return formattedDate;
-  };
 
   return (
     <>

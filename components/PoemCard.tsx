@@ -72,18 +72,6 @@ export default function PoemCard({
     }
   }
 
-  const formatDate = (dateString: string | number | Date) => {
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-    };
-    const formattedDate = new Date(dateString).toLocaleDateString(
-      'en-GB',
-      options
-    );
-    return formattedDate;
-  };
   return (
     <Card
       className='p-3 m-3 w-64 h-64 aspect-w-1 cursor-pointer bg-secondary text-left  hover:opacity-90'
