@@ -52,7 +52,7 @@ export default function ResponsePage() {
       }
     };
     fetchInitialHearts();
-  }, [updatedResponses]);
+  }, []);
 
   useEffect(() => {
     const fetchUserReactions = async () => {
@@ -156,6 +156,8 @@ export default function ResponsePage() {
       return;
     }
   };
+
+  useEffect(() => {}, [hearts]);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
