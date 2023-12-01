@@ -51,7 +51,7 @@ export default function ResponsePage() {
       }
     };
     fetchInitialHearts();
-  }, [updatedResponses]);
+  }, []);
 
   const handleHeartsClick = async (responseId: number) => {
     try {
@@ -117,6 +117,8 @@ export default function ResponsePage() {
       return;
     }
   };
+
+  useEffect(() => {}, [hearts]);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
