@@ -93,6 +93,13 @@ export default function PromptPoem({
                           onClick={(event) =>
                             oneWordIdStoringFucnction(event, word)
                           }
+                          className={`cursor-pointer ${
+                            highlightedWordIds[selectedPromptNumber]?.includes(
+                              wordCounter
+                            )
+                              ? 'bg-white text-black p-0.5 px-1 rounded-md shadow-lg '
+                              : ''
+                          }`}
                         >
                           {word}
                         </span>{' '}

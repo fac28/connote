@@ -85,13 +85,14 @@ export default function ResponsePoem({
                             id={String(currentWordIndex)}
                             className={
                               (isSelected
-                                ? matchingResponse?.highlight_colour ?? ''
+                                ? `${
+                                    matchingResponse?.highlight_colour ?? ''
+                                  } py-0.5 px-1.5 rounded-md shadow-lg m-0.5`
                                 : '') +
                               ' ' +
                               (myHighlights.includes(currentWordIndex)
-                                ? '  border-2'
-                                : '') +
-                              ' p-0.5 px-1.5 rounded-md shadow-sm'
+                                ? 'border-2 border-primary'
+                                : '')
                             }
                           >
                             {word}
