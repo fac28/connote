@@ -86,7 +86,7 @@ export default function PoemCard({
             <Checkbox className='collapse'>
               <div
                 onClick={(event) => handleIconClick(event)}
-                className='cursor-pointer ml-28 visible'
+                className='cursor-pointer ml-[140px] visible'
               >
                 {isChecked ? <Bookmark /> : <Bookmark1 />}
               </div>
