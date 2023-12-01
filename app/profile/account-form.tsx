@@ -54,7 +54,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
       if (error) throw error;
       alert('Profile updated!');
     } catch (error) {
-      alert('Error updating the data!');
+      alert('Sorry, that username is already taken.');
     } finally {
       setLoading(false);
     }
