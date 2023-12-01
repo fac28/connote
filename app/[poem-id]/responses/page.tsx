@@ -108,7 +108,7 @@ export default function ResponsePage() {
   };
 
   const handleDone = () => {
-    console.log('handle redirecting after you`ve looked through comments');
+    router.push('/poemLibrary');
   };
 
   return (
