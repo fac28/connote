@@ -53,7 +53,6 @@ export default function ResponsePage() {
 
   useEffect(() => {
     fetchHearts();
-    console.log('HELLO FETCH');
   }, []);
 
   useEffect(() => {
@@ -106,7 +105,6 @@ export default function ResponsePage() {
       }
 
       const userId = user.data.user.id;
-      console.log(userId);
 
       // Check if the current user has already reacted with a heart
       const { data: existingReact, error: reactError } = await supabase
