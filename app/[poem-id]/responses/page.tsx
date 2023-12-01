@@ -39,21 +39,22 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses, hearts);
 
+  const fetchHearts = async () => {
+    try {
+      const supabase = createClientComponentClient();
+      const heartReacts = await fetchReacts('heart', supabase);
+      setHearts(heartReacts);
+      setLoadingHearts(false);
+    } catch (error) {
+      console.error('Error fetching initial hearts:', error);
+      setLoadingHearts(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchInitialHearts = async () => {
-      try {
-        const supabase = createClientComponentClient();
-        const heartReacts = await fetchReacts('heart', supabase);
-        setHearts(heartReacts);
-        setLoadingHearts(false);
-      } catch (error) {
-        console.error('Error fetching initial hearts:', error);
-        setLoadingHearts(false);
-      }
-    };
-    fetchInitialHearts();
+    fetchHearts();
     console.log('HELLO FETCH');
-  }, [hearts]);
+  }, []);
 
   useEffect(() => {
     const fetchUserReactions = async () => {
@@ -156,6 +157,7 @@ export default function ResponsePage() {
       console.error('Error handling heart click:', error);
       return;
     }
+    await fetchHearts();
   };
 
   // useEffect(() => {console.log("HELLO FETCH")}, [hearts]);
