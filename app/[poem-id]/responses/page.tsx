@@ -39,19 +39,20 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses, hearts);
 
+  const fetchHearts = async () => {
+    try {
+      const supabase = createClientComponentClient();
+      const heartReacts = await fetchReacts('heart', supabase);
+      setHearts(heartReacts);
+      setLoadingHearts(false);
+    } catch (error) {
+      console.error('Error fetching initial hearts:', error);
+      setLoadingHearts(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchInitialHearts = async () => {
-      try {
-        const supabase = createClientComponentClient();
-        const heartReacts = await fetchReacts('heart', supabase);
-        setHearts(heartReacts);
-        setLoadingHearts(false);
-      } catch (error) {
-        console.error('Error fetching initial hearts:', error);
-        setLoadingHearts(false);
-      }
-    };
-    fetchInitialHearts();
+    fetchHearts();
   }, []);
 
   useEffect(() => {
@@ -104,7 +105,6 @@ export default function ResponsePage() {
       }
 
       const userId = user.data.user.id;
-      console.log(userId);
 
       // Check if the current user has already reacted with a heart
       const { data: existingReact, error: reactError } = await supabase
@@ -155,9 +155,10 @@ export default function ResponsePage() {
       console.error('Error handling heart click:', error);
       return;
     }
+    await fetchHearts();
   };
 
-  useEffect(() => {}, [hearts]);
+  // useEffect(() => {console.log("HELLO FETCH")}, [hearts]);
 
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);

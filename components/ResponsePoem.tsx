@@ -27,7 +27,6 @@ export default function ResponsePoem({
           data: { user },
         } = await supabase.auth.getUser();
         if (user) {
-          console.log('user id', user.id);
           setCurrentUser(user.id);
         }
       } catch (error) {
