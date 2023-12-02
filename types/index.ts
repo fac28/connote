@@ -48,3 +48,7 @@ export type ReactsType =
       };
     }>
   | [];
+
+export type LikedResponsesType = {
+  [key: number]: boolean;
+};

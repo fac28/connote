@@ -10,11 +10,13 @@ export default function AccountForm({ session }: { session: Session | null }) {
   const supabase = createClientComponentClient<any>();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState<string | null>(null);
+  const [message, setMessage] = useState<string | null>(null);
   const user = session?.user;
 
   const getProfile = useCallback(async () => {
     try {
       setLoading(true);
+      setMessage(null);
 
       const { data, error, status } = await supabase
         .from('profiles')
@@ -30,7 +32,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
         setUsername(data.username);
       }
     } catch (error) {
-      alert('Error loading user data!');
+      setMessage('Error loading user data!');
     } finally {
       setLoading(false);
     }
@@ -43,6 +45,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
   async function updateProfile({ username }: { username: string | null }) {
     try {
       setLoading(true);
+      setMessage(null);
 
       const { error } = await supabase.from('profiles').upsert({
         id: user?.id as string,
@@ -52,9 +55,9 @@ export default function AccountForm({ session }: { session: Session | null }) {
         updated_at: new Date().toISOString(),
       });
       if (error) throw error;
-      alert('Profile updated!');
+      setMessage('Profile updated!');
     } catch (error) {
-      alert('Error updating the data!');
+      setMessage('Sorry, that username is already taken.');
     } finally {
       setLoading(false);
     }
@@ -93,6 +96,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
           {loading ? 'Loading ...' : 'Update'}
         </button>
       </div>
+      {message && <div className='message'>{message}</div>}
     </div>
   );
 }

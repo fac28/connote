@@ -27,7 +27,6 @@ export default function ResponsePoem({
           data: { user },
         } = await supabase.auth.getUser();
         if (user) {
-          console.log('user id', user.id);
           setCurrentUser(user.id);
         }
       } catch (error) {
@@ -46,7 +45,7 @@ export default function ResponsePoem({
         <span key={poemItem.id}>
           <small className='text-connote_orange'>{poemItem.author}</small>
           <h4 className='font-bold text-large'>{poemItem.name}</h4>
-          <ScrollShadow className='w-[300px] h-[300px]'>
+          <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
             {poemItem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (

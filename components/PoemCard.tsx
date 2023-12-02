@@ -56,7 +56,6 @@ export default function PoemCard({
   };
 
   async function handleSubmit(poemid: number) {
-    console.log('click');
     const supabase = createClientComponentClient();
     const { data: sessionData } = await supabase.auth.getSession();
     if (sessionData?.session?.user?.id) {
