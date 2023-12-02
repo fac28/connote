@@ -48,7 +48,7 @@ export default function Home() {
 
               if (Array.isArray(hasResponded) && hasResponded.length > 0) {
                 setHasResponded(true);
-                setButtonText('View Responses');
+                setButtonText('Responses');
               }
             } catch (error) {
               console.error('Error checking user response:', error);
@@ -99,30 +99,30 @@ export default function Home() {
         <div>
           {poemOfTheDay && (
             <>
-              <div className='flex flex-col  border-b pb-4 border-connote_orange'>
-                <div className='w-56'>
+              <div className='flex border-b-1 border-shadow-md  pb-1 border-connote_orange w-80'>
+                <div className='flex-grow'>
                   <p className='text-tiny font-bold'>
                     {formatDate(poemOfTheDay.display_date)}
                   </p>
-                  <small className='text-default-500'>
+                  <small className='text-connote_orange'>
                     {poemOfTheDay.author}
                   </small>
-                  <h4 className='font-bold text-large w-56 pb-4'>
+                  <h4 className='font-bold text-large pb-4 w-40'>
                     {poemOfTheDay.name}
                   </h4>
-                  <div>
-                    <button
-                      className='button-respond'
-                      onClick={handleButtonClick}
-                    >
-                      {buttonText}
-                    </button>
-                  </div>
+                </div>
+                <div className='mt-auto pb-4'>
+                  <button
+                    className='button-respond'
+                    onClick={handleButtonClick}
+                  >
+                    {buttonText}
+                  </button>
                 </div>
               </div>
 
               <br></br>
-              <p>
+              <p className='w-80'>
                 {poemOfTheDay.content
                   .split('\n\n')
                   .map((stanza: string, index: number) => (

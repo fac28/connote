@@ -95,7 +95,7 @@ export default function PoemCard({
             ''
           )}
         </div>
-        <small className='text-default-500'>{poemAuthor}</small>
+        <small className='text-connote_orange'>{poemAuthor}</small>
 
         <h4 className='font-bold text-large'>{poemName}</h4>
       </CardHeader>

@@ -3,7 +3,7 @@ import { ResponsesType } from '@/types';
 let topThreeColours = ['orange_bg_col', 'green_bg_col', 'pastel_blue_bg_col'];
 
 export let topThreeTextColours = [
-  'orange_bg_col',
+  'orange_text_col',
   'green_text_col',
   'pastel_blue_text_col',
 ];
@@ -26,11 +26,6 @@ export function addingHighlightAttribute(
   for (const key in result) {
     result[key].slice(0, 3).forEach((response, index) => {
       response.highlight_colour = topThreeColours[index];
-      response.customStyle = {
-        // Add padding and rounded styles based on the index
-        padding: index < 3 ? '1rem' : '0',
-        borderRadius: index < 3 ? '0.5rem' : '0',
-      };
     });
   }
 
