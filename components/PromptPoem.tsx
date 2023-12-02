@@ -78,7 +78,7 @@ export default function PromptPoem({
     <div className='flex flex-col items-center justify-between p-4'>
       {poem.map((poem) => (
         <span key={poem.id}>
-          <small className='text-default-500'>{poem.author}</small>
+          <small className='text-connote_orange'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
           <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
             {poem.content.split('\n\n').map((stanza, index) => (
@@ -93,6 +93,13 @@ export default function PromptPoem({
                           onClick={(event) =>
                             oneWordIdStoringFucnction(event, word)
                           }
+                          className={`cursor-pointer ${
+                            highlightedWordIds[selectedPromptNumber]?.includes(
+                              wordCounter
+                            )
+                              ? 'bg-white text-black p-0.5 px-1 rounded-md shadow-lg '
+                              : ''
+                          }`}
                         >
                           {word}
                         </span>{' '}

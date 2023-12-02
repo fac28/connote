@@ -14,7 +14,8 @@ type ResponsesSectionProps = {
   handleNextClick: () => void;
   hearts: { [key: number]: number };
   likedResponses: { [key: number]: boolean };
-  handleHeartsClick: (responseId: number, userId: string) => Promise<void>; // Adjusted to match the function signature
+  handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
+  // Adjusted to match the function signature
   loadingHearts: boolean;
 };
 
@@ -31,7 +32,7 @@ export default function ResponsesSection({
 }: ResponsesSectionProps) {
   return (
     <div className='flex flex-col items-center justify-between p-4'>
-      <div className='flex flex-wrap max-w-xs'>
+      <div className='flex flex-wrap max-w-xs '>
         {updatedPrompts.map(
           (prompt) =>
             prompt.id === selectedPromptNumber && (
