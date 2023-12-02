@@ -32,7 +32,7 @@ export default function ResponsesSection({
 }: ResponsesSectionProps) {
   return (
     <div className='flex flex-col items-center justify-between p-4'>
-      <div className='flex flex-wrap max-w-xs'>
+      <div className='flex flex-wrap max-w-xs '>
         {updatedPrompts.map(
           (prompt) =>
             prompt.id === selectedPromptNumber && (

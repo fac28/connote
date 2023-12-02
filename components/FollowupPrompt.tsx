@@ -35,6 +35,7 @@ export default function FollowupPrompt({
                     value={inputValue}
                     onChange={(e) => onInputChange(e.target.value)}
                     maxLength={200}
+                    className='w-72'
                   />
                   <br></br>
                 </span>
