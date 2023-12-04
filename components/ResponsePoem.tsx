@@ -40,6 +40,7 @@ export default function ResponsePoem({
   let wordCounter = 0;
 
   return (
+
     <>
       {' '}
       <div className='flex flex-wrap'>
@@ -60,6 +61,7 @@ export default function ResponsePoem({
                               currentWordIndex
                             ) && response.prompt_id === selectedPromptNumber
                         );
+
 
                         const matchingResponse = responses.find(
                           (response) =>
