@@ -47,7 +47,7 @@ export default function ResponsePoem({
 
   // Find the mode and its frequency
   let mode: string | null = null;
-  let numericMode = -1;
+  let numericMode: number[] = []; // Change to an array
   let modeFrequency = 0;
 
   function findMode(arr: number[]) {
@@ -59,14 +59,21 @@ export default function ResponsePoem({
 
     // Find the mode and its frequency
     Object.keys(countMap).forEach((key) => {
-      if (countMap[key] > modeFrequency) {
+      const currentFrequency = countMap[key];
+
+      if (currentFrequency > modeFrequency) {
         mode = key;
-        modeFrequency = countMap[key];
+        modeFrequency = currentFrequency;
+        numericMode = [parseInt(key, 10)]; // Set numericMode as an array with a single element
+      } else if (currentFrequency === modeFrequency) {
+        numericMode.push(parseInt(key, 10)); // Add to the array for multiple modes
       }
     });
 
-    // Convert mode to a number if it is not null
-    numericMode = mode !== null ? parseInt(mode, 10) : -1;
+    // If there's no mode, set numericMode to an empty array
+    if (mode === null) {
+      numericMode = [];
+    }
   }
 
   findMode(allHighlightedResponses);
@@ -133,7 +140,9 @@ export default function ResponsePoem({
                                   (myHighlights.includes(currentWordIndex)
                                     ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
                                     : '') +
-                                  (maxHighlightedWordIndex === currentWordIndex
+                                  (maxHighlightedWordIndex.includes(
+                                    currentWordIndex
+                                  )
                                     ? 'underline'
                                     : '')
                                 }
