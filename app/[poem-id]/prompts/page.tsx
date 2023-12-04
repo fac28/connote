@@ -64,6 +64,7 @@ export default function PromptPage() {
 
   const handleSubmit = async () => {
     // Server-side validation logic
+    //Add highlighting limit validation
     if (promptInputs.some((input) => input && input.length > 200)) {
       console.error('Input length exceeds the allowed limit.');
       return;
@@ -102,6 +103,7 @@ export default function PromptPage() {
         selectedPromptNumber={selectedPromptNumber}
         highlightedWordIds={highlightedWordIds}
         setHighlightedWordIds={setHighlightedWordIds}
+        prompts={prompts}
       />
 
       <FollowupPrompt
