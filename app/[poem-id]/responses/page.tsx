@@ -200,8 +200,6 @@ export default function ResponsePage() {
         />
       </div>
 
-      <h2 className='text-xl promptPurple w-full '>Responses</h2>
-
       <ResponsesSection
         hearts={hearts}
         likedResponses={likedResponses}
