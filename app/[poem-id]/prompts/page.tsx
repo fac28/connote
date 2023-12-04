@@ -64,7 +64,15 @@ export default function PromptPage() {
 
   const handleSubmit = async () => {
     // Server-side validation logic
-    //Add highlighting limit validation
+    if (
+      highlightedWordIds.some(
+        (ids, index) => ids.length > prompts[index].highlight_limit
+      )
+    ) {
+      console.error('Too many words highlighted.');
+      return;
+    }
+
     if (promptInputs.some((input) => input && input.length > 200)) {
       console.error('Input length exceeds the allowed limit.');
       return;
