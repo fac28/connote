@@ -8,6 +8,7 @@ import { submitPromptsData } from '@/utils/supabase/models/submitPromptsData';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import InitialPromptBanner from '@/components/InitialPromptBanner';
 import PromptButtons from '@/components/PromptButtons';
+import { Button } from '@nextui-org/react';
 
 export default function PromptPage() {
   const params = useParams();
@@ -25,6 +26,8 @@ export default function PromptPage() {
     new Array(3).fill([])
   );
   const [userId, setUserId] = useState<string | null>(null);
+  const [showFollowupPrompt, setShowFollowupPrompt] = useState(false);
+  const [showPromptButtons, setShowPromptButtons] = useState(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -38,7 +41,11 @@ export default function PromptPage() {
     };
     fetchUserId();
   });
-
+  useEffect(() => {
+    // Reset the visibility state when the component mounts
+    setShowFollowupPrompt(false);
+    setShowPromptButtons(false);
+  }, [poemid]);
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);
@@ -51,14 +58,6 @@ export default function PromptPage() {
       setPromptNumber(selectedPromptNumber - 1);
     } else {
       router.push('/poemLibrary');
-    }
-  };
-
-  const handleNextClick = () => {
-    if (selectedPromptNumber < 2) {
-      setPromptNumber(selectedPromptNumber + 1);
-    } else {
-      handleSubmit();
     }
   };
 
@@ -98,7 +97,17 @@ export default function PromptPage() {
 
     window.location.href = `/${poemid}/responses`;
   };
+  const handleNextClick = () => {
+    if (selectedPromptNumber < 2) {
+      // Reset the visibility state when clicking the right chevron
+      setShowFollowupPrompt(false);
+      setShowPromptButtons(false);
 
+      setPromptNumber(selectedPromptNumber + 1);
+    } else {
+      handleSubmit();
+    }
+  };
   return (
     <main>
       <InitialPromptBanner
@@ -113,28 +122,40 @@ export default function PromptPage() {
         setHighlightedWordIds={setHighlightedWordIds}
         prompts={prompts}
       />
-
-      <FollowupPrompt
-        prompts={prompts}
-        selectedPromptNumber={selectedPromptNumber}
-        onInputChange={(value: string) => {
-          setPromptInputs((prevInputs) => {
-            const newInputs = [...prevInputs];
-            newInputs[selectedPromptNumber] = value;
-            return newInputs;
-          });
+      <Button
+        className='bg-connote_orange rounded-xl mx-12 flex items-center'
+        onClick={() => {
+          setShowFollowupPrompt(true);
+          setShowPromptButtons(true);
         }}
-        inputValue={promptInputs[selectedPromptNumber] || ''}
-      />
+      >
+        Follow-up Prompt
+      </Button>
+      {showFollowupPrompt && (
+        <FollowupPrompt
+          prompts={prompts}
+          selectedPromptNumber={selectedPromptNumber}
+          onInputChange={(value: string) => {
+            setPromptInputs((prevInputs) => {
+              const newInputs = [...prevInputs];
+              newInputs[selectedPromptNumber] = value;
+              return newInputs;
+            });
+          }}
+          inputValue={promptInputs[selectedPromptNumber] || ''}
+        />
+      )}
 
-      <PromptButtons
-        selectedPromptNumber={selectedPromptNumber}
-        handlePrevClick={handlePrevClick}
-        handleNextClick={handleNextClick}
-        prompts={prompts}
-        highlightedWordIds={highlightedWordIds}
-        promptInputs={promptInputs}
-      />
+      {showPromptButtons && (
+        <PromptButtons
+          selectedPromptNumber={selectedPromptNumber}
+          handlePrevClick={handlePrevClick}
+          handleNextClick={handleNextClick}
+          prompts={prompts}
+          highlightedWordIds={highlightedWordIds}
+          promptInputs={promptInputs}
+        />
+      )}
     </main>
   );
 }
