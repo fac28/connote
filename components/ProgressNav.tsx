@@ -11,7 +11,7 @@ import { useTheme as useNextTheme } from 'next-themes';
 import { Switch } from '@nextui-org/react';
 import { usePathname } from 'next/navigation';
 import RenderNavLinks from './NavComponents/renderNavLinks';
-import { Progress } from '@nextui-org/react';
+import { Progress, Link } from '@nextui-org/react';
 import { useSearchParams } from 'next/navigation';
 import { MoonIcon } from './MoonIcon';
 import { SunIcon } from './SunIcon';
@@ -57,7 +57,7 @@ export default function ProgressNav() {
         <Switch
           color='warning'
           defaultSelected={initialSwitchState}
-          size='sm'
+          size='lg'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
           thumbIcon={({ isSelected, className }) =>
             isSelected ? (
@@ -67,6 +67,15 @@ export default function ProgressNav() {
             )
           }
         />
+
+        <Link
+          href='/'
+          size='lg'
+          className='text-xl hover:text-connote_orange transition duration-200'
+        >
+          Home
+        </Link>
+
         <RenderNavLinks
           currentPathname={pathname}
           selectedWeight=''
