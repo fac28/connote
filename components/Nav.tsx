@@ -85,7 +85,7 @@ export default function Nav({ session }: { session: Session | null }) {
           <Switch
             defaultSelected={initialSwitchState}
             color='warning'
-            size='sm'
+            size='md'
             onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
             thumbIcon={({ isSelected, className }) =>
               isSelected ? (
@@ -125,7 +125,7 @@ export default function Nav({ session }: { session: Session | null }) {
         <Switch
           defaultSelected={initialSwitchState}
           color='warning'
-          size='sm'
+          size='lg'
           onChange={(e) => setTheme(e.target.checked ? 'dark' : 'light')}
           thumbIcon={({ isSelected, className }) =>
             isSelected ? (
