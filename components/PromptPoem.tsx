@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { PoemsType } from '@/types';
+import { PoemsType, PromptsType } from '@/types';
 import { ScrollShadow } from '@nextui-org/react';
 
 type PromptPoemProps = {
@@ -7,6 +7,7 @@ type PromptPoemProps = {
   selectedPromptNumber: number;
   highlightedWordIds: number[][];
   setHighlightedWordIds: (newHighlightedWordIds: number[][]) => void;
+  prompts: PromptsType;
 };
 
 export default function PromptPoem({
@@ -14,11 +15,9 @@ export default function PromptPoem({
   selectedPromptNumber,
   highlightedWordIds,
   setHighlightedWordIds,
+  prompts,
 }: PromptPoemProps) {
-  function oneWordIdStoringFucnction(
-    event: React.MouseEvent<HTMLSpanElement>,
-    word: string
-  ) {
+  function oneWordIdStoringFucnction(event: React.MouseEvent<HTMLSpanElement>) {
     // Check if event and event.target are defined
     if (event && event.target) {
       const clickedSpan = event.target as HTMLSpanElement;
@@ -38,6 +37,15 @@ export default function PromptPoem({
         newHighlightedWordIds[selectedPromptNumber] =
           currentPromptHighlightedWords.filter((id) => id !== spanId);
       } else {
+        //Check if limit reached and do an early return
+
+        if (
+          currentPromptHighlightedWords.length >=
+          prompts[selectedPromptNumber].highlight_limit
+        ) {
+          return;
+        }
+
         // Add the word ID to the array if not highlighted
         newHighlightedWordIds[selectedPromptNumber] = [
           ...currentPromptHighlightedWords,
@@ -62,7 +70,7 @@ export default function PromptPoem({
     highlightedWordIds[selectedPromptNumber]?.forEach((wordId) => {
       const span = document.getElementById(String(wordId));
       if (span) {
-        span.classList.add('bg-black', 'text-white');
+        span.classList.add('text-black');
       }
     });
   }
@@ -78,7 +86,7 @@ export default function PromptPoem({
     <div className='flex flex-col items-center justify-between p-4'>
       {poem.map((poem) => (
         <span key={poem.id}>
-          <small className='text-default-500'>{poem.author}</small>
+          <small className='text-connote_orange'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
           <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
             {poem.content.split('\n\n').map((stanza, index) => (
@@ -90,9 +98,14 @@ export default function PromptPoem({
                       <React.Fragment key={wordCounter++}>
                         <span
                           id={String(wordCounter)}
-                          onClick={(event) =>
-                            oneWordIdStoringFucnction(event, word)
-                          }
+                          onClick={(event) => oneWordIdStoringFucnction(event)}
+                          className={`cursor-pointer ${
+                            highlightedWordIds[selectedPromptNumber]?.includes(
+                              wordCounter
+                            )
+                              ? 'bg-white text-black p-0.5 px-1 rounded-md shadow-lg '
+                              : ''
+                          }`}
                         >
                           {word}
                         </span>{' '}

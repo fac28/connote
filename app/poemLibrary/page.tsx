@@ -65,7 +65,9 @@ export default function PoemDirectory() {
       const newFilteredPoems = poems.filter(
         (poem) =>
           (poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            poem.name.toLowerCase().includes(searchTerm.toLowerCase())) &&
+            poem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||formatDate(poem.display_date)
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase())) &&
           new Date(poem.display_date) <= currentDate
       );
 

@@ -3,7 +3,7 @@ export type PromptsType =
       id: number;
       initial_prompt: string;
       follow_up_prompt: string;
-      highlighting_format: string;
+      highlight_limit: number;
     }>
   | [];
 
@@ -23,6 +23,7 @@ export type PoemsType =
 
 export type ResponsesType =
   | Array<{
+      customStyle?: { padding: string; borderRadius: string };
       id: number;
       poem_id: number;
       prompt_id: number;

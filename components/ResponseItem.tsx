@@ -21,10 +21,10 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   loadingHearts,
 }) => {
   return (
-    <div className='bg-connote_white p-4 mt-4 rounded-md flex justify-between shadow-inner responseComment'>
+    <div className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'>
       <div className='flex flex-col'>
         <h2
-          className={`${
+          className={`  ${
             topThreeTextColours[index]
               ? topThreeTextColours[index]
               : 'text-connote_dark'
