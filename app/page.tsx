@@ -3,9 +3,11 @@ import { formatDate } from '@/utils/poemLibraryFunctions/formatDate';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import React, { useEffect, useState } from 'react';
 import { hasUserResponded } from '@/utils/supabase/models/hasUserResponded';
-
+import { Tooltip, Link } from '@nextui-org/react';
+import { IoLogoYoutube } from 'react-icons/io5';
 type PoemsType =
   | {
+      link: string | undefined;
       id: number;
       author: string;
       name: string;
@@ -27,7 +29,7 @@ export default function Home() {
       const supabase = createClientComponentClient();
       const { data, error } = await supabase
         .from('poems')
-        .select('id, author, name, content, display_date')
+        .select('id, author, name, content, display_date, link')
         .eq('display_date', formattedDate);
 
       if (error) {
@@ -111,17 +113,28 @@ export default function Home() {
                     {poemOfTheDay.name}
                   </h4>
                 </div>
-                <div className='mt-auto pb-4'>
+
+                <div className='flex  items-center mt-auto pb-4'>
                   <button
                     className='button-respond'
                     onClick={handleButtonClick}
                   >
                     {buttonText}
                   </button>
+                  <Tooltip
+                    showArrow={true}
+                    content='Watch on YouTube'
+                    placement='top-start'
+                  >
+                    <Link href={poemOfTheDay.link} color='warning'>
+                      <IoLogoYoutube className='scale-150 ml-4' />
+                    </Link>
+                  </Tooltip>
                 </div>
               </div>
 
               <br></br>
+
               <p className='w-80'>
                 {poemOfTheDay.content
                   .split('\n\n')
