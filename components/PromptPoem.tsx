@@ -70,7 +70,7 @@ export default function PromptPoem({
     highlightedWordIds[selectedPromptNumber]?.forEach((wordId) => {
       const span = document.getElementById(String(wordId));
       if (span) {
-        span.classList.add('bg-black', 'text-white');
+        span.classList.add('text-black');
       }
     });
   }
