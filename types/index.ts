@@ -3,7 +3,7 @@ export type PromptsType =
       id: number;
       initial_prompt: string;
       follow_up_prompt: string;
-      highlighting_format: string;
+      highlight_limit: number;
     }>
   | [];
 
