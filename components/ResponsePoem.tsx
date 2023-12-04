@@ -37,6 +37,45 @@ export default function ResponsePoem({
     fetchUserData();
   }, [supabase.auth]);
 
+  // Calculate most frequently highlighted word
+  const allHighlightedResponses = responses
+    .filter((response) => response.prompt_id === selectedPromptNumber)
+    .map((response) => response.response_selected)
+    .flat();
+
+  console.log(allHighlightedResponses);
+
+  // Find the mode and its frequency
+  let mode: string | null = null;
+  let numericMode = -1;
+  let modeFrequency = 0;
+
+  function findMode(arr: number[]) {
+    // Count the occurrences of each number
+    let countMap: { [key: string]: number } = {};
+    arr.forEach((num) => {
+      countMap[num.toString()] = (countMap[num.toString()] || 0) + 1;
+    });
+
+    // Find the mode and its frequency
+    Object.keys(countMap).forEach((key) => {
+      if (countMap[key] > modeFrequency) {
+        mode = key;
+        modeFrequency = countMap[key];
+      }
+    });
+
+    // Convert mode to a number if it is not null
+    numericMode = mode !== null ? parseInt(mode, 10) : -1;
+  }
+
+  findMode(allHighlightedResponses);
+
+  console.log(numericMode, modeFrequency);
+
+  let maxHighlightedWordIndex = numericMode;
+
+  // Word counter
   let wordCounter = 0;
 
   return (
@@ -93,6 +132,9 @@ export default function ResponsePoem({
                                   ' ' +
                                   (myHighlights.includes(currentWordIndex)
                                     ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
+                                    : '') +
+                                  (maxHighlightedWordIndex === currentWordIndex
+                                    ? 'underline'
                                     : '')
                                 }
                               >
