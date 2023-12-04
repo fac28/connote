@@ -23,7 +23,7 @@ export type PoemsType =
 
 export type ResponsesType =
   | Array<{
-      customStyle: { padding: string; borderRadius: string };
+      customStyle?: { padding: string; borderRadius: string };
       id: number;
       poem_id: number;
       prompt_id: number;

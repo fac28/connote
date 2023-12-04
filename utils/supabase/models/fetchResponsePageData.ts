@@ -36,7 +36,7 @@ const useFetchResponsePageData = (poemid: number) => {
         const fetchedResponses = await fetchResponsesByPoemId(poemid, supabase);
         if (fetchedResponses) {
           // Modify responses to include user information
-          const responsesWithUsers = await Promise.all(
+          const responsesWithUsers: ResponsesType = await Promise.all(
             fetchedResponses.map(async (response) => {
               const { data, error } = await supabase
                 .from('profiles')
