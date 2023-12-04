@@ -201,7 +201,6 @@ export default function ResponsePage() {
         </div>
 
         <div className='mt-2'>
-          <h2 className='promptPurple w-full'>Responses</h2>
           <ResponsesSection
             hearts={hearts}
             likedResponses={likedResponses}
@@ -216,7 +215,6 @@ export default function ResponsePage() {
           />
         </div>
       </div>
-
     </main>
   );
 }
