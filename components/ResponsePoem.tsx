@@ -2,8 +2,9 @@
 
 import React, { useEffect, useState } from 'react';
 import { PoemsType, ResponsesType } from '@/types';
-import { ScrollShadow } from '@nextui-org/react';
+import { Button, ScrollShadow } from '@nextui-org/react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Tooltip } from '@nextui-org/react';
 
 type ResponsePoemProps = {
   poem: PoemsType;
@@ -19,6 +20,7 @@ export default function ResponsePoem({
   const supabase = createClientComponentClient();
 
   const [currentUser, setCurrentUser] = useState<string | null>(null);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -80,7 +82,7 @@ export default function ResponsePoem({
 
   console.log(numericMode, modeFrequency);
 
-  let maxHighlightedWordIndex = numericMode;
+  // let maxHighlightedWordIndex = numericMode;
 
   // Word counter
   let wordCounter = 0;
@@ -128,27 +130,46 @@ export default function ResponsePoem({
 
                           return (
                             <React.Fragment key={currentWordIndex}>
-                              <span
-                                id={String(currentWordIndex)}
-                                className={
-                                  (isSelected
-                                    ? `${
-                                        matchingResponse?.highlight_colour ?? ''
-                                      } `
-                                    : '') +
-                                  ' ' +
-                                  (myHighlights.includes(currentWordIndex)
-                                    ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
-                                    : '') +
-                                  (maxHighlightedWordIndex.includes(
-                                    currentWordIndex
-                                  )
-                                    ? 'underline'
-                                    : '')
-                                }
-                              >
-                                {word}
-                              </span>{' '}
+                              {numericMode.includes(currentWordIndex) ? (
+                                <Tooltip
+                                  isOpen={isOpen}
+                                  radius='sm'
+                                  onOpenChange={(open) => setIsOpen(open)}
+                                  content={modeFrequency + ' highlights'}
+                                >
+                                  <span
+                                    className={
+                                      'underline ' +
+                                      (isSelected
+                                        ? `${
+                                            matchingResponse?.highlight_colour ??
+                                            ''
+                                          } `
+                                        : '')
+                                    }
+                                  >
+                                    {word}
+                                  </span>
+                                </Tooltip>
+                              ) : (
+                                <span
+                                  id={String(currentWordIndex)}
+                                  className={
+                                    (isSelected
+                                      ? `${
+                                          matchingResponse?.highlight_colour ??
+                                          ''
+                                        } `
+                                      : '') +
+                                    ' ' +
+                                    (myHighlights.includes(currentWordIndex)
+                                      ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
+                                      : '')
+                                  }
+                                >
+                                  {word}
+                                </span>
+                              )}{' '}
                             </React.Fragment>
                           );
                         })}
