@@ -85,7 +85,7 @@ export default function PoemCard({
             <Checkbox className='collapse'>
               <div
                 onClick={(event) => handleIconClick(event)}
-                className='cursor-pointer ml-[130px] visible'
+                className='cursor-pointer ml-[125px] scale-125 visible'
               >
                 {isChecked ? <Bookmark /> : <Bookmark1 />}
               </div>
@@ -99,15 +99,18 @@ export default function PoemCard({
         <h4 className='font-bold text-large'>{poemName}</h4>
       </CardHeader>
 
-      <CardBody className='overflow-hidden relative rounded-xl '>
-        <div className='absolute top-0 left-0 right-0 bottom-0 rounded-xl overflow-hidden'>
+      <CardBody className='overflow-hidden relative rounded-xl group '>
+        <div className='absolute top-0 left-0 right-0 bottom-0 rounded-xl overflow-hidden '>
           <Image
             alt='Card background'
-            className={`object-contain ${
-              userId && !isResponded ? 'grayscale' : ''
-            }`}
+            className={`object-contain`}
             src={poemImage}
           />
+          {userId && !isResponded && (
+            <div className='absolute inset-0 flex items-center justify-center bg-gray-500 bg-opacity-70 text-gray-200 text-2xl  font-ovo z-10 group-hover:opacity-0'>
+              Respond
+            </div>
+          )}
         </div>
       </CardBody>
     </Card>
