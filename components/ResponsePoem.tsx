@@ -88,11 +88,11 @@ export default function ResponsePoem({
                                 (isSelected
                                   ? `${
                                       matchingResponse?.highlight_colour ?? ''
-                                    } py-0.5 px-1.5 rounded-md shadow-lg m-0.5`
+                                    } `
                                   : '') +
                                 ' ' +
                                 (myHighlights.includes(currentWordIndex)
-                                  ? 'border-2 border-primary'
+                                  ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
                                   : '')
                               }
                             >
