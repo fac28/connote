@@ -45,8 +45,6 @@ export default function ResponsePoem({
     .map((response) => response.response_selected)
     .flat();
 
-  console.log(allHighlightedResponses);
-
   // Find the mode and its frequency
   let mode: string | null = null;
   let numericMode: number[] = []; // Change to an array
@@ -79,8 +77,6 @@ export default function ResponsePoem({
   }
 
   findMode(allHighlightedResponses);
-
-  console.log(numericMode, modeFrequency);
 
   // let maxHighlightedWordIndex = numericMode;
 
