@@ -35,7 +35,7 @@ export default function ResponsePoem({
     };
 
     fetchUserData();
-  }, []);
+  }, [supabase.auth]);
 
   let wordCounter = 0;
 

@@ -28,7 +28,7 @@ const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
       {Object.keys(menuLinks).map((item, index) => (
         <NavbarItem key={`${item}-${index}`}>
           <div
-            className={`w-full ${
+            className={`w-full mt-2 ${
               currentPathname === menuLinks[item] ? selectedWeight : ''
             }`}
           >
@@ -40,7 +40,7 @@ const RenderNavLinks: React.FC<RenderNavLinksProps> = ({
               }
               href={menuLinks[item]}
               size='lg'
-              className='hover:text-connote_orange transition duration-200'
+              className='text-xl hover:text-connote_orange transition duration-200'
             >
               {item}
             </Link>

@@ -59,7 +59,7 @@ export default function Nav({ session }: { session: Session | null }) {
       isBordered
       isMenuOpen={isMenuOpen}
       onMenuOpenChange={setIsMenuOpen}
-      style={{ maxWidth: '100vw' }}
+      style={{ maxWidth: '100vw', padding: '10px 0px' }}
     >
       {/* Mobile: Hamburger */}
       <NavbarContent className='sm:hidden pr-3' justify='start'>
@@ -121,7 +121,7 @@ export default function Nav({ session }: { session: Session | null }) {
       </NavbarContent>
 
       {/* Mobile: Switch, Links */}
-      <NavbarMenu className='mt-1'>
+      <NavbarMenu className='mt-6'>
         <Switch
           defaultSelected={initialSwitchState}
           color='warning'

@@ -62,7 +62,7 @@ export default function ResponsePage() {
         const user = await supabase.auth.getUser();
 
         if (!user.data.user) {
-          console.error('User not logged in');
+          // User not logged in
           return;
         }
 
@@ -100,7 +100,7 @@ export default function ResponsePage() {
 
       // Check if user is logged in and has a valid user object
       if (!user.data.user) {
-        console.error('User not logged in');
+        // User not logged in
         return;
       }
 
