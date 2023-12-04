@@ -191,29 +191,31 @@ export default function ResponsePage() {
         prompts={prompts}
         selectedPromptNumber={selectedPromptNumber}
       />
+      <div className='md:flex md:justify-center md:gap-12'>
+        <div className='flex flex-col items-center justify-between p-4'>
+          <ResponsePoem
+            poem={poem}
+            responses={reupdatedResponses}
+            selectedPromptNumber={selectedPromptNumber}
+          />
+        </div>
 
-      <div className='flex flex-col items-center justify-between p-4'>
-        <ResponsePoem
-          poem={poem}
-          responses={reupdatedResponses}
-          selectedPromptNumber={selectedPromptNumber}
-        />
+        <div className='mt-2'>
+          <h2 className='promptPurple w-full'>Responses</h2>
+          <ResponsesSection
+            hearts={hearts}
+            likedResponses={likedResponses}
+            handleHeartsClick={handleHeartsClick}
+            loadingHearts={loadingHearts}
+            updatedResponses={updatedResponses}
+            reupdatedResponses={reupdatedResponses}
+            updatedPrompts={updatedPrompts}
+            selectedPromptNumber={selectedPromptNumber}
+            handlePrevClick={handlePrevClick}
+            handleNextClick={handleNextClick}
+          />
+        </div>
       </div>
-
-      <h2 className='promptPurple w-full'>Responses</h2>
-
-      <ResponsesSection
-        hearts={hearts}
-        likedResponses={likedResponses}
-        handleHeartsClick={handleHeartsClick}
-        loadingHearts={loadingHearts}
-        updatedResponses={updatedResponses}
-        reupdatedResponses={reupdatedResponses}
-        updatedPrompts={updatedPrompts}
-        selectedPromptNumber={selectedPromptNumber}
-        handlePrevClick={handlePrevClick}
-        handleNextClick={handleNextClick}
-      />
     </main>
   );
 }

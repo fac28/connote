@@ -45,7 +45,7 @@ export default function ResponsePoem({
         <span key={poemItem.id}>
           <small className='text-default-500'>{poemItem.author}</small>
           <h4 className='font-bold text-large'>{poemItem.name}</h4>
-          <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
+          <ScrollShadow className='w-[300px] h-[300px] md:h-[700px]'>
             {poemItem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
