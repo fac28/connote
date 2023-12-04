@@ -1,4 +1,11 @@
-import { Card, CardHeader, CardBody, Image, Checkbox } from '@nextui-org/react';
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  Image,
+  Checkbox,
+  Tooltip,
+} from '@nextui-org/react';
 import { Bookmark, Bookmark1 } from './Bookmark';
 import { SupabaseClient } from '@supabase/auth-helpers-nextjs';
 import React, { useState, useEffect } from 'react';
@@ -83,12 +90,20 @@ export default function PoemCard({
 
           {userId ? (
             <Checkbox className='collapse'>
-              <div
-                onClick={(event) => handleIconClick(event)}
-                className='cursor-pointer ml-[135px] scale-125 visible'
+              <Tooltip
+                showArrow={true}
+                content={
+                  isChecked ? 'Remove from Favourites' : 'Add to Favourites'
+                }
+                placement='top-start'
               >
-                {isChecked ? <Bookmark /> : <Bookmark1 />}
-              </div>
+                <div
+                  onClick={(event) => handleIconClick(event)}
+                  className='cursor-pointer ml-[135px] scale-125 visible'
+                >
+                  {isChecked ? <Bookmark /> : <Bookmark1 />}
+                </div>
+              </Tooltip>
             </Checkbox>
           ) : (
             ''
