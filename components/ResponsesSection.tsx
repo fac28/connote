@@ -38,7 +38,7 @@ export default function ResponsesSection({
       <div className='flex flex-col items-center justify-between p-4'>
         <ResponseKey />
         {updatedPrompts.map(
-          (prompt) =>
+          (prompt: PromptsType) =>
             prompt.id === selectedPromptNumber && (
               <span key={prompt.id}>
                 {reupdatedResponses

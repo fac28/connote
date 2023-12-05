@@ -17,7 +17,7 @@ export default function FollowupPrompt({
   return (
     <>
       <div>
-        {prompts.map((prompt, index) =>
+        {prompts.map((prompt: PromptsType, index: number) =>
           index === selectedPromptNumber ? (
             <h2 key={prompt.id} className='promptPurple w-full'>
               {prompt.follow_up_prompt}
@@ -27,7 +27,7 @@ export default function FollowupPrompt({
         <div className='flex flex-col items-center justify-between mt-4'>
           <div className='flex flex-wrap md:max-w-xs'>
             {prompts.map(
-              (prompt, index) =>
+              (prompt: PromptsType, index: number) =>
                 index === selectedPromptNumber && (
                   <span key={prompt.id}>
                     <Input
