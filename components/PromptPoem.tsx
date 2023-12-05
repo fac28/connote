@@ -33,12 +33,10 @@ export default function PromptPoem({
       const isHighlighted = currentPromptHighlightedWords.includes(spanId);
 
       if (isHighlighted) {
-        //Remove all highlighted words if highlight_limit > 3
+        //Remove all highlighted words if highlight_limit > 5
         if (prompts[selectedPromptNumber].highlight_limit > 5) {
-          currentPromptHighlightedWords.splice(
-            0,
-            currentPromptHighlightedWords.length
-          );
+          newHighlightedWordIds[selectedPromptNumber] = [];
+          setHighlightedWordIds(newHighlightedWordIds);
           return;
         }
 
@@ -55,7 +53,7 @@ export default function PromptPoem({
           return;
         }
 
-        // Check if word is adjacent if highlight_limit > 3
+        // Check if word is adjacent if highlight_limit > 5
         if (
           currentPromptHighlightedWords.length >= 1 &&
           prompts[selectedPromptNumber].highlight_limit > 5 &&
