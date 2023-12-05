@@ -99,7 +99,7 @@ export default function PoemCard({
               >
                 <div
                   onClick={(event) => handleIconClick(event)}
-                  className='cursor-pointer ml-[135px] scale-125 visible'
+                  className='cursor-pointer ml-[130px] scale-125 visible'
                 >
                   {isChecked ? <Bookmark /> : <Bookmark1 />}
                 </div>
