@@ -4,6 +4,7 @@ import { Button, ButtonGroup } from '@nextui-org/react';
 import { ResponsesType, PromptsType } from '@/types';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import ResponseItem from './ResponseItem';
+import ResponseKey from './ResponseKey';
 
 type ResponsesSectionProps = {
   updatedResponses: ResponsesType;
@@ -35,29 +36,28 @@ export default function ResponsesSection({
       {' '}
       <h2 className='text-xl promptPurple w-full '>Responses</h2>
       <div className='flex flex-col items-center justify-between p-4'>
-        <div className='flex flex-wrap max-w-xs '>
-          {updatedPrompts.map(
-            (prompt) =>
-              prompt.id === selectedPromptNumber && (
-                <span key={prompt.id}>
-                  {reupdatedResponses
-                    .filter((response) => response.prompt_id === prompt.id)
-                    .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
-                    .map((response, index) => (
-                      <ResponseItem
-                        key={response.id}
-                        response={response}
-                        index={index}
-                        hearts={hearts}
-                        likedResponses={likedResponses}
-                        handleHeartsClick={handleHeartsClick}
-                        loadingHearts={loadingHearts}
-                      />
-                    ))}
-                </span>
-              )
-          )}
-        </div>
+        <ResponseKey />
+        {updatedPrompts.map(
+          (prompt) =>
+            prompt.id === selectedPromptNumber && (
+              <span key={prompt.id}>
+                {reupdatedResponses
+                  .filter((response) => response.prompt_id === prompt.id)
+                  .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
+                  .map((response, index) => (
+                    <ResponseItem
+                      key={response.id}
+                      response={response}
+                      index={index}
+                      hearts={hearts}
+                      likedResponses={likedResponses}
+                      handleHeartsClick={handleHeartsClick}
+                      loadingHearts={loadingHearts}
+                    />
+                  ))}
+              </span>
+            )
+        )}
 
         <ButtonGroup className='mt-4'>
           <Button
