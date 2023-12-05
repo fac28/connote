@@ -65,9 +65,10 @@ export default function PoemDirectory() {
       const newFilteredPoems = poems.filter(
         (poem) =>
           (poem.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            poem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||formatDate(poem.display_date)
-        .toLowerCase()
-        .includes(searchTerm.toLowerCase())) &&
+            poem.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+            formatDate(poem.display_date)
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase())) &&
           new Date(poem.display_date) <= currentDate
       );
 
@@ -98,20 +99,24 @@ export default function PoemDirectory() {
             className='p-3 mb-4 rounded-full w-72 bg-secondary focus:outline-none'
           />
           <div className='flex flex-wrap justify-center max-w-[1024px]'>
-            {filteredPoems.map((poem, index) => (
-              <span key={poem.id}>
-                <PoemCard
-                  poemDate={formatDate(poem.display_date)}
-                  poemAuthor={poem.author}
-                  poemName={poem.name}
-                  poemImage={poem.image}
-                  poemId={poem.id}
-                  userId={userId ? userId : null}
-                  supabase={createClientComponentClient()}
-                  isResponded={isResponded ? isResponded[index] : false}
-                />
-              </span>
-            ))}
+            {filteredPoems.length === 0 ? (
+              <p>No results found.</p>
+            ) : (
+              filteredPoems.map((poem, index) => (
+                <span key={poem.id}>
+                  <PoemCard
+                    poemDate={formatDate(poem.display_date)}
+                    poemAuthor={poem.author}
+                    poemName={poem.name}
+                    poemImage={poem.image}
+                    poemId={poem.id}
+                    userId={userId ? userId : null}
+                    supabase={createClientComponentClient()}
+                    isResponded={isResponded ? isResponded[index] : false}
+                  />
+                </span>
+              ))
+            )}
           </div>
         </div>
       </div>
