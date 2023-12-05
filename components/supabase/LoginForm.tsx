@@ -9,10 +9,15 @@ interface LoginFormProps {
     password: string
   ) => Promise<void>;
   isLoading: boolean;
+  handleForgotPassword: () => void;
 }
 
 useState;
-const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, isLoading }) => {
+const LoginForm: React.FC<LoginFormProps> = ({
+  handleSubmit,
+  isLoading,
+  handleForgotPassword,
+}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   return (
@@ -46,6 +51,11 @@ const LoginForm: React.FC<LoginFormProps> = ({ handleSubmit, isLoading }) => {
       <button disabled={isLoading} className='button'>
         Login
       </button>
+      <p className='mt-2 text-sm'>
+        <button className='link' onClick={handleForgotPassword}>
+          Forgot Password?
+        </button>
+      </p>
     </form>
   );
 };

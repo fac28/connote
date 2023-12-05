@@ -84,7 +84,18 @@ const LogIn = () => {
       router.push('/verify');
     }
   };
+  const handleForgotPassword = async () => {
+    const email = prompt('Enter your email to reset password:');
+    if (email) {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email);
 
+      if (error) {
+        console.error('Error sending password reset email:', error);
+      } else {
+        alert('Password reset email sent. Check your inbox.');
+      }
+    }
+  };
   return (
     <div className='flex flex-col items-center pt-4'>
       <Tabs aria-label='Options' color='warning' variant='solid'>
@@ -94,7 +105,11 @@ const LogIn = () => {
             <p className='mt-2 text-sm italic'>
               Please log in to your account.
             </p>
-            <LoginForm handleSubmit={handleSubmit} isLoading={isLoading} />
+            <LoginForm
+              handleSubmit={handleSubmit}
+              handleForgotPassword={handleForgotPassword}
+              isLoading={isLoading}
+            />
             {formError && <div>{formError}</div>}
           </div>
         </Tab>
