@@ -34,6 +34,7 @@ export default function ResponsePage() {
   );
   const router = useRouter();
 
+  const [isPoemLoading, setIsPoemLoading] = useState(true);
   const { poem, prompts, responses } = useFetchResponsePageData(poemid);
 
   let updatedResponses = updateResponses012(poem[0], responses);
@@ -51,6 +52,13 @@ export default function ResponsePage() {
       setLoadingHearts(false);
     }
   };
+
+  useEffect(() => {
+    // Check if the poem is loaded
+    if (poem) {
+      setIsPoemLoading(false);
+    }
+  }, [poem]);
 
   useEffect(() => {
     fetchHearts();
@@ -200,21 +208,22 @@ export default function ResponsePage() {
             selectedPromptNumber={selectedPromptNumber}
           />
         </div>
-
-        <div className='mt-2'>
-          <ResponsesSection
-            hearts={hearts}
-            likedResponses={likedResponses}
-            handleHeartsClick={handleHeartsClick}
-            loadingHearts={loadingHearts}
-            updatedResponses={updatedResponses}
-            reupdatedResponses={reupdatedResponses}
-            updatedPrompts={updatedPrompts}
-            selectedPromptNumber={selectedPromptNumber}
-            handlePrevClick={handlePrevClick}
-            handleNextClick={handleNextClick}
-          />
-        </div>
+        {!isPoemLoading && (
+          <div className='mt-2'>
+            <ResponsesSection
+              hearts={hearts}
+              likedResponses={likedResponses}
+              handleHeartsClick={handleHeartsClick}
+              loadingHearts={loadingHearts}
+              updatedResponses={updatedResponses}
+              reupdatedResponses={reupdatedResponses}
+              updatedPrompts={updatedPrompts}
+              selectedPromptNumber={selectedPromptNumber}
+              handlePrevClick={handlePrevClick}
+              handleNextClick={handleNextClick}
+            />
+          </div>
+        )}
       </div>
     </main>
   );

@@ -29,6 +29,8 @@ export default function PromptPage() {
   const [showFollowupPrompt, setShowFollowupPrompt] = useState(false);
   const [showPromptButtons, setShowPromptButtons] = useState(false);
 
+  const [isPoemLoading, setIsPoemLoading] = useState(true);
+
   useEffect(() => {
     const fetchUserId = async () => {
       const supabase = createClientComponentClient();
@@ -41,6 +43,13 @@ export default function PromptPage() {
     };
     fetchUserId();
   }, [poemid, router]);
+
+  useEffect(() => {
+    // Check if the poem is loaded
+    if (poem) {
+      setIsPoemLoading(false);
+    }
+  }, [poem]);
 
   useEffect(() => {
     // Reset the visibility state when the component mounts
@@ -146,15 +155,17 @@ export default function PromptPage() {
         prompts={prompts}
       />
 
-      <Button
-        className={`bg-connote_orange rounded-xl mx-auto mb-3 ${
-          isButtonActive ? 'opacity-100' : 'opacity-50'
-        } flex items-center`}
-        onClick={handleFollowupPromptButtonClick}
-        disabled={!isButtonActive}
-      >
-        Follow-up Prompt
-      </Button>
+      {!isPoemLoading && ( // Conditionally render the button
+        <Button
+          className={`bg-connote_orange rounded-xl mx-auto mb-3 ${
+            isButtonActive ? 'opacity-100' : 'opacity-50'
+          } flex items-center`}
+          onClick={handleFollowupPromptButtonClick}
+          disabled={!isButtonActive}
+        >
+          Follow-up Prompt
+        </Button>
+      )}
 
       {showFollowupPrompt && (
         <FollowupPrompt
