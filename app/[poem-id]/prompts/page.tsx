@@ -108,6 +108,13 @@ export default function PromptPage() {
       handleSubmit();
     }
   };
+  const highlightLimit = prompts[selectedPromptNumber]?.highlight_limit || 0;
+
+  const isButtonActive =
+    (highlightLimit <= 3 &&
+      highlightedWordIds[selectedPromptNumber]?.length === highlightLimit) ||
+    (highlightLimit > 3 &&
+      highlightedWordIds[selectedPromptNumber]?.length >= 3);
   return (
     <main>
       <InitialPromptBanner
@@ -123,11 +130,14 @@ export default function PromptPage() {
         prompts={prompts}
       />
       <Button
-        className='bg-connote_orange rounded-xl mx-12 flex items-center'
+        className={`bg-connote_orange rounded-xl mx-auto mb-3 ${
+          isButtonActive ? 'opacity-100' : 'opacity-50'
+        } flex items-center`}
         onClick={() => {
           setShowFollowupPrompt(true);
           setShowPromptButtons(true);
         }}
+        disabled={!isButtonActive}
       >
         Follow-up Prompt
       </Button>
