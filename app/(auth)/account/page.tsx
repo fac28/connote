@@ -84,6 +84,23 @@ const LogIn = () => {
       router.push('/verify');
     }
   };
+  const handleForgotPassword = async (email: string) => {
+    try {
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${location.origin}/passwordReset`,
+      });
+
+      if (error) {
+        console.error('Error sending password reset email:', error);
+        setFormError('Error sending password reset email');
+      } else {
+        setFormError('Password reset email sent. Check your inbox.');
+      }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      setFormError('An unexpected error occurred');
+    }
+  };
 
   return (
     <div className='flex flex-col items-center pt-4'>
@@ -91,10 +108,14 @@ const LogIn = () => {
         <Tab key='login' title='Login'>
           <div className='text-center mt-10'>
             <h2 className='sub-heading'>Log In</h2>
-            <p className='mt-2 text-sm italic'>
+            {/* <p className='mt-2 text-sm italic'>
               Please log in to your account.
-            </p>
-            <LoginForm handleSubmit={handleSubmit} isLoading={isLoading} />
+            </p> */}
+            <LoginForm
+              handleSubmit={handleSubmit}
+              isLoading={isLoading}
+              handleForgotPassword={handleForgotPassword}
+            />
             {formError && <div>{formError}</div>}
           </div>
         </Tab>
