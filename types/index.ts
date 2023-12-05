@@ -5,7 +5,7 @@ export type PromptsType =
       follow_up_prompt: string;
       highlight_limit: number;
     }>
-  | [];
+  | any;
 
 export type PoemsType =
   | Array<{
