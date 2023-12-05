@@ -6,7 +6,7 @@ import { PoemsType, PromptsType } from '@/types';
 
 const useFetchPromptPageData = (poemid: number) => {
   const [poem, setPoem] = useState<PoemsType>([]);
-  const [prompts, setPrompts] = useState<PromptsType>([]);
+  const [prompts, setPrompts] = useState<PromptsType[]>([]);
 
   useEffect(() => {
     if (!poemid) return;
@@ -26,7 +26,16 @@ const useFetchPromptPageData = (poemid: number) => {
 
         const promptData = await fetchPromptsByIds(promptIds, supabase);
         if (promptData) {
-          setPrompts(promptData);
+          const organisedPrompts: PromptsType[] = promptIds
+            .map(
+              (id) =>
+                promptData.find(
+                  (prompt) => prompt?.id === id
+                ) as unknown as PromptsType
+            )
+            .filter((prompt): prompt is PromptsType => prompt !== undefined);
+
+          setPrompts(organisedPrompts);
         }
       } else {
         console.error('Error fetching poem or prompt data');
