@@ -34,7 +34,7 @@ export default function PromptPoem({
 
       if (isHighlighted) {
         //Remove all highlighted words if highlight_limit > 3
-        if (prompts[selectedPromptNumber].highlight_limit > 3) {
+        if (prompts[selectedPromptNumber].highlight_limit > 5) {
           currentPromptHighlightedWords.splice(
             0,
             currentPromptHighlightedWords.length
@@ -58,7 +58,7 @@ export default function PromptPoem({
         // Check if word is adjacent if highlight_limit > 3
         if (
           currentPromptHighlightedWords.length >= 1 &&
-          prompts[selectedPromptNumber].highlight_limit > 3 &&
+          prompts[selectedPromptNumber].highlight_limit > 5 &&
           !currentPromptHighlightedWords.some(
             (id) => id - 1 === spanId || id + 1 === spanId
           )
