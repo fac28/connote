@@ -40,8 +40,6 @@ const PasswordReset: React.FC = () => {
 
   useEffect(() => {
     supabase.auth.onAuthStateChange(onAuthStateChange);
-
-    // Cleanup is handled automatically in the latest version, no need for offAuthStateChange
   }, []);
 
   useEffect(() => {
