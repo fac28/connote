@@ -186,6 +186,9 @@ export default function ResponsePoem({
                                             matchingResponse?.highlight_colour ??
                                             ''
                                           } `
+                                        : '') +
+                                      (myHighlights.includes(currentWordIndex)
+                                        ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
                                         : '')
                                     }
                                   >
