@@ -40,9 +40,7 @@ export default function PromptButtons({
 
   const handleDisabledSubmit = () => {
     if (isSubmitDisabled(prompts, highlightedWordIds, promptInputs)) {
-      alert(
-        'For each prompt you either need to a) select a word AND write an answer or b) not select a word AND not write an answer'
-      );
+      alert('Please select and enter responses for all prompts');
     }
   };
 
