@@ -38,11 +38,23 @@ export default function PromptPoem({
           currentPromptHighlightedWords.filter((id) => id !== spanId);
       } else {
         //Check if limit reached and do an early return
-
         if (
           currentPromptHighlightedWords.length >=
           prompts[selectedPromptNumber].highlight_limit
         ) {
+          console.log('early return, too long');
+          return;
+        }
+
+        // Check if word is adjacent if limit > 3
+        if (
+          currentPromptHighlightedWords.length > 1 &&
+          prompts[selectedPromptNumber].highlight_limit > 3 &&
+          !currentPromptHighlightedWords.some(
+            (id) => id - 1 === spanId || id + 1 === spanId
+          )
+        ) {
+          console.log('early return');
           return;
         }
 
