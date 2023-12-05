@@ -27,8 +27,8 @@ export function updateResponses012(poem: PoemType, responses: ResponsesType) {
   });
 }
 
-export function updatePrompts012(prompts: PromptsType) {
-  return prompts.map((prompt, index) => {
+export function updatePrompts012(prompts: any) {
+  return prompts.map((prompt: any, index: any) => {
     return {
       ...prompt,
       id: index, // Sets the id to the current index (0, 1, or 2)

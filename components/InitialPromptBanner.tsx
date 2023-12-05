@@ -1,7 +1,7 @@
 import { PromptsType } from '@/types';
 
 type children = {
-  prompts: PromptsType;
+  prompts: any;
   selectedPromptNumber: number;
 };
 
@@ -11,7 +11,7 @@ export default function InitialPromptBanner({
 }: children) {
   return (
     <>
-      {prompts.map((prompt, index) =>
+      {prompts.map((prompt: any, index: number) =>
         index === selectedPromptNumber ? (
           <h2 key={prompt.id} className='promptPurple w-full'>
             {prompt.initial_prompt}

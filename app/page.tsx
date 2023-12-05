@@ -101,7 +101,7 @@ export default function Home() {
         <div>
           {poemOfTheDay && (
             <>
-              <div className='flex border-b-1 border-shadow-md  pb-1 border-connote_orange w-80'>
+              <div className='flex border-b-1 border-shadow-md  pb-1 border-connote_orange '>
                 <div className='flex-grow'>
                   <p className='text-tiny font-bold'>
                     {formatDate(poemOfTheDay.display_date)}
@@ -135,7 +135,7 @@ export default function Home() {
 
               <br></br>
 
-              <p className='w-80'>
+              <p className='w-full'>
                 {poemOfTheDay.content
                   .split('\n\n')
                   .map((stanza: string, index: number) => (

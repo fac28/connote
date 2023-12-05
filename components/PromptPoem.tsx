@@ -88,7 +88,7 @@ export default function PromptPoem({
         <span key={poem.id}>
           <small className='text-connote_orange'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
-          <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
+          <ScrollShadow className='w-full h-[300px] md:h-full'>
             {poem.content.split('\n\n').map((stanza, index) => (
               <React.Fragment key={index}>
                 {stanza.split('\n').map((line, lineIndex) => (
