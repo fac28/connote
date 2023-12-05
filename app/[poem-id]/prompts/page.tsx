@@ -40,7 +40,7 @@ export default function PromptPage() {
       }
     };
     fetchUserId();
-  }, [poemid]);
+  }, [poemid, router]);
 
   useEffect(() => {
     // Reset the visibility state when the component mounts
