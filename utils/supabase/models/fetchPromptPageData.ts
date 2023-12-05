@@ -24,8 +24,6 @@ const useFetchPromptPageData = (poemid: number) => {
           poemData[0].third_prompt_id,
         ];
 
-        console.log(promptIds);
-
         const promptData = await fetchPromptsByIds(promptIds, supabase);
         if (promptData) {
           const organisedPrompts: PromptsType[] = promptIds
@@ -37,7 +35,6 @@ const useFetchPromptPageData = (poemid: number) => {
             )
             .filter((prompt): prompt is PromptsType => prompt !== undefined);
 
-          console.log(organisedPrompts);
           setPrompts(organisedPrompts);
         }
       } else {

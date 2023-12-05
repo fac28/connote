@@ -11,6 +11,5 @@ export const fetchPromptsByIds = async (
   if (error || !data) {
     throw new Error('Error fetching prompt data');
   }
-  console.log(data);
   return data;
 };

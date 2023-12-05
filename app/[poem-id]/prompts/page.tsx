@@ -110,9 +110,6 @@ export default function PromptPage() {
     }
   };
 
-  console.log(selectedPromptNumber);
-  console.log(prompts);
-
   const highlightLimit = prompts[selectedPromptNumber]?.highlight_limit || 0;
 
   const isButtonActive =
