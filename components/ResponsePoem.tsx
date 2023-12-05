@@ -12,6 +12,11 @@ type ResponsePoemProps = {
   selectedPromptNumber: number;
 };
 
+type TooltipData = {
+  isOpen: boolean;
+  wordIndex: number;
+};
+
 export default function ResponsePoem({
   poem,
   responses,
@@ -20,7 +25,8 @@ export default function ResponsePoem({
   const supabase = createClientComponentClient();
 
   const [currentUser, setCurrentUser] = useState<string | null>(null);
-  const [isOpen, setIsOpen] = React.useState(false);
+  // const [isOpen, setIsOpen] = React.useState(false);
+  const [tooltipData, setTooltipData] = useState<TooltipData[]>([]);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,6 +44,33 @@ export default function ResponsePoem({
 
     fetchUserData();
   }, [supabase.auth]);
+
+  // Initialize tooltipData when the component mounts
+  useEffect(() => {
+    setTooltipData(
+      poem
+        .map((poemItem) =>
+          poemItem.content
+            .split('\n\n')
+            .flatMap((stanza) => stanza.split('\n'))
+            .flatMap((line) => line.split(' '))
+            .map((_, wordIndex) => ({
+              isOpen: false,
+              wordIndex,
+            }))
+        )
+        .flat()
+    );
+  }, [poem]);
+
+  const handleTooltipOpenChange = (wordIndex: number, open: boolean) => {
+    // Update the state for the specific tooltip
+    setTooltipData((prevData) =>
+      prevData.map((data) =>
+        data.wordIndex === wordIndex ? { ...data, isOpen: open } : data
+      )
+    );
+  };
 
   // Calculate most frequently highlighted word
   const allHighlightedResponses = responses
@@ -98,6 +131,11 @@ export default function ResponsePoem({
                       <React.Fragment key={lineIndex}>
                         {line.split(' ').map((word, wordIndex) => {
                           const currentWordIndex = wordCounter++;
+
+                          const tooltipInfo = tooltipData.find(
+                            (info) => info.wordIndex === currentWordIndex
+                          );
+
                           const isSelected = responses.some(
                             (response) =>
                               response.response_selected.includes(
@@ -128,9 +166,16 @@ export default function ResponsePoem({
                             <React.Fragment key={currentWordIndex}>
                               {numericMode.includes(currentWordIndex) ? (
                                 <Tooltip
-                                  isOpen={isOpen}
+                                  key={currentWordIndex}
+                                  isOpen={tooltipInfo?.isOpen ?? false}
                                   radius='sm'
-                                  onOpenChange={(open) => setIsOpen(open)}
+                                  closeDelay={0}
+                                  onOpenChange={(open) =>
+                                    handleTooltipOpenChange(
+                                      currentWordIndex,
+                                      open
+                                    )
+                                  }
                                   content={modeFrequency + ' highlights'}
                                 >
                                   <span
