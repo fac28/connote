@@ -47,7 +47,7 @@ export default function ProgressNav() {
         <Progress
           size='sm'
           aria-label='Loading...'
-          value={(promptNumber + 1) * 33}
+          value={((promptNumber + 1) * 100) / 3}
           color='warning'
         />
       </NavbarContent>
