@@ -8,7 +8,7 @@ export default function ResponseKey(): ReactElement {
         <AccordionItem
           key='1'
           aria-label='Key'
-          startContent={<FaCircleQuestion />}
+          startContent={<FaCircleQuestion className='text-connote_orange' />}
           title='Key'
           className=''
         >

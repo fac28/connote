@@ -82,6 +82,12 @@ body {
   }
 }
 
+@media screen and (max-width: 767px) {
+  .gap {
+    display: none;
+  }
+}
+
 html {
   font-family: 'Ovo';
 }

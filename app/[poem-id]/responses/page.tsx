@@ -16,6 +16,7 @@ import {
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { fetchReacts } from '@/utils/supabase/models/fetchReacts';
 import { LikedResponsesType } from '@/types';
+import ResponseKey from '@/components/ResponseKey';
 
 export default function ResponsePage() {
   const [hearts, setHearts] = useState<{ [key: number]: number }>({});

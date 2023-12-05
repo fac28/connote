@@ -124,7 +124,7 @@ export default function ResponsePoem({
             <span key={poemItem.id}>
               <small className='text-connote_orange'>{poemItem.author}</small>
               <h4 className='font-bold text-large'>{poemItem.name}</h4>
-              <ScrollShadow className='w-[300px] h-[300px] md:h-full'>
+              <ScrollShadow className='w-full h-[300px] md:h-full'>
                 {poemItem.content.split('\n\n').map((stanza, index) => (
                   <React.Fragment key={index}>
                     {stanza.split('\n').map((line, lineIndex) => (
@@ -229,6 +229,12 @@ export default function ResponsePoem({
           ))}
         </div>
       </div>
+      {/* Weird div at the bottom of the page so added newlines to hide it on large screens*/}
+      <pre className='gap'>
+        {'\n'}
+        {'\n'}
+        {'\n'}
+      </pre>
     </>
   );
 }
