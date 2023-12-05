@@ -86,7 +86,9 @@ const LogIn = () => {
   };
   const handleForgotPassword = async (email: string) => {
     try {
-      const { data, error } = await supabase.auth.resetPasswordForEmail(email);
+      const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${location.origin}/passwordReset`,
+      });
 
       if (error) {
         console.error('Error sending password reset email:', error);
@@ -99,6 +101,7 @@ const LogIn = () => {
       setFormError('An unexpected error occurred');
     }
   };
+
   return (
     <div className='flex flex-col items-center pt-4'>
       <Tabs aria-label='Options' color='warning' variant='solid'>
