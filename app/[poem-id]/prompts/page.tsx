@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import FollowupPrompt from '@/components/FollowupPrompt';
 import useFetchPromptPageData from '@/utils/supabase/models/fetchPromptPageData';
@@ -40,12 +40,14 @@ export default function PromptPage() {
       }
     };
     fetchUserId();
-  });
+  }, [poemid]);
+
   useEffect(() => {
     // Reset the visibility state when the component mounts
     setShowFollowupPrompt(false);
     setShowPromptButtons(false);
   }, [poemid]);
+
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);
@@ -82,7 +84,6 @@ export default function PromptPage() {
     prompts.forEach((prompt, index) => {
       const input = promptInputs[index];
 
-      // Check if the prompt input is not empty
       if (input && input.trim() !== '') {
         submitPromptsData(
           userId,
@@ -97,9 +98,9 @@ export default function PromptPage() {
 
     window.location.href = `/${poemid}/responses`;
   };
+
   const handleNextClick = () => {
     if (selectedPromptNumber < 2) {
-      // Reset the visibility state when clicking the right chevron
       setShowFollowupPrompt(false);
       setShowPromptButtons(false);
 
@@ -108,6 +109,7 @@ export default function PromptPage() {
       handleSubmit();
     }
   };
+
   const highlightLimit = prompts[selectedPromptNumber]?.highlight_limit || 0;
 
   const isButtonActive =
@@ -115,6 +117,20 @@ export default function PromptPage() {
       highlightedWordIds[selectedPromptNumber]?.length === highlightLimit) ||
     (highlightLimit > 3 &&
       highlightedWordIds[selectedPromptNumber]?.length >= 3);
+
+  const followupPromptRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showPromptButtons && followupPromptRef.current) {
+      followupPromptRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [showPromptButtons]);
+
+  const handleFollowupPromptButtonClick = () => {
+    setShowFollowupPrompt(true);
+    setShowPromptButtons(true);
+  };
+
   return (
     <main>
       <InitialPromptBanner
@@ -129,18 +145,17 @@ export default function PromptPage() {
         setHighlightedWordIds={setHighlightedWordIds}
         prompts={prompts}
       />
+
       <Button
         className={`bg-connote_orange rounded-xl mx-auto mb-3 ${
           isButtonActive ? 'opacity-100' : 'opacity-50'
         } flex items-center`}
-        onClick={() => {
-          setShowFollowupPrompt(true);
-          setShowPromptButtons(true);
-        }}
+        onClick={handleFollowupPromptButtonClick}
         disabled={!isButtonActive}
       >
         Follow-up Prompt
       </Button>
+
       {showFollowupPrompt && (
         <FollowupPrompt
           prompts={prompts}
@@ -157,14 +172,16 @@ export default function PromptPage() {
       )}
 
       {showPromptButtons && (
-        <PromptButtons
-          selectedPromptNumber={selectedPromptNumber}
-          handlePrevClick={handlePrevClick}
-          handleNextClick={handleNextClick}
-          prompts={prompts}
-          highlightedWordIds={highlightedWordIds}
-          promptInputs={promptInputs}
-        />
+        <div id='prompt-buttons-container' ref={followupPromptRef}>
+          <PromptButtons
+            selectedPromptNumber={selectedPromptNumber}
+            handlePrevClick={handlePrevClick}
+            handleNextClick={handleNextClick}
+            prompts={prompts}
+            highlightedWordIds={highlightedWordIds}
+            promptInputs={promptInputs}
+          />
+        </div>
       )}
     </main>
   );
