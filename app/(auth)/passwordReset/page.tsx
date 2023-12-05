@@ -1,6 +1,7 @@
 'use client';
-import { useState, useEffect, useMemo, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { Input } from '@nextui-org/react';
 
 const supabase = createClientComponentClient();
 
@@ -8,17 +9,10 @@ const PasswordReset: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const newPasswordRef = useRef<string | null>(null);
 
-  const handlePasswordRecovery = async () => {
+  const handlePasswordRecovery = async (password: string) => {
     try {
-      const currentNewPassword = newPasswordRef.current;
-
-      if (!currentNewPassword) {
-        alert('Password cannot be empty.');
-        return;
-      }
-
       const { data, error } = await supabase.auth.updateUser({
-        password: currentNewPassword,
+        password,
       });
 
       if (data) {
@@ -34,28 +28,55 @@ const PasswordReset: React.FC = () => {
     }
   };
 
+  const onAuthStateChange = async (event: string, session: any) => {
+    if (event === 'PASSWORD_RECOVERY') {
+      if (newPasswordRef.current) {
+        await handlePasswordRecovery(newPasswordRef.current);
+      } else {
+        alert('Password cannot be empty.');
+      }
+    }
+  };
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange(onAuthStateChange);
+
+    // Cleanup is handled automatically in the latest version, no need for offAuthStateChange
+  }, []);
+
   useEffect(() => {
     newPasswordRef.current = newPassword;
   }, [newPassword]);
 
-  useEffect(() => {
-    supabase.auth.onAuthStateChange(async (event, session) => {
-      if (event === 'PASSWORD_RECOVERY') {
-        await handlePasswordRecovery();
-      }
-    });
-  }, []);
+  const handleResetClick = () => {
+    if (newPassword) {
+      handlePasswordRecovery(newPassword);
+    } else {
+      alert('Password cannot be empty.');
+    }
+  };
 
   return (
     <div>
-      <h1>Password Reset Page</h1>
-      <p>Enter your new password:</p>
-      <input
-        type='password'
-        value={newPassword}
-        onChange={(e) => setNewPassword(e.target.value)}
-      />
-      <button onClick={handlePasswordRecovery}>Reset Password</button>
+      <h2 className='sub-heading'>Reset password</h2>
+      <form className='flex flex-col items-center mt-10 gap-10'>
+        <p className='mt-2 text-sm italic'>Enter your new password</p>
+        <div className='flex flex-col items-center gap-1'>
+          <Input
+            size='md'
+            type='password'
+            onChange={(e) => setNewPassword(e.target.value)}
+            value={newPassword}
+            label='Password'
+            labelPlacement='inside'
+            isRequired
+          />
+        </div>
+
+        <button className='button' onClick={handleResetClick}>
+          Reset Password
+        </button>
+      </form>
     </div>
   );
 };
