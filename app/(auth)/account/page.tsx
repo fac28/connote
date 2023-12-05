@@ -84,16 +84,19 @@ const LogIn = () => {
       router.push('/verify');
     }
   };
-  const handleForgotPassword = async () => {
-    const email = prompt('Enter your email to reset password:');
-    if (email) {
+  const handleForgotPassword = async (email: string) => {
+    try {
       const { data, error } = await supabase.auth.resetPasswordForEmail(email);
 
       if (error) {
         console.error('Error sending password reset email:', error);
+        setFormError('Error sending password reset email');
       } else {
-        alert('Password reset email sent. Check your inbox.');
+        setFormError('Password reset email sent. Check your inbox.');
       }
+    } catch (error) {
+      console.error('An unexpected error occurred:', error);
+      setFormError('An unexpected error occurred');
     }
   };
   return (
@@ -102,13 +105,13 @@ const LogIn = () => {
         <Tab key='login' title='Login'>
           <div className='text-center mt-10'>
             <h2 className='sub-heading'>Log In</h2>
-            <p className='mt-2 text-sm italic'>
+            {/* <p className='mt-2 text-sm italic'>
               Please log in to your account.
-            </p>
+            </p> */}
             <LoginForm
               handleSubmit={handleSubmit}
-              handleForgotPassword={handleForgotPassword}
               isLoading={isLoading}
+              handleForgotPassword={handleForgotPassword}
             />
             {formError && <div>{formError}</div>}
           </div>
