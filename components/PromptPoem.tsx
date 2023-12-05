@@ -33,16 +33,35 @@ export default function PromptPoem({
       const isHighlighted = currentPromptHighlightedWords.includes(spanId);
 
       if (isHighlighted) {
+        //Remove all highlighted words if highlight_limit > 5
+        if (prompts[selectedPromptNumber].highlight_limit > 5) {
+          newHighlightedWordIds[selectedPromptNumber] = [];
+          setHighlightedWordIds(newHighlightedWordIds);
+          return;
+        }
+
         // Remove the word ID from the array if already highlighted
         newHighlightedWordIds[selectedPromptNumber] =
           currentPromptHighlightedWords.filter((id) => id !== spanId);
       } else {
         //Check if limit reached and do an early return
-
         if (
           currentPromptHighlightedWords.length >=
           prompts[selectedPromptNumber].highlight_limit
         ) {
+          console.log('early return, too long');
+          return;
+        }
+
+        // Check if word is adjacent if highlight_limit > 5
+        if (
+          currentPromptHighlightedWords.length >= 1 &&
+          prompts[selectedPromptNumber].highlight_limit > 5 &&
+          !currentPromptHighlightedWords.some(
+            (id) => id - 1 === spanId || id + 1 === spanId
+          )
+        ) {
+          console.log('early return');
           return;
         }
 
@@ -78,7 +97,7 @@ export default function PromptPoem({
   useEffect(() => {
     highlightWords();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedPromptNumber]);
+  }, [selectedPromptNumber, oneWordIdStoringFucnction]);
 
   let wordCounter = 0;
 
