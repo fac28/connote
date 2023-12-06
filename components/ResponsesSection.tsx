@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { Button, ButtonGroup } from '@nextui-org/react';
+import { Button, ButtonGroup, ScrollShadow } from '@nextui-org/react';
 import { ResponsesType, PromptsType } from '@/types';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
 import ResponseItem from './ResponseItem';
@@ -37,7 +37,7 @@ export default function ResponsesSection({
       <h2 className='text-xl promptPurple w-full '>Responses</h2>
       <div className='flex flex-col items-center justify-between p-4'>
         <ResponseKey />
-        <ButtonGroup className='mt-4'>
+        <ButtonGroup className='m-4'>
           <Button
             disabled={selectedPromptNumber === 0}
             onClick={handlePrevClick}
@@ -56,29 +56,31 @@ export default function ResponsesSection({
             {selectedPromptNumber === 2 ? 'Done' : <FaChevronRight />}
           </Button>
         </ButtonGroup>
-        <div className='responseScroll'>
-          {updatedPrompts.map(
-            (prompt: PromptsType) =>
-              prompt.id === selectedPromptNumber && (
-                <span key={prompt.id}>
-                  {reupdatedResponses
-                    .filter((response) => response.prompt_id === prompt.id)
-                    .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
-                    .map((response, index) => (
-                      <ResponseItem
-                        key={response.id}
-                        response={response}
-                        index={index}
-                        hearts={hearts}
-                        likedResponses={likedResponses}
-                        handleHeartsClick={handleHeartsClick}
-                        loadingHearts={loadingHearts}
-                      />
-                    ))}
-                </span>
-              )
-          )}
-        </div>
+        <ScrollShadow className='md:h-[60vh] px-4'>
+          <div className=''>
+            {updatedPrompts.map(
+              (prompt: PromptsType) =>
+                prompt.id === selectedPromptNumber && (
+                  <span key={prompt.id}>
+                    {reupdatedResponses
+                      .filter((response) => response.prompt_id === prompt.id)
+                      .sort((a, b) => (hearts[b.id] || 0) - (hearts[a.id] || 0))
+                      .map((response, index) => (
+                        <ResponseItem
+                          key={response.id}
+                          response={response}
+                          index={index}
+                          hearts={hearts}
+                          likedResponses={likedResponses}
+                          handleHeartsClick={handleHeartsClick}
+                          loadingHearts={loadingHearts}
+                        />
+                      ))}
+                  </span>
+                )
+            )}
+          </div>
+        </ScrollShadow>
       </div>
     </div>
   );

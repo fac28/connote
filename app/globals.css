@@ -75,12 +75,14 @@ body {
   font-family: var(--font-inter);
 }
 
-@media screen and (min-width: 767px) {
+/* @media screen and (min-width: 767px) {
   .responseScroll {
     overflow-y: scroll;
     height: 50vh;
+  
+    padding: 10px;
   }
-}
+} */
 
 @media screen and (max-width: 767px) {
   .poemScrollOverflow {
