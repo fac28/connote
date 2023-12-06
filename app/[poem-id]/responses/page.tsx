@@ -167,8 +167,6 @@ export default function ResponsePage() {
     await fetchHearts();
   };
 
-  // useEffect(() => {console.log("HELLO FETCH")}, [hearts]);
-
   const setPromptNumber = (number: number) => {
     setSelectedPromptNumber(number);
     const newQueryParams = new URLSearchParams(window.location.search);

@@ -17,7 +17,6 @@ export const updateLikes = async (
     console.error('ri', responseId);
     // console.error('likes', likes);
     console.error('data', data);
-    console.log('Update Response:', data, error);
 
     // Fetch the updated data after the update operation
     const { data: updatedData, error: fetchError } = await supabase
@@ -25,7 +24,6 @@ export const updateLikes = async (
       .select('*')
       .eq('id', responseId);
 
-    console.log('Fetch Response:', updatedData, fetchError);
     if (fetchError) {
       console.error('Error updating likes:', fetchError);
 

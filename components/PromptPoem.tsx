@@ -49,7 +49,6 @@ export default function PromptPoem({
           currentPromptHighlightedWords.length >=
           prompts[selectedPromptNumber].highlight_limit
         ) {
-          console.log('early return, too long');
           return;
         }
 
@@ -61,7 +60,6 @@ export default function PromptPoem({
             (id) => id - 1 === spanId || id + 1 === spanId
           )
         ) {
-          console.log('early return');
           return;
         }
 

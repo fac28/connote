@@ -46,7 +46,6 @@ export default function Home() {
 
             try {
               const hasResponded = await hasUserResponded({ userid, poemid });
-              console.log('Has Responded:', hasResponded);
 
               if (Array.isArray(hasResponded) && hasResponded.length > 0) {
                 setHasResponded(true);
@@ -78,11 +77,8 @@ export default function Home() {
           const hasResponded = await hasUserResponded({ userid, poemid });
 
           if (Array.isArray(hasResponded) && hasResponded.length === 0) {
-            console.log('User has not responded. Redirecting to prompts.');
-
             window.location.href = `${poemid}/prompts`;
           } else {
-            console.log('User has responded. Redirecting to responses.');
             window.location.href = `${poemid}/responses`;
           }
         } catch (error) {
