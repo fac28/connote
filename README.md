@@ -7,6 +7,9 @@ Deployed [here](https://connote.vercel.app/) via vercel.
 
 <img width="100%" alt="image" src="https://github.com/fac28/connote/assets/124908931/2efd180b-c5e8-449e-96e4-30ff35d61a68">
 
+<img width="100%" alt="image" src="https://github.com/fac28/connote/assets/124908931/3913075a-4cce-467d-b0c3-1dd37954594d">
+
+
 ## Installation Instructions
 Clone the repository and navigate to the project directory:
 
