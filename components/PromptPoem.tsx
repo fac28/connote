@@ -110,7 +110,7 @@ export default function PromptPoem({
   return (
     <div className='flex flex-col items-center justify-between p-4'>
       {poem.map((poem) => (
-        <span key={poem.id} className='px-1 w-auto'>
+        <span key={poem.id}>
           <small className='text-connote_orange'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
           <ScrollShadow className='w-full h-[300px] md:h-full'>
@@ -119,7 +119,7 @@ export default function PromptPoem({
                 {stanza.split('\n').map((line, lineIndex) => (
                   <React.Fragment key={lineIndex}>
                     {/* Split each line into words and add click event listener */}
-                    {line.split(' ').map((word, wordIndex) => (
+                    {line.split(' ').map((word) => (
                       <React.Fragment key={wordCounter++}>
                         <span
                           id={String(wordCounter)}
