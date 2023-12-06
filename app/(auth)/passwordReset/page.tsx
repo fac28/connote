@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Input } from '@nextui-org/react';
 import { useRouter } from 'next/navigation';
-const router = useRouter();
+
 const supabase = createClientComponentClient();
 
 const PasswordReset: React.FC = () => {
@@ -19,6 +19,7 @@ const PasswordReset: React.FC = () => {
       const { data, error } = await supabase.auth.updateUser(updateData, {});
 
       if (data) {
+        const router = useRouter();
         alert('Password updated successfully!');
         router.push('/poemLibrary');
       }
