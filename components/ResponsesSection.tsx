@@ -56,7 +56,7 @@ export default function ResponsesSection({
             {selectedPromptNumber === 2 ? 'Done' : <FaChevronRight />}
           </Button>
         </ButtonGroup>
-        <ScrollShadow className='md:h-[60vh] px-4'>
+        <ScrollShadow className='md:h-[55vh] px-4'>
           <div className=''>
             {updatedPrompts.map(
               (prompt: PromptsType) =>
