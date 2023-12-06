@@ -5,6 +5,8 @@
 
 Deployed [here](https://connote.vercel.app/) via vercel.
 
+<img width="100%" alt="image" src="https://github.com/fac28/connote/assets/124908931/2efd180b-c5e8-449e-96e4-30ff35d61a68">
+
 ## Installation Instructions
 Clone the repository and navigate to the project directory:
 
@@ -40,8 +42,8 @@ For setting up environmental variables, refer to [env.md](env.md).
 
 ## Contributors
 - Kyle - Product Owner
-- [Tess](https://github.com/tess-phillips) - QA
-- [Deepa](https://github.com/DeepsDali) - UI/UX
 - [Laurie](https://github.com/sgroi-l) - Scrum Master
 - [George](https://github.com/GeorgeKlemperer) - DevOps
+- [Tess](https://github.com/tess-phillips) - QA
+- [Deepa](https://github.com/DeepsDali) - UI/UX
 
