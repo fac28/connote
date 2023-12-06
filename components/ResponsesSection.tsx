@@ -37,6 +37,25 @@ export default function ResponsesSection({
       <h2 className='text-xl promptPurple w-full '>Responses</h2>
       <div className='flex flex-col items-center justify-between p-4'>
         <ResponseKey />
+        <ButtonGroup className='mt-4'>
+          <Button
+            disabled={selectedPromptNumber === 0}
+            onClick={handlePrevClick}
+            className={`bg-connote_orange rounded-xl mx-12 ${
+              selectedPromptNumber === 0
+                ? 'text-gray-500 cursor-not-allowed'
+                : ''
+            }`}
+          >
+            <FaChevronLeft />
+          </Button>
+          <Button
+            className='bg-connote_orange rounded-xl mx-12'
+            onClick={handleNextClick}
+          >
+            {selectedPromptNumber === 2 ? 'Done' : <FaChevronRight />}
+          </Button>
+        </ButtonGroup>
         <div className='responseScroll'>
           {updatedPrompts.map(
             (prompt: PromptsType) =>
@@ -60,25 +79,6 @@ export default function ResponsesSection({
               )
           )}
         </div>
-        <ButtonGroup className='mt-4'>
-          <Button
-            disabled={selectedPromptNumber === 0}
-            onClick={handlePrevClick}
-            className={`bg-connote_orange rounded-xl mx-12 ${
-              selectedPromptNumber === 0
-                ? 'text-gray-500 cursor-not-allowed'
-                : ''
-            }`}
-          >
-            <FaChevronLeft />
-          </Button>
-          <Button
-            className='bg-connote_orange rounded-xl mx-12'
-            onClick={handleNextClick}
-          >
-            {selectedPromptNumber === 2 ? 'Done' : <FaChevronRight />}
-          </Button>
-        </ButtonGroup>
       </div>
     </div>
   );
