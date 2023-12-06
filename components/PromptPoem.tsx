@@ -119,7 +119,7 @@ export default function PromptPoem({
                 {stanza.split('\n').map((line, lineIndex) => (
                   <React.Fragment key={lineIndex}>
                     {/* Split each line into words and add click event listener */}
-                    {line.split(' ').map((word, wordIndex) => (
+                    {line.split(' ').map((word) => (
                       <React.Fragment key={wordCounter++}>
                         <span
                           id={String(wordCounter)}
