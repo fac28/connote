@@ -2,12 +2,19 @@
 import { useState, useEffect, useRef } from 'react';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 import { Input } from '@nextui-org/react';
+import { useLocation } from 'react-router-dom';
 
-const supabase = createClientComponentClient();
+const supabase: any = createClientComponentClient();
 
 const PasswordReset: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const newPasswordRef = useRef<string | null>(null);
+  const location = useLocation();
+
+  const getResetTokenFromURL = () => {
+    const queryParams = new URLSearchParams(location.search);
+    return queryParams.get('token'); // Assuming the URL parameter is named 'token'
+  };
 
   // const handlePasswordRecovery = async (password: string) => {
   //   try {
@@ -27,41 +34,71 @@ const PasswordReset: React.FC = () => {
   //     alert('An unexpected error occurred');
   //   }
   // };
-  const handlePasswordRecovery = async (password: string) => {
+
+  const handlePasswordRecovery = async (newPassword: string) => {
+    const token = getResetTokenFromURL();
+
+    if (!token) {
+      alert(
+        'Token is missing. Please make sure you have accessed this page through a valid link.'
+      );
+      return;
+    }
+
     try {
-      // Retrieve the current user from the session
-      const { data, error } = await supabase.auth.getSession();
-
-      if (error || !data) {
-        console.error('Error getting user session:', error);
-        alert('An error occurred. Please try again.');
-        return;
-      }
-
-      const user = data?.session?.user;
-
-      if (!user) {
-        console.error('User not found in session data.');
-        alert('An error occurred. Please try again.');
-        return;
-      }
-
-      // Update the user's password
-      const updateResult = await supabase.auth.updateUser({
-        password,
+      // Use the token and the new password to reset the password
+      const { error } = await supabase.auth.api.updateUserWithToken(token, {
+        password: newPassword,
       });
 
-      if (updateResult.error) {
-        console.error('Error updating password:', updateResult.error);
-        alert('There was an error updating your password.');
+      if (error) {
+        console.error('Error resetting password:', error);
+        alert('There was an error resetting your password.');
       } else {
-        alert('Password updated successfully!');
+        alert('Password reset successfully!');
+        // Redirect the user to the login page or another appropriate page
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
       alert('An unexpected error occurred');
     }
   };
+
+  // const handlePasswordRecovery = async (password: string) => {
+  //   try {
+  //     // Retrieve the current user from the session
+  //     const { data, error } = await supabase.auth.getSession();
+
+  //     if (error || !data) {
+  //       console.error('Error getting user session:', error);
+  //       alert('An error occurred. Please try again.');
+  //       return;
+  //     }
+
+  //     const user = data?.session?.user;
+
+  //     if (!user) {
+  //       console.error('User not found in session data.');
+  //       alert('An error occurred. Please try again.');
+  //       return;
+  //     }
+
+  //     // Update the user's password
+  //     const updateResult = await supabase.auth.updateUser({
+  //       password,
+  //     });
+
+  //     if (updateResult.error) {
+  //       console.error('Error updating password:', updateResult.error);
+  //       alert('There was an error updating your password.');
+  //     } else {
+  //       alert('Password updated successfully!');
+  //     }
+  //   } catch (error) {
+  //     console.error('An unexpected error occurred:', error);
+  //     alert('An unexpected error occurred');
+  //   }
+  // };
 
   const onAuthStateChange = async (event: string, session: any) => {
     if (event === 'PASSWORD_RECOVERY') {
