@@ -99,12 +99,18 @@ export default function PromptPoem({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPromptNumber, oneWordIdStoringFucnction]);
 
+  let highlightStyle =
+    prompts[selectedPromptNumber] &&
+    prompts[selectedPromptNumber].highlight_limit > 5
+      ? 'bg-white text-black p-0.5 px-1 -mx-1'
+      : 'bg-white text-black p-0.5 px-1 rounded-md shadow-lg';
+
   let wordCounter = 0;
 
   return (
     <div className='flex flex-col items-center justify-between p-4'>
       {poem.map((poem) => (
-        <span key={poem.id}>
+        <span key={poem.id} className='px-1 w-auto'>
           <small className='text-connote_orange'>{poem.author}</small>
           <h4 className='font-bold text-large'>{poem.name}</h4>
           <ScrollShadow className='w-full h-[300px] md:h-full'>
@@ -122,7 +128,7 @@ export default function PromptPoem({
                             highlightedWordIds[selectedPromptNumber]?.includes(
                               wordCounter
                             )
-                              ? 'bg-white text-black p-0.5 px-1 rounded-md shadow-lg '
+                              ? highlightStyle
                               : ''
                           }`}
                         >
