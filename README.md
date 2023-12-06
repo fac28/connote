@@ -7,7 +7,7 @@ Deployed [here](https://connote.vercel.app/) via vercel.
 
 <img width="100%" alt="image" src="https://github.com/fac28/connote/assets/124908931/2efd180b-c5e8-449e-96e4-30ff35d61a68">
 
-<br><br>
+<br>
 
 <img width="100%" alt="image" src="https://github.com/fac28/connote/assets/124908931/52f7cd3c-b5d3-4fac-b932-b036eda1a4a9">
 
