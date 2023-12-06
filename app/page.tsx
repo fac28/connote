@@ -122,7 +122,12 @@ export default function Home() {
                     content='Watch on YouTube'
                     placement='top-start'
                   >
-                    <Link href={poemOfTheDay.link} color='warning'>
+                    <Link
+                      isExternal
+                      href={poemOfTheDay.link}
+                      color='warning'
+                      aria-label='Watch on YouTube (opens in new tab)'
+                    >
                       <IoLogoYoutube className='scale-150 ml-4' />
                     </Link>
                   </Tooltip>
