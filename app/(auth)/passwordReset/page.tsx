@@ -9,18 +9,53 @@ const PasswordReset: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const newPasswordRef = useRef<string | null>(null);
 
+  // const handlePasswordRecovery = async (password: string) => {
+  //   try {
+  //     const { data, error } = await supabase.auth.updateUser({
+  //       password,
+  //     });
+
+  //     if (data) {
+  //       alert('Password updated successfully!');
+  //     }
+
+  //     if (error) {
+  //       alert('There was an error updating your password.');
+  //     }
+  //   } catch (error) {
+  //     console.error('An unexpected error occurred:', error);
+  //     alert('An unexpected error occurred');
+  //   }
+  // };
   const handlePasswordRecovery = async (password: string) => {
     try {
-      const { data, error } = await supabase.auth.updateUser({
+      // Retrieve the current user from the session
+      const { data, error } = await supabase.auth.getSession();
+
+      if (error || !data) {
+        console.error('Error getting user session:', error);
+        alert('An error occurred. Please try again.');
+        return;
+      }
+
+      const user = data?.session?.user;
+
+      if (!user) {
+        console.error('User not found in session data.');
+        alert('An error occurred. Please try again.');
+        return;
+      }
+
+      // Update the user's password
+      const updateResult = await supabase.auth.updateUser({
         password,
       });
 
-      if (data) {
-        alert('Password updated successfully!');
-      }
-
-      if (error) {
+      if (updateResult.error) {
+        console.error('Error updating password:', updateResult.error);
         alert('There was an error updating your password.');
+      } else {
+        alert('Password updated successfully!');
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
