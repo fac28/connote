@@ -27,7 +27,7 @@ export default function PromptPage() {
   );
   const [userId, setUserId] = useState<string | null>(null);
   const [showFollowupPrompt, setShowFollowupPrompt] = useState(false);
-  const [showPromptButtons, setShowPromptButtons] = useState(false);
+  // const [showPromptButtons, setShowPromptButtons] = useState(false);
 
   const [isPoemLoading, setIsPoemLoading] = useState(true);
 
@@ -54,7 +54,7 @@ export default function PromptPage() {
   useEffect(() => {
     // Reset the visibility state when the component mounts
     setShowFollowupPrompt(false);
-    setShowPromptButtons(false);
+    // setShowPromptButtons(false);
   }, [poemid]);
 
   const setPromptNumber = (number: number) => {
@@ -111,7 +111,7 @@ export default function PromptPage() {
   const handleNextClick = () => {
     if (selectedPromptNumber < 2) {
       setShowFollowupPrompt(false);
-      setShowPromptButtons(false);
+      // setShowPromptButtons(false);
 
       setPromptNumber(selectedPromptNumber + 1);
     } else {
@@ -130,14 +130,17 @@ export default function PromptPage() {
   const followupPromptRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (showPromptButtons && followupPromptRef.current) {
+    if (
+      // showPromptButtons &&
+      followupPromptRef.current
+    ) {
       followupPromptRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [showPromptButtons]);
+  }, [showFollowupPrompt]);
 
   const handleFollowupPromptButtonClick = () => {
     setShowFollowupPrompt(true);
-    setShowPromptButtons(true);
+    // setShowPromptButtons(true);
   };
 
   return (
@@ -168,32 +171,34 @@ export default function PromptPage() {
       )}
 
       {showFollowupPrompt && (
-        <FollowupPrompt
-          prompts={prompts}
-          selectedPromptNumber={selectedPromptNumber}
-          onInputChange={(value: string) => {
-            setPromptInputs((prevInputs) => {
-              const newInputs = [...prevInputs];
-              newInputs[selectedPromptNumber] = value;
-              return newInputs;
-            });
-          }}
-          inputValue={promptInputs[selectedPromptNumber] || ''}
-        />
-      )}
-
-      {showPromptButtons && (
         <div id='prompt-buttons-container' ref={followupPromptRef}>
-          <PromptButtons
-            selectedPromptNumber={selectedPromptNumber}
-            handlePrevClick={handlePrevClick}
-            handleNextClick={handleNextClick}
+          <FollowupPrompt
             prompts={prompts}
-            highlightedWordIds={highlightedWordIds}
-            promptInputs={promptInputs}
+            selectedPromptNumber={selectedPromptNumber}
+            onInputChange={(value: string) => {
+              setPromptInputs((prevInputs) => {
+                const newInputs = [...prevInputs];
+                newInputs[selectedPromptNumber] = value;
+                return newInputs;
+              });
+            }}
+            inputValue={promptInputs[selectedPromptNumber] || ''}
           />
         </div>
       )}
+
+      {/* {showPromptButtons && ( */}
+
+      <PromptButtons
+        selectedPromptNumber={selectedPromptNumber}
+        handlePrevClick={handlePrevClick}
+        handleNextClick={handleNextClick}
+        prompts={prompts}
+        highlightedWordIds={highlightedWordIds}
+        promptInputs={promptInputs}
+      />
+
+      {/* )} */}
     </main>
   );
 }
