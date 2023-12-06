@@ -9,6 +9,7 @@ const supabase = createClientComponentClient();
 
 const PasswordReset: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
+  const router = useRouter();
 
   const handlePasswordRecovery = async (password: string, token: string) => {
     try {
@@ -19,17 +20,14 @@ const PasswordReset: React.FC = () => {
       const { data, error } = await supabase.auth.updateUser(updateData, {});
 
       if (data) {
-        const router = useRouter();
         alert('Password updated successfully!');
         router.push('/poemLibrary');
       }
 
       if (error) {
-        alert('There was an error updating your password.');
       }
     } catch (error) {
       console.error('An unexpected error occurred:', error);
-      alert('An unexpected error occurred');
     }
   };
 
