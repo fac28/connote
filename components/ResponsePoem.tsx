@@ -10,6 +10,7 @@ type ResponsePoemProps = {
   poem: PoemsType;
   responses: ResponsesType;
   selectedPromptNumber: number;
+  clickedCommentWords: number[];
 };
 
 type TooltipData = {
@@ -21,6 +22,7 @@ export default function ResponsePoem({
   poem,
   responses,
   selectedPromptNumber,
+  clickedCommentWords,
 }: ResponsePoemProps) {
   const supabase = createClientComponentClient();
 
@@ -62,6 +64,8 @@ export default function ResponsePoem({
         .flat()
     );
   }, [poem]);
+
+  useEffect(() => {}, [clickedCommentWords]);
 
   const handleTooltipOpenChange = (wordIndex: number, open: boolean) => {
     // Update the state for the specific tooltip
@@ -189,6 +193,11 @@ export default function ResponsePoem({
                                         : '') +
                                       (myHighlights.includes(currentWordIndex)
                                         ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
+                                        : '') +
+                                      (clickedCommentWords.includes(
+                                        currentWordIndex
+                                      )
+                                        ? 'bg-black text-white rounded-md !important'
                                         : '')
                                     }
                                   >
@@ -208,6 +217,11 @@ export default function ResponsePoem({
                                     ' ' +
                                     (myHighlights.includes(currentWordIndex)
                                       ? 'border-2 border-primary px-1.5 rounded-md shadow-lg m-0.5'
+                                      : '') +
+                                    (clickedCommentWords.includes(
+                                      currentWordIndex
+                                    )
+                                      ? 'bg-black text-white rounded-md !important'
                                       : '')
                                   }
                                 >

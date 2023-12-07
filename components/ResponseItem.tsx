@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
 import { ResponsesType } from '@/types';
@@ -10,6 +10,8 @@ type ResponseItemProps = {
   likedResponses: { [key: number]: boolean };
   handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
   loadingHearts: boolean;
+  clickedCommentWords: number[];
+  setClickedCommentWords: Dispatch<SetStateAction<number[]>>;
 };
 
 const ResponseItem: React.FC<ResponseItemProps> = ({
@@ -19,10 +21,44 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   likedResponses,
   handleHeartsClick,
   loadingHearts,
+  clickedCommentWords,
+  setClickedCommentWords,
 }) => {
+  function highlightCommentWords() {
+    // Check if any element in response.response_selected is already highlighted
+    const isHighlighted = response.response_selected.some((id) =>
+      clickedCommentWords.includes(id)
+    );
+
+    // If highlighted, remove from the list; otherwise, add to the list
+    const updatedClickedCommentWords = isHighlighted
+      ? clickedCommentWords.filter(
+          (id) => !response.response_selected.includes(id)
+        )
+      : [...clickedCommentWords, ...response.response_selected];
+
+    // Add a reference to the comment div
+    const commentDiv = document.getElementById(`response-${response.id}`);
+
+    // Check if the comment div exists
+    if (commentDiv) {
+      // Toggle the black border on click
+      commentDiv.style.border = isHighlighted ? '' : '2px solid black';
+    }
+
+    setClickedCommentWords(updatedClickedCommentWords);
+  }
+
   return (
-    <div className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'>
-      <div className='flex flex-col'>
+    <div
+      id={`response-${response.id}`}
+      className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'
+    >
+      {' '}
+      <div
+        className='flex flex-col hover:cursor-pointer'
+        onClick={highlightCommentWords}
+      >
         <h2
           className={`  ${
             topThreeTextColours[index]
