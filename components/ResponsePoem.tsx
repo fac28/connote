@@ -65,10 +65,7 @@ export default function ResponsePoem({
     );
   }, [poem]);
 
-  useEffect(() => {
-    console.log('refresh');
-    console.log(clickedCommentWords);
-  }, [clickedCommentWords]);
+  useEffect(() => {}, [clickedCommentWords]);
 
   const handleTooltipOpenChange = (wordIndex: number, open: boolean) => {
     // Update the state for the specific tooltip
