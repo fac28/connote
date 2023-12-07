@@ -20,9 +20,28 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   handleHeartsClick,
   loadingHearts,
 }) => {
+  function highlightCommentWords() {
+    // Add a reference to the comment div
+    const commentDiv = document.getElementById(`response-${response.id}`);
+
+    // Check if the comment div exists
+    if (commentDiv) {
+      // Toggle the black border on click
+      commentDiv.style.border = commentDiv.style.border
+        ? ''
+        : '2px solid black';
+    }
+
+    console.log('clicked');
+  }
+
   return (
-    <div className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'>
-      <div className='flex flex-col'>
+    <div
+      id={`response-${response.id}`}
+      className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'
+    >
+      {' '}
+      <div className='flex flex-col' onClick={highlightCommentWords}>
         <h2
           className={`  ${
             topThreeTextColours[index]
