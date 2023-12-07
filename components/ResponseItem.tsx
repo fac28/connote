@@ -55,7 +55,10 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
       className='bg-connote_white p-4 mt-4 rounded-md w-64 flex justify-between shadow-inner responseComment'
     >
       {' '}
-      <div className='flex flex-col' onClick={highlightCommentWords}>
+      <div
+        className='flex flex-col hover:cursor-pointer'
+        onClick={highlightCommentWords}
+      >
         <h2
           className={`  ${
             topThreeTextColours[index]

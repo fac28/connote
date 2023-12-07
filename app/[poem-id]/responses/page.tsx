@@ -179,12 +179,14 @@ export default function ResponsePage() {
   const handlePrevClick = () => {
     if (selectedPromptNumber > 0) {
       setPromptNumber(selectedPromptNumber - 1);
+      setClickedCommentWords([]);
     }
   };
 
   const handleNextClick = () => {
     if (selectedPromptNumber < 2) {
       setPromptNumber(selectedPromptNumber + 1);
+      setClickedCommentWords([]);
     } else {
       handleDone();
     }

@@ -200,7 +200,7 @@ export default function ResponsePoem({
                                       (clickedCommentWords.includes(
                                         currentWordIndex
                                       )
-                                        ? 'bg-black text-white rounded-md'
+                                        ? 'bg-black text-white rounded-md !important'
                                         : '')
                                     }
                                   >
@@ -224,7 +224,7 @@ export default function ResponsePoem({
                                     (clickedCommentWords.includes(
                                       currentWordIndex
                                     )
-                                      ? 'bg-black text-white rounded-md'
+                                      ? 'bg-black text-white rounded-md !important'
                                       : '')
                                   }
                                 >
