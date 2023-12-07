@@ -40,9 +40,7 @@ export default function PromptButtons({
 
   const handleDisabledSubmit = () => {
     if (isSubmitDisabled(prompts, highlightedWordIds, promptInputs)) {
-      alert(
-        `If you've highlighted anything, please answer the follow up prompt.`
-      );
+      alert(`IPlease fill in all follow up prompts to be able to submit.`);
     }
   };
 
