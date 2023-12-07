@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { Button, ButtonGroup, ScrollShadow } from '@nextui-org/react';
 import { ResponsesType, PromptsType } from '@/types';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa6';
@@ -18,6 +18,7 @@ type ResponsesSectionProps = {
   handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
   // Adjusted to match the function signature
   loadingHearts: boolean;
+  setClickedCommentWords: Dispatch<SetStateAction<number[]>>;
 };
 
 export default function ResponsesSection({
@@ -30,6 +31,7 @@ export default function ResponsesSection({
   selectedPromptNumber,
   handlePrevClick,
   handleNextClick,
+  setClickedCommentWords,
 }: ResponsesSectionProps) {
   return (
     <div>
@@ -74,6 +76,7 @@ export default function ResponsesSection({
                           likedResponses={likedResponses}
                           handleHeartsClick={handleHeartsClick}
                           loadingHearts={loadingHearts}
+                          setClickedCommentWords={setClickedCommentWords}
                         />
                       ))}
                   </span>

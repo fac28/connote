@@ -41,6 +41,8 @@ export default function ResponsePage() {
   const updatedPrompts = updatePrompts012(prompts);
   let reupdatedResponses = addingHighlightAttribute(updatedResponses, hearts);
 
+  const [clickedCommentWords, setClickedCommentWords] = useState<number[]>([]);
+
   const fetchHearts = async () => {
     try {
       const supabase = createClientComponentClient();
@@ -204,6 +206,7 @@ export default function ResponsePage() {
             poem={poem}
             responses={reupdatedResponses}
             selectedPromptNumber={selectedPromptNumber}
+            clickedCommentWords={clickedCommentWords}
           />
         </div>
         {!isPoemLoading && (
@@ -219,6 +222,7 @@ export default function ResponsePage() {
               selectedPromptNumber={selectedPromptNumber}
               handlePrevClick={handlePrevClick}
               handleNextClick={handleNextClick}
+              setClickedCommentWords={setClickedCommentWords}
             />
           </div>
         )}

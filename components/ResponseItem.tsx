@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { FaRegHeart, FaHeart } from 'react-icons/fa6';
 import { topThreeTextColours } from '@/utils/responsePageHandling/addingHighlightAttribute';
 import { ResponsesType } from '@/types';
@@ -10,6 +10,7 @@ type ResponseItemProps = {
   likedResponses: { [key: number]: boolean };
   handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
   loadingHearts: boolean;
+  setClickedCommentWords: Dispatch<SetStateAction<number[]>>;
 };
 
 const ResponseItem: React.FC<ResponseItemProps> = ({
@@ -19,6 +20,7 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   likedResponses,
   handleHeartsClick,
   loadingHearts,
+  setClickedCommentWords,
 }) => {
   function highlightCommentWords() {
     // Add a reference to the comment div
@@ -30,9 +32,11 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
       commentDiv.style.border = commentDiv.style.border
         ? ''
         : '2px solid black';
+      setClickedCommentWords([]);
     }
 
     console.log('clicked');
+    setClickedCommentWords([0]);
   }
 
   return (
