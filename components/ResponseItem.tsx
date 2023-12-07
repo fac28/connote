@@ -10,6 +10,7 @@ type ResponseItemProps = {
   likedResponses: { [key: number]: boolean };
   handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
   loadingHearts: boolean;
+  clickedCommentWords: number[];
   setClickedCommentWords: Dispatch<SetStateAction<number[]>>;
 };
 
@@ -20,23 +21,32 @@ const ResponseItem: React.FC<ResponseItemProps> = ({
   likedResponses,
   handleHeartsClick,
   loadingHearts,
+  clickedCommentWords,
   setClickedCommentWords,
 }) => {
   function highlightCommentWords() {
+    // Check if any element in response.response_selected is already highlighted
+    const isHighlighted = response.response_selected.some((id) =>
+      clickedCommentWords.includes(id)
+    );
+
+    // If highlighted, remove from the list; otherwise, add to the list
+    const updatedClickedCommentWords = isHighlighted
+      ? clickedCommentWords.filter(
+          (id) => !response.response_selected.includes(id)
+        )
+      : [...clickedCommentWords, ...response.response_selected];
+
     // Add a reference to the comment div
     const commentDiv = document.getElementById(`response-${response.id}`);
 
     // Check if the comment div exists
     if (commentDiv) {
       // Toggle the black border on click
-      commentDiv.style.border = commentDiv.style.border
-        ? ''
-        : '2px solid black';
-      setClickedCommentWords([]);
+      commentDiv.style.border = isHighlighted ? '' : '2px solid black';
     }
 
-    console.log('clicked');
-    setClickedCommentWords([0]);
+    setClickedCommentWords(updatedClickedCommentWords);
   }
 
   return (

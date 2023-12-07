@@ -222,6 +222,7 @@ export default function ResponsePage() {
               selectedPromptNumber={selectedPromptNumber}
               handlePrevClick={handlePrevClick}
               handleNextClick={handleNextClick}
+              clickedCommentWords={clickedCommentWords}
               setClickedCommentWords={setClickedCommentWords}
             />
           </div>

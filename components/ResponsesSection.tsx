@@ -18,6 +18,7 @@ type ResponsesSectionProps = {
   handleHeartsClick: (responseId: number, userId: string) => Promise<void>;
   // Adjusted to match the function signature
   loadingHearts: boolean;
+  clickedCommentWords: number[];
   setClickedCommentWords: Dispatch<SetStateAction<number[]>>;
 };
 
@@ -31,6 +32,7 @@ export default function ResponsesSection({
   selectedPromptNumber,
   handlePrevClick,
   handleNextClick,
+  clickedCommentWords,
   setClickedCommentWords,
 }: ResponsesSectionProps) {
   return (
@@ -76,6 +78,7 @@ export default function ResponsesSection({
                           likedResponses={likedResponses}
                           handleHeartsClick={handleHeartsClick}
                           loadingHearts={loadingHearts}
+                          clickedCommentWords={clickedCommentWords}
                           setClickedCommentWords={setClickedCommentWords}
                         />
                       ))}
